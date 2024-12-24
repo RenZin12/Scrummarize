@@ -24,7 +24,7 @@ function ProductBacklog() {
     ])
 
     return (
-        <section className="product-backlog">
+        <section className="main__section">
             <h2>Product Backlog</h2>
 
             <div className="product-backlog__task-list">
