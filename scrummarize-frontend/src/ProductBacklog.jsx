@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import './ProductBacklog.css'
 import TaskCard from './TaskCard.jsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faArrowsUpDownLeftRight} from '@fortawesome/free-solid-svg-icons'
 
 function ProductBacklog() {
 
@@ -29,6 +31,17 @@ function ProductBacklog() {
                 {
                     tasks.map(task => <TaskCard task={task} key={task.id} />)
                 }
+            </div>
+
+            <div className="product-backlog__buttons">
+                <button className="product-backlog__button">
+                    <FontAwesomeIcon icon={faPlus} />
+                    <p>Add</p>
+                </button>
+                <button className="product-backlog__button">
+                    <FontAwesomeIcon icon={faArrowsUpDownLeftRight} />
+                    <p>Move</p>
+                </button>
             </div>
         </section>
     )
