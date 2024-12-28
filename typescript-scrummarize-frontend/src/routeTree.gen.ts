@@ -16,22 +16,36 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
-const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
+const ProductBacklogIndexLazyImport = createFileRoute('/product-backlog/')()
+const ProductBacklogTaskEditorLazyImport = createFileRoute(
+  '/product-backlog/task-editor',
+)()
 
 // Create/Update Routes
-
-const AboutLazyRoute = AboutLazyImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const ProductBacklogIndexLazyRoute = ProductBacklogIndexLazyImport.update({
+  id: '/product-backlog/',
+  path: '/product-backlog/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/product-backlog/index.lazy').then((d) => d.Route),
+)
+
+const ProductBacklogTaskEditorLazyRoute =
+  ProductBacklogTaskEditorLazyImport.update({
+    id: '/product-backlog/task-editor',
+    path: '/product-backlog/task-editor',
+    getParentRoute: () => rootRoute,
+  } as any).lazy(() =>
+    import('./routes/product-backlog/task-editor.lazy').then((d) => d.Route),
+  )
 
 // Populate the FileRoutesByPath interface
 
@@ -44,11 +58,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
+    '/product-backlog/task-editor': {
+      id: '/product-backlog/task-editor'
+      path: '/product-backlog/task-editor'
+      fullPath: '/product-backlog/task-editor'
+      preLoaderRoute: typeof ProductBacklogTaskEditorLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/product-backlog/': {
+      id: '/product-backlog/'
+      path: '/product-backlog'
+      fullPath: '/product-backlog'
+      preLoaderRoute: typeof ProductBacklogIndexLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -58,37 +79,42 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
+  '/product-backlog/task-editor': typeof ProductBacklogTaskEditorLazyRoute
+  '/product-backlog': typeof ProductBacklogIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
+  '/product-backlog/task-editor': typeof ProductBacklogTaskEditorLazyRoute
+  '/product-backlog': typeof ProductBacklogIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
+  '/product-backlog/task-editor': typeof ProductBacklogTaskEditorLazyRoute
+  '/product-backlog/': typeof ProductBacklogIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths: '/' | '/product-backlog/task-editor' | '/product-backlog'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to: '/' | '/product-backlog/task-editor' | '/product-backlog'
+  id: '__root__' | '/' | '/product-backlog/task-editor' | '/product-backlog/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  AboutLazyRoute: typeof AboutLazyRoute
+  ProductBacklogTaskEditorLazyRoute: typeof ProductBacklogTaskEditorLazyRoute
+  ProductBacklogIndexLazyRoute: typeof ProductBacklogIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  AboutLazyRoute: AboutLazyRoute,
+  ProductBacklogTaskEditorLazyRoute: ProductBacklogTaskEditorLazyRoute,
+  ProductBacklogIndexLazyRoute: ProductBacklogIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -102,14 +128,18 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about"
+        "/product-backlog/task-editor",
+        "/product-backlog/"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
     },
-    "/about": {
-      "filePath": "about.lazy.tsx"
+    "/product-backlog/task-editor": {
+      "filePath": "product-backlog/task-editor.lazy.tsx"
+    },
+    "/product-backlog/": {
+      "filePath": "product-backlog/index.lazy.tsx"
     }
   }
 }

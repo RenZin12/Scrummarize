@@ -1,6 +1,6 @@
+import { Outlet } from '@tanstack/react-router'
 import './App.css'
 import Header from './Header.tsx'
-import ProductBacklog from './ProductBacklog.tsx'
 
 function App() {
 
@@ -8,7 +8,7 @@ function App() {
     <>
       <Header />
       <main className="main">
-        <ProductBacklog />
+        <Outlet />
       </main>
     </>
   )
