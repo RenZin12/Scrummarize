@@ -1,8 +1,13 @@
 import './TaskCard.css'
+import { Task } from './lib/types'
 
-function TaskCard(props) {
+type TaskCardProps = {
+    task: Task
+}
 
-    const getPriorityRatingClass = priorityRating => {
+function TaskCard(props: TaskCardProps) {
+
+    const getPriorityRatingClass = (priorityRating: string) => {
         const defaultClass = "task-card__priority-rating"
 
         let priorityRatingClass = ""
@@ -26,7 +31,7 @@ function TaskCard(props) {
         return defaultClass + " " + priorityRatingClass
     }
 
-    const getTagClass = tag => {
+    const getTagClass = (tag: string) => {
         const defaultClass = "task-card__tag"
 
         let tagClass = ""

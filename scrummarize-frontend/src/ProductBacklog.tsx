@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import './ProductBacklog.css'
-import TaskCard from './TaskCard.jsx'
+import TaskCard from './TaskCard.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faArrowsUpDownLeftRight} from '@fortawesome/free-solid-svg-icons'
+import { Link } from '@tanstack/react-router'
 
 function ProductBacklog() {
 
@@ -34,14 +35,14 @@ function ProductBacklog() {
             </div>
 
             <div className="product-backlog__buttons">
-                <button className="product-backlog__button">
+                <Link className="product-backlog__button" to="/product-backlog/task-editor">
                     <FontAwesomeIcon icon={faPlus} />
                     <p>Add</p>
-                </button>
-                <button className="product-backlog__button">
+                </Link>
+                <Link className="product-backlog__button">
                     <FontAwesomeIcon icon={faArrowsUpDownLeftRight} />
                     <p>Move</p>
-                </button>
+                </Link>
             </div>
         </section>
     )
