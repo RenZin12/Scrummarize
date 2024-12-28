@@ -1,6 +1,9 @@
+import { useNavigate } from '@tanstack/react-router'
 import './TaskEditor.css'
 
 function TaskEditor() {
+
+    const navigate = useNavigate({ from: "/product-backlog/task-editor" })
 
     const priorityRatingOptions = ["Low", "Medium", "Important", "Urgent"]
     const tagOptions = ["Frontend", "Backend", "API", "Database", "Framework", "Testing", "UI", "UX"]
@@ -64,7 +67,11 @@ function TaskEditor() {
 
             <div className="task-editor__buttons">
                 <button className="task-editor__button">Save</button>
-                <button className="task-editor__button" type="button">Cancel</button>
+                <button 
+                    className="task-editor__button"
+                    type="button"
+                    onClick={() => navigate({ to: "/product-backlog" })}
+                >Cancel</button>
             </div>
         </section>
     )
