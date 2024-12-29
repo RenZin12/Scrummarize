@@ -4,8 +4,8 @@
   "main": "index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "node --watch-path=./src ./src/index.mjs",
-    "start": "node ./src/index.mjs"
+    "start:dev": "node --watch-path=./src --env-file=.env ./src/index.mjs",
+    "start": "node --env-file=.env ./src/index.mjs"
   },
   "keywords": [],
   "author": "",

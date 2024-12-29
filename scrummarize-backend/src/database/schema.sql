@@ -1,25 +1,25 @@
-CREATE DATABASE Scrummarize;
+CREATE DATABASE scrummarize;
 
-\c Scrummarize;
+\c scrummarize;
 
-CREATE TYPE PriorityRatingEnum AS ENUM ('Low', 'Medium', 'Important', 'Urgent');
-CREATE TYPE StatusEnum AS ENUM ('Not Started', 'In Progress', 'Completed');
-CREATE TYPE StageEnum AS ENUM ('Planning', 'Development', 'Integration', 'Testing');
-CREATE TYPE TagEnum AS ENUM ('Frontend', 'Backend', 'API', 'Database', 'Framework', 'UI', 'UX');
+CREATE TYPE task_priority_rating AS ENUM ('low', 'medium', 'important', 'urgent');
+CREATE TYPE task_status AS ENUM ('not started', 'in progress', 'completed');
+CREATE TYPE task_stage AS ENUM ('planning', 'development', 'integration', 'testing');
+CREATE TYPE task_tag AS ENUM ('frontend', 'backend', 'api', 'database', 'framework', 'ui', 'ux');
 
-CREATE TABLE IF NOT EXISTS Backlog(
-    ID BIGSERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    storyPoint INT NOT NULL CHECK (storyPoint >= 0 AND storyPoint <= 100),
-    priorityRating PriorityRatingEnum NOT NULL,
-    assignee VARCHAR(255),
-    status StatusEnum NOT NULL,
-    stage StageEnum NOT NULL
+CREATE TABLE IF NOT EXISTS backlog(
+    task_id bigserial PRIMARY KEY,
+    name varchar(255) NOT NULL CHECK (length(name) > 0),
+    description text NOT NULL,
+    story_point int NOT NULL CHECK (story_point >= 0 AND story_point <= 100),
+    priority_rating task_priority_rating NOT NULL,
+    assignee varchar(255),
+    status task_status NOT NULL,
+    stage task_stage NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS TaskTags(
-    taskID BIGINT NOT NULL REFERENCES Backlog(ID) ON DELETE CASCADE,
-    tagName TagEnum NOT NULL,
-    PRIMARY KEY (taskID, tagName)
+CREATE TABLE IF NOT EXISTS task_tags(
+    task_id bigint NOT NULL REFERENCES backlog(task_id) ON DELETE CASCADE,
+    tag_value task_tag NOT NULL,
+    PRIMARY KEY (task_id, tag_value)
 );
