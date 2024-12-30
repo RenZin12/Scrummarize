@@ -1,6 +1,6 @@
 export type Task = {
-    id: number,
-    taskName: string,
+    taskID: number,
+    name: string,
     storyPoint: number,
     priorityRating: string,
     tags: string[]

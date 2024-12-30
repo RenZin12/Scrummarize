@@ -9,15 +9,15 @@ function ProductBacklog() {
 
     const [tasks, setTasks] = useState([
         {   
-            id: 1,
-            taskName: "Draw a cat",
+            taskID: 1,
+            name: "Draw a cat",
             storyPoint: 100,
             priorityRating: "Important",
             tags: ["Frontend", "Backend", "API", "Database", "Framework", "Testing", "UI", "UX"]
         }, 
         {   
-            id: 2,
-            taskName: "Read a book",
+            taskID: 2,
+            name: "Read a book",
             storyPoint: 1,
             priorityRating: "Low",
             tags: ["Frontend"]
@@ -30,7 +30,7 @@ function ProductBacklog() {
 
             <div className="product-backlog__task-list">
                 {
-                    tasks.map(task => <TaskCard task={task} key={task.id} />)
+                    tasks.map(task => <TaskCard task={task} key={task.taskID} />)
                 }
             </div>
 

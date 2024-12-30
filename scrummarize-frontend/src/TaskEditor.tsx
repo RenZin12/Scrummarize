@@ -21,11 +21,13 @@ function TaskEditor() {
         <section className="main__section">
             <form action={addTask}>
                 <div className="task-editor__row">
-                    <label className="task-editor__label" htmlFor="taskName">Task Name</label>
+                    <label className="task-editor__label" htmlFor="name">Name</label>
                     <input 
                         className="task-editor__input blue-container task-editor__input--row"
-                        id="taskName"
-                        name="taskName"
+                        id="name"
+                        name="name"
+                        required
+                        minLength={1}
                     />
                 </div>
                 
