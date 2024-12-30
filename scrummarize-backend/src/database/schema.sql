@@ -2,10 +2,10 @@ CREATE DATABASE scrummarize;
 
 \c scrummarize;
 
-CREATE TYPE task_priority_rating AS ENUM ('low', 'medium', 'important', 'urgent');
-CREATE TYPE task_status AS ENUM ('not started', 'in progress', 'completed');
-CREATE TYPE task_stage AS ENUM ('planning', 'development', 'integration', 'testing');
-CREATE TYPE task_tag AS ENUM ('frontend', 'backend', 'api', 'database', 'framework', 'ui', 'ux');
+CREATE TYPE task_priority_rating AS ENUM ('Low', 'Medium', 'Important', 'Urgent');
+CREATE TYPE task_status AS ENUM ('Not Started', 'In Progress', 'Completed');
+CREATE TYPE task_stage AS ENUM ('Planning', 'Development', 'Integration', 'Testing');
+CREATE TYPE task_tag AS ENUM ('Frontend', 'Backend', 'API', 'Database', 'Framework', 'UI', 'UX');
 
 CREATE TABLE IF NOT EXISTS backlog(
     task_id bigserial PRIMARY KEY,
