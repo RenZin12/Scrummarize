@@ -69,7 +69,7 @@ function TaskCard(props: TaskCardProps) {
 
     return (
         <article className="task-card blue-container">
-            <h3>{props.task.taskName}</h3>
+            <h3>{props.task.name}</h3>
             <div className="task-card__information">
                 <div className="task-card__line">
                     <p className="task-card__story-point">{props.task.storyPoint}</p>

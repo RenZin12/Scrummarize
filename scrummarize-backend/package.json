@@ -1,0 +1,20 @@
+{
+  "name": "scrummarize-backend",
+  "version": "1.0.0",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "node --watch-path=./src --env-file=.env ./src/index.mjs",
+    "start": "node --env-file=.env ./src/index.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  },
+  "type": "module"
+}
