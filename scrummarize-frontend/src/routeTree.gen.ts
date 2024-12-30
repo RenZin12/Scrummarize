@@ -8,44 +8,32 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-
-// Create Virtual Routes
-
-const IndexLazyImport = createFileRoute('/')()
-const ProductBacklogIndexLazyImport = createFileRoute('/product-backlog/')()
-const ProductBacklogTaskEditorLazyImport = createFileRoute(
-  '/product-backlog/task-editor',
-)()
+import { Route as IndexImport } from './routes/index'
+import { Route as ProductBacklogIndexImport } from './routes/product-backlog/index'
+import { Route as ProductBacklogTaskEditorImport } from './routes/product-backlog/task-editor'
 
 // Create/Update Routes
 
-const IndexLazyRoute = IndexLazyImport.update({
+const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+} as any)
 
-const ProductBacklogIndexLazyRoute = ProductBacklogIndexLazyImport.update({
+const ProductBacklogIndexRoute = ProductBacklogIndexImport.update({
   id: '/product-backlog/',
   path: '/product-backlog/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/product-backlog/index.lazy').then((d) => d.Route),
-)
+} as any)
 
-const ProductBacklogTaskEditorLazyRoute =
-  ProductBacklogTaskEditorLazyImport.update({
-    id: '/product-backlog/task-editor',
-    path: '/product-backlog/task-editor',
-    getParentRoute: () => rootRoute,
-  } as any).lazy(() =>
-    import('./routes/product-backlog/task-editor.lazy').then((d) => d.Route),
-  )
+const ProductBacklogTaskEditorRoute = ProductBacklogTaskEditorImport.update({
+  id: '/product-backlog/task-editor',
+  path: '/product-backlog/task-editor',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -55,21 +43,21 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
+      preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
     '/product-backlog/task-editor': {
       id: '/product-backlog/task-editor'
       path: '/product-backlog/task-editor'
       fullPath: '/product-backlog/task-editor'
-      preLoaderRoute: typeof ProductBacklogTaskEditorLazyImport
+      preLoaderRoute: typeof ProductBacklogTaskEditorImport
       parentRoute: typeof rootRoute
     }
     '/product-backlog/': {
       id: '/product-backlog/'
       path: '/product-backlog'
       fullPath: '/product-backlog'
-      preLoaderRoute: typeof ProductBacklogIndexLazyImport
+      preLoaderRoute: typeof ProductBacklogIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -78,22 +66,22 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
-  '/product-backlog/task-editor': typeof ProductBacklogTaskEditorLazyRoute
-  '/product-backlog': typeof ProductBacklogIndexLazyRoute
+  '/': typeof IndexRoute
+  '/product-backlog/task-editor': typeof ProductBacklogTaskEditorRoute
+  '/product-backlog': typeof ProductBacklogIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
-  '/product-backlog/task-editor': typeof ProductBacklogTaskEditorLazyRoute
-  '/product-backlog': typeof ProductBacklogIndexLazyRoute
+  '/': typeof IndexRoute
+  '/product-backlog/task-editor': typeof ProductBacklogTaskEditorRoute
+  '/product-backlog': typeof ProductBacklogIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
-  '/product-backlog/task-editor': typeof ProductBacklogTaskEditorLazyRoute
-  '/product-backlog/': typeof ProductBacklogIndexLazyRoute
+  '/': typeof IndexRoute
+  '/product-backlog/task-editor': typeof ProductBacklogTaskEditorRoute
+  '/product-backlog/': typeof ProductBacklogIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -106,15 +94,15 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
-  ProductBacklogTaskEditorLazyRoute: typeof ProductBacklogTaskEditorLazyRoute
-  ProductBacklogIndexLazyRoute: typeof ProductBacklogIndexLazyRoute
+  IndexRoute: typeof IndexRoute
+  ProductBacklogTaskEditorRoute: typeof ProductBacklogTaskEditorRoute
+  ProductBacklogIndexRoute: typeof ProductBacklogIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
-  ProductBacklogTaskEditorLazyRoute: ProductBacklogTaskEditorLazyRoute,
-  ProductBacklogIndexLazyRoute: ProductBacklogIndexLazyRoute,
+  IndexRoute: IndexRoute,
+  ProductBacklogTaskEditorRoute: ProductBacklogTaskEditorRoute,
+  ProductBacklogIndexRoute: ProductBacklogIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -133,13 +121,13 @@ export const routeTree = rootRoute
       ]
     },
     "/": {
-      "filePath": "index.lazy.tsx"
+      "filePath": "index.tsx"
     },
     "/product-backlog/task-editor": {
-      "filePath": "product-backlog/task-editor.lazy.tsx"
+      "filePath": "product-backlog/task-editor.tsx"
     },
     "/product-backlog/": {
-      "filePath": "product-backlog/index.lazy.tsx"
+      "filePath": "product-backlog/index.tsx"
     }
   }
 }

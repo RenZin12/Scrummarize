@@ -3,26 +3,14 @@ import './ProductBacklog.css'
 import TaskCard from './TaskCard.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faArrowsUpDownLeftRight} from '@fortawesome/free-solid-svg-icons'
-import { Link } from '@tanstack/react-router'
+import { getRouteApi, Link } from '@tanstack/react-router'
+import { Task } from './lib/types.ts'
 
 function ProductBacklog() {
+    const routeApi = getRouteApi("/product-backlog/")
+    const data = routeApi.useLoaderData()
 
-    const [tasks, setTasks] = useState([
-        {   
-            taskID: 1,
-            name: "Draw a cat",
-            storyPoint: 100,
-            priorityRating: "Important",
-            tags: ["Frontend", "Backend", "API", "Database", "Framework", "Testing", "UI", "UX"]
-        }, 
-        {   
-            taskID: 2,
-            name: "Read a book",
-            storyPoint: 1,
-            priorityRating: "Low",
-            tags: ["Frontend"]
-        }
-    ])
+    const [tasks, setTasks] = useState<Task[]>(data)
 
     return (
         <section className="main__section">
