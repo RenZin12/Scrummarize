@@ -1,7 +1,12 @@
 import { useNavigate } from '@tanstack/react-router'
 import './TaskEditor.css'
+import { Task } from './lib/types'
 
-function TaskEditor() {
+type TaskEditorProps = {
+    task: Task
+}
+
+function TaskEditor(props: TaskEditorProps) {
 
     const navigate = useNavigate({ from: "/product-backlog/task-editor" })
 
@@ -28,6 +33,7 @@ function TaskEditor() {
                         name="name"
                         required
                         minLength={1}
+                        defaultValue={props.task?.name || ""}
                     />
                 </div>
                 
@@ -37,6 +43,7 @@ function TaskEditor() {
                         className="task-editor__input blue-container task-editor__input--textarea task-editor__input--row"
                         id="description"
                         name="description"
+                        defaultValue={props.task?.description || ""}
                     ></textarea>
                 </div>
                 
@@ -49,7 +56,7 @@ function TaskEditor() {
                         min="0"
                         max="100"
                         name="storyPoint"
-                        defaultValue="0"
+                        defaultValue={props.task?.storyPoint || 0}
                     />
                 </div>
                 
@@ -59,9 +66,14 @@ function TaskEditor() {
                         className="task-editor__input blue-container task-editor__input--column"
                         id="priorityRating"
                         name="priorityRating"
+                        defaultValue={props.task?.priorityRating}
                     >
                         {
-                            priorityRatingOptions.map(option => <option key={option} value={option}>{option}</option>)
+                            priorityRatingOptions.map(option => (
+                                <option key={option} value={option}>
+                                    {option}
+                                </option>
+                            ))
                         }
                     </select>
                 </div>
@@ -78,6 +90,7 @@ function TaskEditor() {
                                         id={option}
                                         name="tags"
                                         value={option}
+                                        defaultChecked={props.task?.tags.includes(option)}
                                     />
                                     <label className="task-editor__label--checkbox" htmlFor={option}>{option}</label>
                                 </div>

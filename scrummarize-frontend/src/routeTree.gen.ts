@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as ProductBacklogIndexImport } from './routes/product-backlog/index'
 import { Route as ProductBacklogTaskEditorImport } from './routes/product-backlog/task-editor'
+import { Route as ProductBacklogTaskEditTaskIDImport } from './routes/product-backlog/task.edit.$taskID'
 
 // Create/Update Routes
 
@@ -34,6 +35,13 @@ const ProductBacklogTaskEditorRoute = ProductBacklogTaskEditorImport.update({
   path: '/product-backlog/task-editor',
   getParentRoute: () => rootRoute,
 } as any)
+
+const ProductBacklogTaskEditTaskIDRoute =
+  ProductBacklogTaskEditTaskIDImport.update({
+    id: '/product-backlog/task/edit/$taskID',
+    path: '/product-backlog/task/edit/$taskID',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -60,6 +68,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductBacklogIndexImport
       parentRoute: typeof rootRoute
     }
+    '/product-backlog/task/edit/$taskID': {
+      id: '/product-backlog/task/edit/$taskID'
+      path: '/product-backlog/task/edit/$taskID'
+      fullPath: '/product-backlog/task/edit/$taskID'
+      preLoaderRoute: typeof ProductBacklogTaskEditTaskIDImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -69,12 +84,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/product-backlog/task-editor': typeof ProductBacklogTaskEditorRoute
   '/product-backlog': typeof ProductBacklogIndexRoute
+  '/product-backlog/task/edit/$taskID': typeof ProductBacklogTaskEditTaskIDRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/product-backlog/task-editor': typeof ProductBacklogTaskEditorRoute
   '/product-backlog': typeof ProductBacklogIndexRoute
+  '/product-backlog/task/edit/$taskID': typeof ProductBacklogTaskEditTaskIDRoute
 }
 
 export interface FileRoutesById {
@@ -82,14 +99,28 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/product-backlog/task-editor': typeof ProductBacklogTaskEditorRoute
   '/product-backlog/': typeof ProductBacklogIndexRoute
+  '/product-backlog/task/edit/$taskID': typeof ProductBacklogTaskEditTaskIDRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/product-backlog/task-editor' | '/product-backlog'
+  fullPaths:
+    | '/'
+    | '/product-backlog/task-editor'
+    | '/product-backlog'
+    | '/product-backlog/task/edit/$taskID'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/product-backlog/task-editor' | '/product-backlog'
-  id: '__root__' | '/' | '/product-backlog/task-editor' | '/product-backlog/'
+  to:
+    | '/'
+    | '/product-backlog/task-editor'
+    | '/product-backlog'
+    | '/product-backlog/task/edit/$taskID'
+  id:
+    | '__root__'
+    | '/'
+    | '/product-backlog/task-editor'
+    | '/product-backlog/'
+    | '/product-backlog/task/edit/$taskID'
   fileRoutesById: FileRoutesById
 }
 
@@ -97,12 +128,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ProductBacklogTaskEditorRoute: typeof ProductBacklogTaskEditorRoute
   ProductBacklogIndexRoute: typeof ProductBacklogIndexRoute
+  ProductBacklogTaskEditTaskIDRoute: typeof ProductBacklogTaskEditTaskIDRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProductBacklogTaskEditorRoute: ProductBacklogTaskEditorRoute,
   ProductBacklogIndexRoute: ProductBacklogIndexRoute,
+  ProductBacklogTaskEditTaskIDRoute: ProductBacklogTaskEditTaskIDRoute,
 }
 
 export const routeTree = rootRoute
@@ -117,7 +150,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/product-backlog/task-editor",
-        "/product-backlog/"
+        "/product-backlog/",
+        "/product-backlog/task/edit/$taskID"
       ]
     },
     "/": {
@@ -128,6 +162,9 @@ export const routeTree = rootRoute
     },
     "/product-backlog/": {
       "filePath": "product-backlog/index.tsx"
+    },
+    "/product-backlog/task/edit/$taskID": {
+      "filePath": "product-backlog/task.edit.$taskID.tsx"
     }
   }
 }

@@ -53,3 +53,15 @@ export async function addPBTaskTags(taskID, tags) {
     
     return addedTags
 }
+
+export async function getPBTask(taskID) {
+    const result = await pool.query(`
+        SELECT *
+        FROM backlog
+        WHERE task_id = $1
+    `, [taskID])
+    
+    const task = formatTask(result.rows[0])
+
+    return task
+}
