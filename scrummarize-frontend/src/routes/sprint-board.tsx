@@ -29,7 +29,7 @@ function SprintBoard() {
     <section className="main__section">
       <h2>Sprint Board</h2>
 
-      <div className="sprint-board__sprint-list">
+      <div className="main__section__list">
         {
           sprints.map(sprint => <SprintCard key={sprint.sprintID} sprint={sprint} />)
         }

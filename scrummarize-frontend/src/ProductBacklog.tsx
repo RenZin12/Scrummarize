@@ -13,7 +13,7 @@ function ProductBacklog() {
         <section className="main__section">
             <h2>Product Backlog</h2>
 
-            <div className="product-backlog__task-list">
+            <div className="main__section__list">
                 {
                     tasks.map(task => <TaskCard task={task} key={task.taskID} />)
                 }
