@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getPBTasks, addPBTask, addPBTaskTags, getPBTaskTags, getPBTask, modifyPBTask, deletePBTaskTag } from "../database/productBacklogDB.mjs"
+import { getPBTasks, addPBTask, addPBTaskTags, getPBTaskTags, getPBTask, modifyPBTask, deletePBTaskTag, deletePBTask } from "../database/productBacklogDB.mjs"
 
 const router = Router()
 
@@ -62,6 +62,14 @@ router
             ...modifiedTask,
             tags: newTags
         })
+    })
+
+    .delete(async (request, response) => {
+        const taskID = request.params.taskID
+
+        await deletePBTask(taskID)
+
+        response.send()
     })
 
 export default router

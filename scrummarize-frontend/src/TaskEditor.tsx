@@ -6,6 +6,7 @@ type TaskEditorProps = {
     task?: Task;
     action: (formData: FormData) => Promise<void>;
     navigateTo: () => void;
+    deleteTask?: () => void;
 }
 
 function TaskEditor(props: TaskEditorProps) {
@@ -123,12 +124,27 @@ function TaskEditor(props: TaskEditorProps) {
                 </div>
 
                 <div className="task-editor__buttons">
-                    <button className="task-editor__button">Save</button>
+                    <button className="task-editor__button task-editor__button--blue">Save</button>
                     <button 
-                        className="task-editor__button"
+                        className="task-editor__button task-editor__button--blue"
                         type="button"
                         onClick={props.navigateTo}
-                    >Cancel</button>
+                    >
+                        Cancel
+                    </button>
+
+                    {
+                        props.deleteTask 
+                        && (
+                            <button
+                                className="task-editor__button task-editor__button__delete"
+                                type="button"
+                                onClick={props.deleteTask}
+                            >
+                                Delete
+                            </button>
+                        )
+                    }
                 </div>
             </form>
         </section>

@@ -40,11 +40,23 @@ function EditTask() {
     })
 
     if (!res.ok) {
-      throw new Error("Failed to add task")
+      throw new Error(`Failed to edit task #${taskID}`)
     }
     
     navigateTo()
   }
 
-  return <TaskEditor task={task} action={editTask} navigateTo={navigateTo} />
+  const deleteTask = async () => {
+    const res = await fetch(`http://localhost:3000/api/product-backlog/task/${taskID}`, {
+      method: "DELETE"
+    })
+
+    if (!res.ok) {
+      throw new Error(`Failed to delete task #${taskID}`)
+    }
+
+    navigateTo()
+  }
+
+  return <TaskEditor task={task} action={editTask} navigateTo={navigateTo} deleteTask={deleteTask} />
 }

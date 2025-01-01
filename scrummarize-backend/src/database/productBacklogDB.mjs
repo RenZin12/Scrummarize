@@ -91,7 +91,15 @@ export async function deletePBTaskTag(taskID) {
     const result = await pool.query(`
         DELETE FROM task_tags
         WHERE task_id = $1
-        RETURNING *
+    `, [taskID])
+
+    return result.rowCount
+}
+
+export async function deletePBTask(taskID) {
+    const result = await pool.query(`
+        DELETE FROM backlog
+        WHERE task_id = $1
     `, [taskID])
 
     return result.rowCount
