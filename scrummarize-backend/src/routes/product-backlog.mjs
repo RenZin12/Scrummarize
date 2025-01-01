@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getPBTasks, addPBTask, addPBTaskTags, getPBTaskTags, getPBTask } from "../database/productBacklogDB.mjs"
+import { getPBTasks, addPBTask, addPBTaskTags, getPBTaskTags, getPBTask, modifyPBTask, deletePBTaskTag } from "../database/productBacklogDB.mjs"
 
 const router = Router()
 
@@ -47,6 +47,20 @@ router
         response.send({
             ...task,
             tags
+        })
+    })
+
+    .put(async (request, response) => {
+        const taskID = request.params.taskID
+        const { tags, ...taskInfo } = request.body
+
+        const modifiedTask = await modifyPBTask(taskID, taskInfo)
+        await deletePBTaskTag(taskID)
+        const newTags = await addPBTaskTags(taskID, tags)
+
+        response.send({
+            ...modifiedTask,
+            tags: newTags
         })
     })
 

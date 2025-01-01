@@ -20,7 +20,7 @@ function ProductBacklog() {
             </div>
 
             <div className="product-backlog__buttons">
-                <Link className="product-backlog__button" to="/product-backlog/task-editor">
+                <Link className="product-backlog__button" to="/product-backlog/task/new">
                     <FontAwesomeIcon icon={faPlus} />
                     <p>Add</p>
                 </Link>

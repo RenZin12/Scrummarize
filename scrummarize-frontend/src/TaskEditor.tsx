@@ -3,38 +3,18 @@ import './TaskEditor.css'
 import { Task } from './lib/types'
 
 type TaskEditorProps = {
-    task: Task
+    task?: Task;
+    action: (formData: FormData) => Promise<void>;
+    navigateTo: () => void;
 }
 
 function TaskEditor(props: TaskEditorProps) {
-
-    const navigate = useNavigate({ from: "/product-backlog/task-editor" })
-
     const priorityRatingOptions = ["Low", "Medium", "Important", "Urgent"]
     const tagOptions = ["Frontend", "Backend", "API", "Database", "Framework", "Testing", "UI", "UX"]
 
-    const addTask = async (formData: FormData) => {
-        const data = {
-            ...Object.fromEntries(formData),
-            tags: formData.getAll("tags")
-        }
-        
-        const res = await fetch("http://localhost:3000/api/product-backlog", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        })
-
-        if (!res.ok) {
-            throw new Error("Failed to add task")
-        }
-        
-        navigate({ to: "/product-backlog" })
-    }
-
     return (
         <section className="main__section">
-            <form action={addTask}>
+            <form action={props.action}>
                 <div className="task-editor__row">
                     <label className="task-editor__label" htmlFor="name">Name</label>
                     <input 
@@ -147,7 +127,7 @@ function TaskEditor(props: TaskEditorProps) {
                     <button 
                         className="task-editor__button"
                         type="button"
-                        onClick={() => navigate({ to: "/product-backlog" })}
+                        onClick={props.navigateTo}
                     >Cancel</button>
                 </div>
             </form>

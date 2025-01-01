@@ -65,3 +65,34 @@ export async function getPBTask(taskID) {
 
     return task
 }
+
+export async function modifyPBTask(taskID, taskInfo) {
+    const { name, description, storyPoint, priorityRating, assignee, status, stage } = taskInfo
+
+    const result = await pool.query(`
+        UPDATE backlog
+        SET name = $1,
+            description = $2,
+            story_point = $3,
+            priority_rating = $4,
+            assignee = $5,
+            status = $6,
+            stage = $7
+        WHERE task_id = $8
+        RETURNING *
+    `, [name, description, storyPoint, priorityRating, assignee, status, stage, taskID])
+
+    const modifiedTask = formatTask(result.rows[0])
+
+    return modifiedTask
+}
+
+export async function deletePBTaskTag(taskID) {
+    const result = await pool.query(`
+        DELETE FROM task_tags
+        WHERE task_id = $1
+        RETURNING *
+    `, [taskID])
+
+    return result.rowCount
+}
