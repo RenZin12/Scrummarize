@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './ProductBacklog.css'
 import TaskCard from './TaskCard.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,9 +7,7 @@ import { Task } from './lib/types.ts'
 
 function ProductBacklog() {
     const routeApi = getRouteApi("/product-backlog/")
-    const data = routeApi.useLoaderData()
-
-    const [tasks, setTasks] = useState<Task[]>(data)
+    const tasks: Task[] = routeApi.useLoaderData()
 
     return (
         <section className="main__section">

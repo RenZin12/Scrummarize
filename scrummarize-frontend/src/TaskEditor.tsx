@@ -13,12 +13,22 @@ function TaskEditor(props: TaskEditorProps) {
     const priorityRatingOptions = ["Low", "Medium", "Important", "Urgent"]
     const tagOptions = ["Frontend", "Backend", "API", "Database", "Framework", "Testing", "UI", "UX"]
 
-    const addTask = (formData: FormData) => {
+    const addTask = async (formData: FormData) => {
         const data = {
             ...Object.fromEntries(formData),
             tags: formData.getAll("tags")
         }
-        console.log(data)
+        
+        const res = await fetch("http://localhost:3000/api/product-backlog", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        })
+
+        if (!res.ok) {
+            throw new Error("Failed to add task")
+        }
+        
         navigate({ to: "/product-backlog" })
     }
 
@@ -111,13 +121,25 @@ function TaskEditor(props: TaskEditorProps) {
                 </div>
 
                 <div className="task-editor__row">
-                    <label className="task-editor__label">Task Status</label>
-                    <p className="task-editor__input blue-container task-editor__input--column">Not Started</p>
+                    <label className="task-editor__label" htmlFor="status">Task Status</label>
+                    <select
+                        className="task-editor__input blue-container task-editor__input--column"
+                        id="status"
+                        name="status"
+                    >
+                        <option value="Not Started">Not Started</option>
+                    </select>
                 </div>
 
                 <div className="task-editor__row">
-                    <label className="task-editor__label">Task Stage</label>
-                    <p className="task-editor__input blue-container task-editor__input--column">Planning</p>
+                    <label className="task-editor__label" htmlFor="stage">Task Stage</label>
+                    <select
+                        className="task-editor__input blue-container task-editor__input--column"
+                        id="stage"
+                        name="stage"
+                    >
+                        <option value="Planning">Planning</option>
+                    </select>
                 </div>
 
                 <div className="task-editor__buttons">
