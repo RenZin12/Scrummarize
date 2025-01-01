@@ -9,3 +9,11 @@ export type Task = {
     stage: string,
     tags: string[]
 }
+
+export type Sprint = {
+    sprintID: string,
+    name: string,
+    startDate: Date,
+    endDate: Date,
+    status: string
+}
