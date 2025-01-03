@@ -28,12 +28,6 @@ function ProductBacklog() {
       <section className="main__section">
           <h2>Product Backlog</h2>
 
-          <div className="main__section__list">
-              {
-                  tasks.map(task => <TaskCard task={task} key={task.taskID} />)
-              }
-          </div>
-
           <div className="main__section__buttons product-backlog__buttons">
               <Link className="main__section__button" to="/product-backlog/task/new">
                   <FontAwesomeIcon icon={faPlus} />
@@ -43,6 +37,12 @@ function ProductBacklog() {
                   <FontAwesomeIcon icon={faArrowsUpDownLeftRight} />
                   <p>Move</p>
               </Link>
+          </div>
+
+          <div className="main__section__list">
+              {
+                  tasks.map(task => <TaskCard task={task} key={task.taskID} />)
+              }
           </div>
       </section>
   )

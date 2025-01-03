@@ -30,17 +30,17 @@ function SprintBoard() {
     <section className="main__section">
       <h2>Sprint Board</h2>
 
-      <div className="main__section__list">
-        {sprints.map((sprint) => (
-          <SprintCard key={sprint.sprintID} sprint={sprint} />
-        ))}
-      </div>
-
       <div className="main__section__buttons sprint-board__buttons">
         <Link className="main__section__button" to="/sprint-board/sprint/new">
           <FontAwesomeIcon icon={faPlus} />
           <p>Add</p>
         </Link>
+      </div>
+
+      <div className="main__section__list">
+        {sprints.map((sprint) => (
+          <SprintCard key={sprint.sprintID} sprint={sprint} />
+        ))}
       </div>
     </section>
   )
