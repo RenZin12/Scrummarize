@@ -30,3 +30,21 @@
 .card__row {
   margin-top: 15px;
 }
+
+.main__section__buttons {
+  margin-top: 15px;
+  display: flex;
+}
+
+.main__section__button {
+  display: flex;
+  font-size: 1.5rem;
+  padding: 8px 20px;
+  align-items: center;
+  width: 140px;
+  justify-content: space-between;
+  border: 2px solid black;
+  text-decoration: none;
+  color: black;
+  border-radius: 5px;
+}

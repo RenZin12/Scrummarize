@@ -11,19 +11,14 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as SprintBoardImport } from './routes/sprint-board'
 import { Route as IndexImport } from './routes/index'
+import { Route as SprintBoardIndexImport } from './routes/sprint-board/index'
 import { Route as ProductBacklogIndexImport } from './routes/product-backlog/index'
+import { Route as SprintBoardSprintNewImport } from './routes/sprint-board/sprint.new'
 import { Route as ProductBacklogTaskNewImport } from './routes/product-backlog/task.new'
 import { Route as ProductBacklogTaskEditTaskIDImport } from './routes/product-backlog/task.edit.$taskID'
 
 // Create/Update Routes
-
-const SprintBoardRoute = SprintBoardImport.update({
-  id: '/sprint-board',
-  path: '/sprint-board',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -31,9 +26,21 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const SprintBoardIndexRoute = SprintBoardIndexImport.update({
+  id: '/sprint-board/',
+  path: '/sprint-board/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ProductBacklogIndexRoute = ProductBacklogIndexImport.update({
   id: '/product-backlog/',
   path: '/product-backlog/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SprintBoardSprintNewRoute = SprintBoardSprintNewImport.update({
+  id: '/sprint-board/sprint/new',
+  path: '/sprint-board/sprint/new',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -61,13 +68,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/sprint-board': {
-      id: '/sprint-board'
-      path: '/sprint-board'
-      fullPath: '/sprint-board'
-      preLoaderRoute: typeof SprintBoardImport
-      parentRoute: typeof rootRoute
-    }
     '/product-backlog/': {
       id: '/product-backlog/'
       path: '/product-backlog'
@@ -75,11 +75,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductBacklogIndexImport
       parentRoute: typeof rootRoute
     }
+    '/sprint-board/': {
+      id: '/sprint-board/'
+      path: '/sprint-board'
+      fullPath: '/sprint-board'
+      preLoaderRoute: typeof SprintBoardIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/product-backlog/task/new': {
       id: '/product-backlog/task/new'
       path: '/product-backlog/task/new'
       fullPath: '/product-backlog/task/new'
       preLoaderRoute: typeof ProductBacklogTaskNewImport
+      parentRoute: typeof rootRoute
+    }
+    '/sprint-board/sprint/new': {
+      id: '/sprint-board/sprint/new'
+      path: '/sprint-board/sprint/new'
+      fullPath: '/sprint-board/sprint/new'
+      preLoaderRoute: typeof SprintBoardSprintNewImport
       parentRoute: typeof rootRoute
     }
     '/product-backlog/task/edit/$taskID': {
@@ -96,26 +110,29 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/sprint-board': typeof SprintBoardRoute
   '/product-backlog': typeof ProductBacklogIndexRoute
+  '/sprint-board': typeof SprintBoardIndexRoute
   '/product-backlog/task/new': typeof ProductBacklogTaskNewRoute
+  '/sprint-board/sprint/new': typeof SprintBoardSprintNewRoute
   '/product-backlog/task/edit/$taskID': typeof ProductBacklogTaskEditTaskIDRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/sprint-board': typeof SprintBoardRoute
   '/product-backlog': typeof ProductBacklogIndexRoute
+  '/sprint-board': typeof SprintBoardIndexRoute
   '/product-backlog/task/new': typeof ProductBacklogTaskNewRoute
+  '/sprint-board/sprint/new': typeof SprintBoardSprintNewRoute
   '/product-backlog/task/edit/$taskID': typeof ProductBacklogTaskEditTaskIDRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/sprint-board': typeof SprintBoardRoute
   '/product-backlog/': typeof ProductBacklogIndexRoute
+  '/sprint-board/': typeof SprintBoardIndexRoute
   '/product-backlog/task/new': typeof ProductBacklogTaskNewRoute
+  '/sprint-board/sprint/new': typeof SprintBoardSprintNewRoute
   '/product-backlog/task/edit/$taskID': typeof ProductBacklogTaskEditTaskIDRoute
 }
 
@@ -123,40 +140,45 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/sprint-board'
     | '/product-backlog'
+    | '/sprint-board'
     | '/product-backlog/task/new'
+    | '/sprint-board/sprint/new'
     | '/product-backlog/task/edit/$taskID'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/sprint-board'
     | '/product-backlog'
+    | '/sprint-board'
     | '/product-backlog/task/new'
+    | '/sprint-board/sprint/new'
     | '/product-backlog/task/edit/$taskID'
   id:
     | '__root__'
     | '/'
-    | '/sprint-board'
     | '/product-backlog/'
+    | '/sprint-board/'
     | '/product-backlog/task/new'
+    | '/sprint-board/sprint/new'
     | '/product-backlog/task/edit/$taskID'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SprintBoardRoute: typeof SprintBoardRoute
   ProductBacklogIndexRoute: typeof ProductBacklogIndexRoute
+  SprintBoardIndexRoute: typeof SprintBoardIndexRoute
   ProductBacklogTaskNewRoute: typeof ProductBacklogTaskNewRoute
+  SprintBoardSprintNewRoute: typeof SprintBoardSprintNewRoute
   ProductBacklogTaskEditTaskIDRoute: typeof ProductBacklogTaskEditTaskIDRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SprintBoardRoute: SprintBoardRoute,
   ProductBacklogIndexRoute: ProductBacklogIndexRoute,
+  SprintBoardIndexRoute: SprintBoardIndexRoute,
   ProductBacklogTaskNewRoute: ProductBacklogTaskNewRoute,
+  SprintBoardSprintNewRoute: SprintBoardSprintNewRoute,
   ProductBacklogTaskEditTaskIDRoute: ProductBacklogTaskEditTaskIDRoute,
 }
 
@@ -171,23 +193,27 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/sprint-board",
         "/product-backlog/",
+        "/sprint-board/",
         "/product-backlog/task/new",
+        "/sprint-board/sprint/new",
         "/product-backlog/task/edit/$taskID"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/sprint-board": {
-      "filePath": "sprint-board.tsx"
-    },
     "/product-backlog/": {
       "filePath": "product-backlog/index.tsx"
     },
+    "/sprint-board/": {
+      "filePath": "sprint-board/index.tsx"
+    },
     "/product-backlog/task/new": {
       "filePath": "product-backlog/task.new.tsx"
+    },
+    "/sprint-board/sprint/new": {
+      "filePath": "sprint-board/sprint.new.tsx"
     },
     "/product-backlog/task/edit/$taskID": {
       "filePath": "product-backlog/task.edit.$taskID.tsx"

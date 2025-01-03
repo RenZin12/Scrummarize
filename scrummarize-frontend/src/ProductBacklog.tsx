@@ -19,12 +19,12 @@ function ProductBacklog() {
                 }
             </div>
 
-            <div className="product-backlog__buttons">
-                <Link className="product-backlog__button" to="/product-backlog/task/new">
+            <div className="main__section__buttons product-backlog__buttons">
+                <Link className="main__section__button" to="/product-backlog/task/new">
                     <FontAwesomeIcon icon={faPlus} />
                     <p>Add</p>
                 </Link>
-                <Link className="product-backlog__button">
+                <Link className="main__section__button">
                     <FontAwesomeIcon icon={faArrowsUpDownLeftRight} />
                     <p>Move</p>
                 </Link>
