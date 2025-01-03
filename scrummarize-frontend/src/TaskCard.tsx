@@ -1,3 +1,4 @@
+import { useNavigate } from '@tanstack/react-router'
 import './TaskCard.css'
 import { Task } from './lib/types'
 
@@ -67,19 +68,23 @@ function TaskCard(props: TaskCardProps) {
         return defaultClass + " " + tagClass
     }
 
+    const navigate = useNavigate({ from: "/product-backlog" })
+
+    const viewTask = () => {
+        navigate({ to: "/product-backlog/task/edit/$taskID", params: { taskID: props.task.taskID} })
+    }
+
     return (
-        <article className="task-card blue-container">
+        <article className="card blue-container" onClick={viewTask}>
             <h3>{props.task.name}</h3>
-            <div className="task-card__information">
-                <div className="task-card__line">
-                    <p className="task-card__story-point">{props.task.storyPoint}</p>
-                    <p className={getPriorityRatingClass(props.task.priorityRating)}>{props.task.priorityRating}</p>
-                </div>
-                <div className="task-card__tags">
-                    {
-                        props.task.tags.map(tag => <p className={getTagClass(tag)} key={tag}>{tag}</p>)
-                    }
-                </div>
+            <div className="card__row task-card__row--info">
+                <p className="task-card__story-point">{props.task.storyPoint}</p>
+                <p className={getPriorityRatingClass(props.task.priorityRating)}>{props.task.priorityRating}</p>
+            </div>
+            <div className="card__row task-card__row--tags">
+                {
+                    props.task.tags.map(tag => <p className={getTagClass(tag)} key={tag}>{tag}</p>)
+                }
             </div>
         </article>
     )

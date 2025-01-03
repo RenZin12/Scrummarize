@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './ProductBacklog.css'
 import TaskCard from './TaskCard.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,22 +7,20 @@ import { Task } from './lib/types.ts'
 
 function ProductBacklog() {
     const routeApi = getRouteApi("/product-backlog/")
-    const data = routeApi.useLoaderData()
-
-    const [tasks, setTasks] = useState<Task[]>(data)
+    const tasks: Task[] = routeApi.useLoaderData()
 
     return (
         <section className="main__section">
             <h2>Product Backlog</h2>
 
-            <div className="product-backlog__task-list">
+            <div className="main__section__list">
                 {
                     tasks.map(task => <TaskCard task={task} key={task.taskID} />)
                 }
             </div>
 
             <div className="product-backlog__buttons">
-                <Link className="product-backlog__button" to="/product-backlog/task-editor">
+                <Link className="product-backlog__button" to="/product-backlog/task/new">
                     <FontAwesomeIcon icon={faPlus} />
                     <p>Add</p>
                 </Link>

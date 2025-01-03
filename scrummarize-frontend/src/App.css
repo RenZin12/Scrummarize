@@ -8,8 +8,25 @@
   border-radius: 15px;
 }
 
+.main__section__list {
+  margin-top: 25px;
+}
+
 .blue-container {
   background-color: #D3F3F8;
   border: 3px solid #1ECCE4;
   border-radius: 5px;
+}
+
+.card {
+  padding: 15px;
+  font-weight: bold;
+}
+
+.card:not(:first-of-type) {
+  margin-top: 20px;
+}
+
+.card__row {
+  margin-top: 15px;
 }

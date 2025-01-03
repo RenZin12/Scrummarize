@@ -27,9 +27,11 @@
 }
 
 .task-editor__buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-around;
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    row-gap: 10px;
 }
 
 .task-editor__button {
@@ -38,8 +40,16 @@
     padding-block: 10px;
     border-radius: 10px;
     font-weight: bold;
-    background-color: #0009EC;
     color: white;
+}
+
+.task-editor__button--blue {
+    background-color: #0009EC;
+}
+
+.task-editor__button__delete {
+    background-color: #FF0000;
+    grid-column: 1 / span 2;
 }
 
 .task-editor__checkbox:not(:first-of-type) {

@@ -1,25 +1,20 @@
-import { useNavigate } from '@tanstack/react-router'
 import './TaskEditor.css'
+import { Task } from './lib/types'
 
-function TaskEditor() {
+type TaskEditorProps = {
+    task?: Task;
+    action: (formData: FormData) => Promise<void>;
+    navigateTo: () => void;
+    deleteTask?: () => void;
+}
 
-    const navigate = useNavigate({ from: "/product-backlog/task-editor" })
-
+function TaskEditor(props: TaskEditorProps) {
     const priorityRatingOptions = ["Low", "Medium", "Important", "Urgent"]
     const tagOptions = ["Frontend", "Backend", "API", "Database", "Framework", "Testing", "UI", "UX"]
 
-    const addTask = (formData: FormData) => {
-        const data = {
-            ...Object.fromEntries(formData),
-            tags: formData.getAll("tags")
-        }
-        console.log(data)
-        navigate({ to: "/product-backlog" })
-    }
-
     return (
         <section className="main__section">
-            <form action={addTask}>
+            <form action={props.action}>
                 <div className="task-editor__row">
                     <label className="task-editor__label" htmlFor="name">Name</label>
                     <input 
@@ -28,6 +23,8 @@ function TaskEditor() {
                         name="name"
                         required
                         minLength={1}
+                        defaultValue={props.task?.name || ""}
+                        key={props.task?.name || "name"}
                     />
                 </div>
                 
@@ -37,6 +34,8 @@ function TaskEditor() {
                         className="task-editor__input blue-container task-editor__input--textarea task-editor__input--row"
                         id="description"
                         name="description"
+                        defaultValue={props.task?.description || ""}
+                        key={props.task?.description || "description"}
                     ></textarea>
                 </div>
                 
@@ -49,7 +48,8 @@ function TaskEditor() {
                         min="0"
                         max="100"
                         name="storyPoint"
-                        defaultValue="0"
+                        defaultValue={props.task?.storyPoint || 0}
+                        key={props.task?.storyPoint || "storyPoint"}
                     />
                 </div>
                 
@@ -59,9 +59,15 @@ function TaskEditor() {
                         className="task-editor__input blue-container task-editor__input--column"
                         id="priorityRating"
                         name="priorityRating"
+                        defaultValue={props.task?.priorityRating}
+                        key={props.task?.priorityRating || "priorityRating"}
                     >
                         {
-                            priorityRatingOptions.map(option => <option key={option} value={option}>{option}</option>)
+                            priorityRatingOptions.map(option => (
+                                <option key={option} value={option}>
+                                    {option}
+                                </option>
+                            ))
                         }
                     </select>
                 </div>
@@ -69,7 +75,7 @@ function TaskEditor() {
                 <div className="task-editor__row">
                     <label className="task-editor__label">Tags</label>
                     <div className="task-editor__input blue-container">
-                        {
+                        {   
                             tagOptions.map(option => (
                                 <div className="task-editor__checkbox" key={option}>
                                     <input
@@ -78,6 +84,8 @@ function TaskEditor() {
                                         id={option}
                                         name="tags"
                                         value={option}
+                                        defaultChecked={props.task?.tags.includes(option)}
+                                        key={props.task?.tags.includes(option).toString() || option}
                                     />
                                     <label className="task-editor__label--checkbox" htmlFor={option}>{option}</label>
                                 </div>
@@ -98,22 +106,53 @@ function TaskEditor() {
                 </div>
 
                 <div className="task-editor__row">
-                    <label className="task-editor__label">Task Status</label>
-                    <p className="task-editor__input blue-container task-editor__input--column">Not Started</p>
+                    <label className="task-editor__label" htmlFor="status">Task Status</label>
+                    <select
+                        className="task-editor__input blue-container task-editor__input--column"
+                        id="status"
+                        name="status"
+                        defaultValue={props.task?.status}
+                        key={props.task?.status || "status"}
+                    >
+                        <option value="Not Started">Not Started</option>
+                    </select>
                 </div>
 
                 <div className="task-editor__row">
-                    <label className="task-editor__label">Task Stage</label>
-                    <p className="task-editor__input blue-container task-editor__input--column">Planning</p>
+                    <label className="task-editor__label" htmlFor="stage">Task Stage</label>
+                    <select
+                        className="task-editor__input blue-container task-editor__input--column"
+                        id="stage"
+                        name="stage"
+                        defaultValue={props.task?.stage}
+                        key={props.task?.status || "stage"}
+                    >
+                        <option value="Planning">Planning</option>
+                    </select>
                 </div>
 
                 <div className="task-editor__buttons">
-                    <button className="task-editor__button">Save</button>
+                    <button className="task-editor__button task-editor__button--blue">Save</button>
                     <button 
-                        className="task-editor__button"
+                        className="task-editor__button task-editor__button--blue"
                         type="button"
-                        onClick={() => navigate({ to: "/product-backlog" })}
-                    >Cancel</button>
+                        onClick={props.navigateTo}
+                    >
+                        Cancel
+                    </button>
+
+                    {
+                        props.deleteTask 
+                        && (
+                            <button
+                                className="task-editor__button task-editor__button__delete"
+                                type="button"
+                                onClick={props.deleteTask}
+                            >
+                                Delete
+                            </button>
+                        )
+                    }
                 </div>
             </form>
         </section>
