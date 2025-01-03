@@ -48,3 +48,44 @@
   color: black;
   border-radius: 5px;
 }
+
+.editor__row:not(:first-of-type) {
+  margin-top: 15px;
+}
+
+.editor__label {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.editor__input {
+  font-size: 1.1rem;
+  padding: 5px 10px;
+  margin-top: 5px;
+}
+
+.editor__input--row {
+  width: 100%;
+}
+
+.editor__buttons {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  row-gap: 10px;
+}
+
+.editor__button {
+  font-size: 1.3rem;
+  width: 120px;
+  padding-block: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: white;
+}
+
+.editor__button--blue {
+  background-color: #0009EC;
+}

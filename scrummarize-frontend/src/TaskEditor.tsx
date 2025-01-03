@@ -15,10 +15,10 @@ function TaskEditor(props: TaskEditorProps) {
     return (
         <section className="main__section">
             <form action={props.action}>
-                <div className="task-editor__row">
-                    <label className="task-editor__label" htmlFor="name">Name</label>
+                <div className="editor__row">
+                    <label className="editor__label" htmlFor="name">Name</label>
                     <input 
-                        className="task-editor__input blue-container task-editor__input--row"
+                        className="editor__input blue-container editor__input--row"
                         id="name"
                         name="name"
                         required
@@ -28,10 +28,10 @@ function TaskEditor(props: TaskEditorProps) {
                     />
                 </div>
                 
-                <div className="task-editor__row">
-                    <label className="task-editor__label" htmlFor="description">Description</label>
+                <div className="editor__row">
+                    <label className="editor__label" htmlFor="description">Description</label>
                     <textarea
-                        className="task-editor__input blue-container task-editor__input--textarea task-editor__input--row"
+                        className="editor__input blue-container task-editor__input--textarea editor__input--row"
                         id="description"
                         name="description"
                         defaultValue={props.task?.description || ""}
@@ -39,10 +39,10 @@ function TaskEditor(props: TaskEditorProps) {
                     ></textarea>
                 </div>
                 
-                <div className="task-editor__row">
-                    <label className="task-editor__label" htmlFor="storyPoint">Story Point</label>
+                <div className="editor__row">
+                    <label className="editor__label" htmlFor="storyPoint">Story Point</label>
                     <input
-                        className="task-editor__input blue-container task-editor__input--column"
+                        className="editor__input blue-container task-editor__input--column50"
                         type="number"
                         id="storyPoint"
                         min="0"
@@ -53,10 +53,10 @@ function TaskEditor(props: TaskEditorProps) {
                     />
                 </div>
                 
-                <div className="task-editor__row">
-                    <label className="task-editor__label" htmlFor="priorityRating">Priority Rating</label>
+                <div className="editor__row">
+                    <label className="editor__label" htmlFor="priorityRating">Priority Rating</label>
                     <select
-                        className="task-editor__input blue-container task-editor__input--column"
+                        className="editor__input blue-container task-editor__input--column50"
                         id="priorityRating"
                         name="priorityRating"
                         defaultValue={props.task?.priorityRating}
@@ -72,9 +72,9 @@ function TaskEditor(props: TaskEditorProps) {
                     </select>
                 </div>
                 
-                <div className="task-editor__row">
-                    <label className="task-editor__label">Tags</label>
-                    <div className="task-editor__input blue-container">
+                <div className="editor__row">
+                    <label className="editor__label">Tags</label>
+                    <div className="editor__input blue-container">
                         {   
                             tagOptions.map(option => (
                                 <div className="task-editor__checkbox" key={option}>
@@ -94,10 +94,10 @@ function TaskEditor(props: TaskEditorProps) {
                     </div>
                 </div>
                 
-                <div className="task-editor__row">
-                    <label className="task-editor__label" htmlFor="assignee">Assignee</label>
+                <div className="editor__row">
+                    <label className="editor__label" htmlFor="assignee">Assignee</label>
                     <select
-                        className="task-editor__input blue-container task-editor__input--column"
+                        className="editor__input blue-container task-editor__input--column50"
                         id="assignee"
                         name="assignee"
                     >
@@ -105,10 +105,10 @@ function TaskEditor(props: TaskEditorProps) {
                     </select>
                 </div>
 
-                <div className="task-editor__row">
-                    <label className="task-editor__label" htmlFor="status">Task Status</label>
+                <div className="editor__row">
+                    <label className="editor__label" htmlFor="status">Task Status</label>
                     <select
-                        className="task-editor__input blue-container task-editor__input--column"
+                        className="editor__input blue-container task-editor__input--column50"
                         id="status"
                         name="status"
                         defaultValue={props.task?.status}
@@ -118,10 +118,10 @@ function TaskEditor(props: TaskEditorProps) {
                     </select>
                 </div>
 
-                <div className="task-editor__row">
-                    <label className="task-editor__label" htmlFor="stage">Task Stage</label>
+                <div className="editor__row">
+                    <label className="editor__label" htmlFor="stage">Task Stage</label>
                     <select
-                        className="task-editor__input blue-container task-editor__input--column"
+                        className="editor__input blue-container task-editor__input--column50"
                         id="stage"
                         name="stage"
                         defaultValue={props.task?.stage}
@@ -131,10 +131,10 @@ function TaskEditor(props: TaskEditorProps) {
                     </select>
                 </div>
 
-                <div className="task-editor__buttons">
-                    <button className="task-editor__button task-editor__button--blue">Save</button>
+                <div className="editor__buttons">
+                    <button className="editor__button editor__button--blue">Save</button>
                     <button 
-                        className="task-editor__button task-editor__button--blue"
+                        className="editor__button editor__button--blue"
                         type="button"
                         onClick={props.navigateTo}
                     >
@@ -145,7 +145,7 @@ function TaskEditor(props: TaskEditorProps) {
                         props.deleteTask 
                         && (
                             <button
-                                className="task-editor__button task-editor__button__delete"
+                                className="editor__button task-editor__button__delete"
                                 type="button"
                                 onClick={props.deleteTask}
                             >
