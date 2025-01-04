@@ -13,7 +13,7 @@ export type Task = {
 export type Sprint = {
     sprintID: string,
     name: string,
-    startDate: Date,
-    endDate: Date,
+    startDate: string,
+    endDate: string,
     status: string
 }

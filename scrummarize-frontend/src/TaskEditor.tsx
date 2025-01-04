@@ -42,7 +42,7 @@ function TaskEditor(props: TaskEditorProps) {
                 <div className="editor__row">
                     <label className="editor__label" htmlFor="storyPoint">Story Point</label>
                     <input
-                        className="editor__input blue-container task-editor__input--column50"
+                        className="editor__input blue-container editor__input--column50"
                         type="number"
                         id="storyPoint"
                         min="0"
@@ -56,7 +56,7 @@ function TaskEditor(props: TaskEditorProps) {
                 <div className="editor__row">
                     <label className="editor__label" htmlFor="priorityRating">Priority Rating</label>
                     <select
-                        className="editor__input blue-container task-editor__input--column50"
+                        className="editor__input blue-container editor__input--column50"
                         id="priorityRating"
                         name="priorityRating"
                         defaultValue={props.task?.priorityRating}
@@ -97,7 +97,7 @@ function TaskEditor(props: TaskEditorProps) {
                 <div className="editor__row">
                     <label className="editor__label" htmlFor="assignee">Assignee</label>
                     <select
-                        className="editor__input blue-container task-editor__input--column50"
+                        className="editor__input blue-container editor__input--column50"
                         id="assignee"
                         name="assignee"
                     >
@@ -108,7 +108,7 @@ function TaskEditor(props: TaskEditorProps) {
                 <div className="editor__row">
                     <label className="editor__label" htmlFor="status">Task Status</label>
                     <select
-                        className="editor__input blue-container task-editor__input--column50"
+                        className="editor__input blue-container editor__input--column50"
                         id="status"
                         name="status"
                         defaultValue={props.task?.status}
@@ -121,7 +121,7 @@ function TaskEditor(props: TaskEditorProps) {
                 <div className="editor__row">
                     <label className="editor__label" htmlFor="stage">Task Stage</label>
                     <select
-                        className="editor__input blue-container task-editor__input--column50"
+                        className="editor__input blue-container editor__input--column50"
                         id="stage"
                         name="stage"
                         defaultValue={props.task?.stage}

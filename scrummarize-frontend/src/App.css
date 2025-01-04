@@ -89,3 +89,7 @@
 .editor__button--blue {
   background-color: #0009EC;
 }
+
+.editor__input--column50 {
+  width: 50%;
+}

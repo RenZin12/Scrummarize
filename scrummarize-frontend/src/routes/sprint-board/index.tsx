@@ -3,28 +3,36 @@ import '../../SprintBoard.css'
 import SprintCard from '../../SprintCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { Sprint } from '../../lib/types'
+import { getTimezoneOffsetMilli } from '../../lib/utils'
 
 export const Route = createFileRoute('/sprint-board/')({
   component: SprintBoard,
+  loader: () => fetchSprints()
 })
 
+const fetchSprints = async () => {
+  const res = await fetch("http://localhost:3000/api/sprint-board/")
+  if (!res.ok) {
+    throw new Error("Failed to fetch tasks")
+  }
+  const sprints: Sprint[] = await res.json()
+
+  return sprints.map(sprint => ({
+    ...sprint,
+    startDate: formatISOToDateString(sprint.startDate),
+    endDate: formatISOToDateString(sprint.endDate)
+  }))
+}
+
+const formatISOToDateString = (iso: string) => {
+  let date = new Date(iso)
+  date = new Date(date.getTime() - getTimezoneOffsetMilli(date))
+  return date.toISOString().split('T')[0]
+}
+
 function SprintBoard() {
-  const sprints = [
-    {
-      sprintID: '1',
-      name: 'sprint hehe',
-      startDate: new Date(2025, 3, 15),
-      endDate: new Date(2025, 6, 29),
-      status: 'Not Started',
-    },
-    {
-      sprintID: '2',
-      name: 'sprint 22222',
-      startDate: new Date(2025, 7, 20),
-      endDate: new Date(2025, 9, 1),
-      status: 'Not Started',
-    },
-  ]
+  const sprints: Sprint[] = Route.useLoaderData()
 
   return (
     <section className="main__section">

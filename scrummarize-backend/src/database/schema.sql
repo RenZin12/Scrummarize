@@ -23,3 +23,11 @@ CREATE TABLE IF NOT EXISTS task_tags(
     tag_value task_tag NOT NULL,
     PRIMARY KEY (task_id, tag_value)
 );
+
+CREATE TABLE IF NOT EXISTS sprint_board(
+    sprint_id bigserial PRIMARY KEY,
+    name varchar(255) NOT NULL CHECK (length(name) > 0),
+    start_date timestamptz NOT NULL,
+    end_date timestamptz NOT NULL,
+    CHECK (start_date <= end_date)
+);

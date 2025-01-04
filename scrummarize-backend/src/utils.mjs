@@ -12,3 +12,32 @@ export function formatTask(task) {
         stage
     }
 }
+
+export function formatSprint(sprint) {
+    const { sprint_id, name, start_date, end_date } = sprint
+
+    return {
+        sprintID: sprint_id,
+        name,
+        startDate: start_date,
+        endDate: end_date,
+        status: getSprintStatus(start_date, end_date)
+    }
+}
+
+export function getSprintStatus(startDateISO, endDateISO) {
+    let status = "Not Started"
+
+    const now = new Date()
+    const startDate = new Date(startDateISO)
+    const endDate = new Date(endDateISO)
+
+    if (now >= startDate) {
+        status = "Active"
+    }
+    if (now >= endDate) {
+        status = "Completed"
+    }
+
+    return status
+}
