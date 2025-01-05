@@ -4,7 +4,7 @@ import SprintCard from '../../SprintCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { Sprint } from '../../lib/types'
-import { getTimezoneOffsetMilli } from '../../lib/utils'
+import { formatLoaderSprint } from '../../lib/utils'
 
 export const Route = createFileRoute('/sprint-board/')({
   component: SprintBoard,
@@ -18,17 +18,7 @@ const fetchSprints = async () => {
   }
   const sprints: Sprint[] = await res.json()
 
-  return sprints.map(sprint => ({
-    ...sprint,
-    startDate: formatISOToDateString(sprint.startDate),
-    endDate: formatISOToDateString(sprint.endDate)
-  }))
-}
-
-const formatISOToDateString = (iso: string) => {
-  let date = new Date(iso)
-  date = new Date(date.getTime() - getTimezoneOffsetMilli(date))
-  return date.toISOString().split('T')[0]
+  return sprints.map(formatLoaderSprint)
 }
 
 function SprintBoard() {

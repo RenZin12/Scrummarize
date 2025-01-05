@@ -132,20 +132,19 @@ function TaskEditor(props: TaskEditorProps) {
                 </div>
 
                 <div className="editor__buttons">
-                    <button className="editor__button editor__button--blue">Save</button>
+                    <button className="editor__button editor__button--blue editor__button--standard">Save</button>
                     <button 
-                        className="editor__button editor__button--blue"
+                        className="editor__button editor__button--blue editor__button--standard"
                         type="button"
                         onClick={props.navigateTo}
                     >
                         Cancel
                     </button>
-
                     {
                         props.deleteTask 
                         && (
                             <button
-                                className="editor__button task-editor__button__delete"
+                                className="editor__button editor__button--red editor__button--span2 editor__button--standard"
                                 type="button"
                                 onClick={props.deleteTask}
                             >

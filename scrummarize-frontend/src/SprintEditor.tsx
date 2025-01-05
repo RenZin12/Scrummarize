@@ -7,7 +7,7 @@ type SprintEditorProps = {
     sprint?: Sprint;
     action: (formData: FormData) => Promise<void>;
     navigateTo: () => void;
-    deleteTask?: () => void;
+    deleteSprint?: () => void;
 }
 
 type SprintDate = {
@@ -17,8 +17,8 @@ type SprintDate = {
 
 function SprintEditor(props: SprintEditorProps) {
   const [date, setDate] = useState<SprintDate>({
-    startDate: "",
-    endDate: ""
+    startDate: props.sprint?.startDate || "",
+    endDate: props.sprint?.endDate || ""
   })
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +43,10 @@ function SprintEditor(props: SprintEditorProps) {
     return status
   }
 
+  const isReadOnly = (status: string | undefined) => {
+    return status === "Active" || status === "Completed"
+  }
+
   return (
     <section className="main__section">
       <form action={props.action}>
@@ -54,6 +58,8 @@ function SprintEditor(props: SprintEditorProps) {
             name="name"
             required
             minLength={1}
+            defaultValue={props.sprint?.name || ""}
+            readOnly={isReadOnly(props.sprint?.status)}
           />
         </div>
 
@@ -68,6 +74,7 @@ function SprintEditor(props: SprintEditorProps) {
             value={date.startDate}
             onChange={handleChange}
             max={date.endDate}
+            readOnly={isReadOnly(props.sprint?.status)}
           />
         </div>
 
@@ -82,6 +89,7 @@ function SprintEditor(props: SprintEditorProps) {
             value={date.endDate}
             onChange={handleChange}
             min={date.startDate}
+            readOnly={isReadOnly(props.sprint?.status)}
           />
         </div>
 
@@ -93,14 +101,42 @@ function SprintEditor(props: SprintEditorProps) {
         </div>
 
         <div className="editor__buttons">
-          <button className="editor__button editor__button--blue">Save</button>
-          <button 
-            className="editor__button editor__button--blue"
-            type="button"
-            onClick={props.navigateTo}
-          >
-            Cancel
-          </button>
+          {
+            isReadOnly(props.sprint?.status)
+            ? (
+              <button 
+                className="editor__button editor__button--blue editor__button--span2 editor__button--fit"
+                type="button"
+                onClick={props.navigateTo}
+              >
+                Back to Sprint Board
+              </button>
+            )
+            : (
+              <>
+                <button className="editor__button editor__button--blue editor__button--standard">Save</button>
+                <button 
+                  className="editor__button editor__button--blue editor__button--standard"
+                  type="button"
+                  onClick={props.navigateTo}
+                >
+                  Cancel
+                </button>
+                {
+                  props.deleteSprint
+                  && (
+                    <button
+                      className="editor__button editor__button--red editor__button--span2 editor__button--standard"
+                      type="button"
+                      onClick={props.deleteSprint}
+                    >
+                      Delete
+                    </button>
+                  )
+                }
+              </>
+            )
+          }
         </div>
       </form>
     </section>

@@ -21,3 +21,37 @@ export async function addSprint(sprintInfo) {
 
     return formatSprint(result.rows[0])
 }
+
+export async function getSprint(sprintID) {
+    const result = await pool.query(`
+        SELECT *
+        FROM sprint_board
+        WHERE sprint_id = $1
+    `, [sprintID])
+
+    return formatSprint(result.rows[0])
+}
+
+export async function modifySprint(sprintID, sprintInfo) {
+    const { name, startDate, endDate } = sprintInfo
+
+    const result = await pool.query(`
+        UPDATE sprint_board
+        SET name = $1,
+            start_date = $2,
+            end_date = $3
+        WHERE sprint_id = $4
+        RETURNING *
+    `, [name, startDate, endDate, sprintID])
+
+    return formatSprint(result.rows[0])
+}
+
+export async function deleteSprint(sprintID) {
+    const result = await pool.query(`
+        DELETE FROM sprint_board
+        WHERE sprint_id = $1
+    `, [sprintID])
+
+    return result.rowCount
+}

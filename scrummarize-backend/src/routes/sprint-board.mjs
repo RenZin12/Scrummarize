@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addSprint, getSprints } from "../database/sprintBoardDB.mjs";
+import { addSprint, deleteSprint, getSprint, getSprints, modifySprint } from "../database/sprintBoardDB.mjs";
 
 const router = Router()
 
@@ -18,6 +18,34 @@ router
         const newSprint = await addSprint(sprintInfo)
 
         response.send(newSprint)
+    })
+
+router
+    .route("/sprint/:sprintID")
+
+    .get(async (request, response) => {
+        const sprintID = request.params.sprintID
+
+        const sprint = await getSprint(sprintID)
+
+        response.send(sprint)
+    })
+
+    .put(async (request, response) => {
+        const sprintID = request.params.sprintID
+        const { ...sprintInfo } = request.body
+        
+        const modifiedSprint = await modifySprint(sprintID, sprintInfo)
+
+        response.send(modifiedSprint)
+    })
+
+    .delete(async (request, response) => {
+        const sprintID = request.params.sprintID
+
+        await deleteSprint(sprintID)
+
+        response.send()
     })
 
 export default router
