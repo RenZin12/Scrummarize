@@ -25,7 +25,7 @@ function SprintBoard() {
   const sprints: Sprint[] = Route.useLoaderData()
 
   return (
-    <section className="main__section">
+    <section className="main__section main__section--gray">
       <h2>Sprint Board</h2>
 
       <div className="main__section__buttons sprint-board__buttons">

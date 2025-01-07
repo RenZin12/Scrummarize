@@ -25,7 +25,7 @@ function ProductBacklog() {
   const tasks: Task[] = Route.useLoaderData()
 
   return (
-      <section className="main__section">
+      <section className="main__section main__section--gray">
           <h2>Product Backlog</h2>
 
           <div className="main__section__buttons product-backlog__buttons">

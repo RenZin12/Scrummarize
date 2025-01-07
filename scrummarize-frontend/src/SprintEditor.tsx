@@ -48,7 +48,7 @@ function SprintEditor(props: SprintEditorProps) {
   }
 
   return (
-    <section className="main__section">
+    <section className="main__section main__section--gray">
       <form action={props.action}>
         <div className="editor__row">
           <label className="editor__label" htmlFor="name">Name</label>
