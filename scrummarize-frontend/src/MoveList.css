@@ -6,3 +6,11 @@
   border-radius: 10px;
   border: 2px solid rgb(126, 126, 126);
 }
+
+.move-list__invisible {
+  opacity: 0;
+}
+
+.move-list__card {
+  touch-action: none;
+}
