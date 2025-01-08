@@ -1,4 +1,3 @@
-import './SprintTaskList.css';
 import TaskCard from './TaskCard';
 
 function SprintTaskList() {

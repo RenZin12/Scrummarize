@@ -16,11 +16,9 @@ export const Route = createFileRoute('/product-backlog/')({
 
 const fetchTasks = async () => {
   const res = await fetch('http://localhost:3000/api/product-backlog/');
-
   if (!res.ok) {
     throw new Error('Failed to fetch tasks');
   }
-
   return res.json();
 };
 
@@ -36,7 +34,7 @@ function ProductBacklog() {
           <FontAwesomeIcon icon={faPlus} />
           <p>Add</p>
         </Link>
-        <Link className="main__section__button">
+        <Link className="main__section__button" to="/product-backlog/task/move">
           <FontAwesomeIcon icon={faArrowsUpDownLeftRight} />
           <p>Move</p>
         </Link>

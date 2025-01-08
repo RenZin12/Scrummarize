@@ -1,0 +1,9 @@
+.move-component {
+  display: flex;
+  flex-direction: column;
+}
+
+.move-component__arrow {
+  font-size: 1.8rem;
+  margin-block: 25px;
+}
