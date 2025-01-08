@@ -1,28 +1,28 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import '../../SprintBoard.css'
-import SprintCard from '../../SprintCard'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { Sprint } from '../../lib/types'
-import { formatLoaderSprint } from '../../lib/utils'
+import { createFileRoute, Link } from '@tanstack/react-router';
+import '../../SprintBoard.css';
+import SprintCard from '../../SprintCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Sprint } from '../../lib/types';
+import { formatLoaderSprint } from '../../lib/utils';
 
 export const Route = createFileRoute('/sprint-board/')({
   component: SprintBoard,
-  loader: () => fetchSprints()
-})
+  loader: () => fetchSprints(),
+});
 
 const fetchSprints = async () => {
-  const res = await fetch("http://localhost:3000/api/sprint-board/")
+  const res = await fetch('http://localhost:3000/api/sprint-board/');
   if (!res.ok) {
-    throw new Error("Failed to fetch tasks")
+    throw new Error('Failed to fetch tasks');
   }
-  const sprints: Sprint[] = await res.json()
+  const sprints: Sprint[] = await res.json();
 
-  return sprints.map(formatLoaderSprint)
-}
+  return sprints.map(formatLoaderSprint);
+};
 
 function SprintBoard() {
-  const sprints: Sprint[] = Route.useLoaderData()
+  const sprints: Sprint[] = Route.useLoaderData();
 
   return (
     <section className="main__section main__section--gray">
@@ -41,5 +41,5 @@ function SprintBoard() {
         ))}
       </div>
     </section>
-  )
+  );
 }

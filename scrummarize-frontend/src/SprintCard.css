@@ -1,24 +1,24 @@
 .sprint-card__row--dates {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .sprint-card__date {
-    background-color: orange;
-    width: 110px;
-    border-radius: 15px;
-    padding-block: 5px;
-    text-align: center;
+  background-color: orange;
+  width: 110px;
+  border-radius: 15px;
+  padding-block: 5px;
+  text-align: center;
 }
 
 .sprint-card__row--status {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .sprint-card__status {
-    background-color: rgb(110, 195, 110);
-    padding: 5px 15px;
-    border-radius: 15px;
+  background-color: rgb(110, 195, 110);
+  padding: 5px 15px;
+  border-radius: 15px;
 }

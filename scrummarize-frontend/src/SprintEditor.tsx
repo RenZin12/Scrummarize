@@ -1,70 +1,74 @@
-import { ChangeEvent, useState } from "react";
-import { Sprint } from "./lib/types";
-import "./SprintEditor.css"
-import { localeDateStringToDate } from "./lib/utils";
+import { ChangeEvent, useState } from 'react';
+import { Sprint } from './lib/types';
+import './SprintEditor.css';
+import { localeDateStringToDate } from './lib/utils';
 
 type SprintEditorProps = {
-    sprint?: Sprint;
-    action: (formData: FormData) => Promise<void>;
-    navigateTo: () => void;
-    deleteSprint?: () => void;
-}
+  sprint?: Sprint;
+  action: (formData: FormData) => Promise<void>;
+  navigateTo: () => void;
+  deleteSprint?: () => void;
+};
 
 type SprintDate = {
-  startDate: string,
-  endDate: string
-}
+  startDate: string;
+  endDate: string;
+};
 
 function SprintEditor(props: SprintEditorProps) {
   const [date, setDate] = useState<SprintDate>({
-    startDate: props.sprint?.startDate || "",
-    endDate: props.sprint?.endDate || ""
-  })
+    startDate: props.sprint?.startDate || '',
+    endDate: props.sprint?.endDate || '',
+  });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setDate(prevDate => ({
+    const { name, value } = e.target;
+    setDate((prevDate) => ({
       ...prevDate,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
 
   const getStatus = (date: SprintDate) => {
-    const now = new Date()
-    let status = "Not Started"
+    const now = new Date();
+    let status = 'Not Started';
 
     if (date.startDate && now >= localeDateStringToDate(date.startDate)) {
-      status = "Active"
+      status = 'Active';
     }
     if (date.endDate && now >= localeDateStringToDate(date.endDate)) {
-      status = "Completed"
+      status = 'Completed';
     }
-    
-    return status
-  }
+
+    return status;
+  };
 
   const isReadOnly = (status: string | undefined) => {
-    return status === "Active" || status === "Completed"
-  }
+    return status === 'Active' || status === 'Completed';
+  };
 
   return (
     <section className="main__section main__section--gray">
       <form action={props.action}>
         <div className="editor__row">
-          <label className="editor__label" htmlFor="name">Name</label>
-          <input 
+          <label className="editor__label" htmlFor="name">
+            Name
+          </label>
+          <input
             className="editor__input blue-container editor__input--row"
             id="name"
             name="name"
             required
             minLength={1}
-            defaultValue={props.sprint?.name || ""}
+            defaultValue={props.sprint?.name || ''}
             readOnly={isReadOnly(props.sprint?.status)}
           />
         </div>
 
         <div className="editor__row">
-          <label className="editor__label" htmlFor="startDate">Start Date</label>
+          <label className="editor__label" htmlFor="startDate">
+            Start Date
+          </label>
           <input
             className="editor__input blue-container sprint-editor__input--column75"
             type="date"
@@ -79,7 +83,9 @@ function SprintEditor(props: SprintEditorProps) {
         </div>
 
         <div className="editor__row">
-          <label className="editor__label" htmlFor="endDate">End Date</label>
+          <label className="editor__label" htmlFor="endDate">
+            End Date
+          </label>
           <input
             className="editor__input blue-container sprint-editor__input--column75"
             type="date"
@@ -101,46 +107,41 @@ function SprintEditor(props: SprintEditorProps) {
         </div>
 
         <div className="editor__buttons">
-          {
-            isReadOnly(props.sprint?.status)
-            ? (
-              <button 
-                className="editor__button editor__button--blue editor__button--span2 editor__button--fit"
+          {isReadOnly(props.sprint?.status) ? (
+            <button
+              className="editor__button editor__button--blue editor__button--span2 editor__button--fit"
+              type="button"
+              onClick={props.navigateTo}
+            >
+              Back to Sprint Board
+            </button>
+          ) : (
+            <>
+              <button className="editor__button editor__button--blue editor__button--standard">
+                Save
+              </button>
+              <button
+                className="editor__button editor__button--blue editor__button--standard"
                 type="button"
                 onClick={props.navigateTo}
               >
-                Back to Sprint Board
+                Cancel
               </button>
-            )
-            : (
-              <>
-                <button className="editor__button editor__button--blue editor__button--standard">Save</button>
-                <button 
-                  className="editor__button editor__button--blue editor__button--standard"
+              {props.deleteSprint && (
+                <button
+                  className="editor__button editor__button--red editor__button--span2 editor__button--standard"
                   type="button"
-                  onClick={props.navigateTo}
+                  onClick={props.deleteSprint}
                 >
-                  Cancel
+                  Delete
                 </button>
-                {
-                  props.deleteSprint
-                  && (
-                    <button
-                      className="editor__button editor__button--red editor__button--span2 editor__button--standard"
-                      type="button"
-                      onClick={props.deleteSprint}
-                    >
-                      Delete
-                    </button>
-                  )
-                }
-              </>
-            )
-          }
+              )}
+            </>
+          )}
         </div>
       </form>
     </section>
-  )
+  );
 }
 
-export default SprintEditor
+export default SprintEditor;
