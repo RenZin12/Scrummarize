@@ -61,17 +61,17 @@ export function formatSprint(sprint) {
 }
 
 export function getSprintStatus(startDateISO, endDateISO) {
-  let status = "Not Started";
+  let status = 'Not Started';
 
   const now = new Date();
   const startDate = new Date(startDateISO);
   const endDate = new Date(endDateISO);
 
   if (now >= startDate) {
-    status = "Active";
+    status = 'Active';
   }
   if (now >= endDate) {
-    status = "Completed";
+    status = 'Completed';
   }
 
   return status;

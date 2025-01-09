@@ -1,51 +1,57 @@
-import { Router } from "express";
-import { addSprint, deleteSprint, getSprint, getSprints, modifySprint } from "../database/sprintBoardDB.mjs";
+import { Router } from 'express';
+import {
+  addSprint,
+  deleteSprint,
+  getSprint,
+  getSprints,
+  modifySprint,
+} from '../database/sprintBoardDB.mjs';
 
-const router = Router()
-
-router
-    .route("/")
-
-    .get(async (request, response) => {
-        const sprints = await getSprints()
-     
-        response.send(sprints)
-    })
-
-    .post(async (request, response) => {
-        const { ...sprintInfo } = request.body
-
-        const newSprint = await addSprint(sprintInfo)
-
-        response.send(newSprint)
-    })
+const router = Router();
 
 router
-    .route("/sprint/:sprintID")
+  .route('/')
 
-    .get(async (request, response) => {
-        const sprintID = request.params.sprintID
+  .get(async (request, response) => {
+    const sprints = await getSprints();
 
-        const sprint = await getSprint(sprintID)
+    response.send(sprints);
+  })
 
-        response.send(sprint)
-    })
+  .post(async (request, response) => {
+    const { ...sprintInfo } = request.body;
 
-    .put(async (request, response) => {
-        const sprintID = request.params.sprintID
-        const { ...sprintInfo } = request.body
-        
-        const modifiedSprint = await modifySprint(sprintID, sprintInfo)
+    const newSprint = await addSprint(sprintInfo);
 
-        response.send(modifiedSprint)
-    })
+    response.send(newSprint);
+  });
 
-    .delete(async (request, response) => {
-        const sprintID = request.params.sprintID
+router
+  .route('/sprint/:sprintID')
 
-        await deleteSprint(sprintID)
+  .get(async (request, response) => {
+    const sprintID = request.params.sprintID;
 
-        response.send()
-    })
+    const sprint = await getSprint(sprintID);
 
-export default router
+    response.send(sprint);
+  })
+
+  .put(async (request, response) => {
+    const sprintID = request.params.sprintID;
+    const { ...sprintInfo } = request.body;
+
+    const modifiedSprint = await modifySprint(sprintID, sprintInfo);
+
+    response.send(modifiedSprint);
+  })
+
+  .delete(async (request, response) => {
+    const sprintID = request.params.sprintID;
+
+    await deleteSprint(sprintID);
+
+    response.send();
+  });
+
+export default router;

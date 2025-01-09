@@ -1,5 +1,5 @@
-import pool from "./database.mjs";
-import { formatPBTask, formatSBTask } from "../utils.mjs";
+import pool from './database.mjs';
+import { formatPBTask, formatSBTask } from '../utils.mjs';
 
 export async function getPBTasks() {
   const result = await pool.query(`

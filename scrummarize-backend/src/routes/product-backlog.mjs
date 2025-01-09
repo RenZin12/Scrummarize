@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from 'express';
 import {
   getPBTasks,
   addPBTask,
@@ -6,17 +6,17 @@ import {
   modifyPBTask,
   deletePBTask,
   movePBTasks,
-} from "../database/productBacklogDB.mjs";
+} from '../database/productBacklogDB.mjs';
 import {
   addTaskTags,
   getTaskTags,
   deleteTaskTag,
-} from "../database/indexDB.mjs";
+} from '../database/indexDB.mjs';
 
 const router = Router();
 
 router
-  .route("/")
+  .route('/')
 
   .get(async (request, response) => {
     const tasks = await getPBTasks();
@@ -48,7 +48,7 @@ router
   });
 
 router
-  .route("/task/:taskID")
+  .route('/task/:taskID')
 
   .get(async (request, response) => {
     const taskID = request.params.taskID;
@@ -85,7 +85,7 @@ router
   });
 
 router
-  .route("/task/move")
+  .route('/task/move')
 
   .patch(async (request, response) => {
     const { sprintID, taskIDs } = request.body;

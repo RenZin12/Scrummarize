@@ -1,4 +1,4 @@
-import pool from "./database.mjs";
+import pool from './database.mjs';
 
 export async function getTaskTags(taskID) {
   const result = await pool.query(
