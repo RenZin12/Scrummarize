@@ -6,12 +6,14 @@ import {
   modifyPBTask,
   deletePBTask,
   movePBTasks,
+  getPBTaskNames,
 } from '../database/productBacklogDB.mjs';
 import {
   addTaskTags,
   getTaskTags,
   deleteTaskTag,
 } from '../database/indexDB.mjs';
+import { getSprintNames } from '../database/sprintBoardDB.mjs';
 
 const router = Router();
 
@@ -85,7 +87,16 @@ router
   });
 
 router
-  .route('/task/move')
+  .route('/move')
+
+  .get(async (request, response) => {
+    const taskNames = await getPBTaskNames();
+    const sprintNames = await getSprintNames();
+
+    const data = { taskNames, sprintNames };
+
+    response.send(data);
+  })
 
   .patch(async (request, response) => {
     const { sprintID, taskIDs } = request.body;

@@ -3,36 +3,28 @@ import MoveList from '../../MoveList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import '../../ProductBacklogMove.css';
-import { Sprint, Task } from '../../lib/types';
+import { TaskName, SprintName } from '../../lib/types';
 import { useState } from 'react';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
 
 export const Route = createFileRoute('/product-backlog/task/move')({
   component: ProductBacklogMove,
-  loader: () => fetchData(),
+  loader: fetchData,
 });
 
-const fetchData = async () => {
-  const res1 = await fetch('http://localhost:3000/api/product-backlog');
-  if (!res1.ok) {
-    throw new Error('Failed to fetch tasks for moving');
-  }
-  const tasks: Task[] = await res1.json();
-
-  const res2 = await fetch('http://localhost:3000/api/sprint-board');
-  if (!res2.ok) {
-    throw new Error('Failed to fetch sprints for moving');
-  }
-  const sprints: Sprint[] = await res2.json();
-
-  return { tasks, sprints };
-};
+async function fetchData() {
+  const res = await fetch('http://localhost:3000/api/product-backlog/move');
+  if (!res.ok)
+    throw new Error('Failed to fetch task names and sprint names for moving');
+  return res.json();
+}
 
 function ProductBacklogMove() {
-  const { tasks, sprints } = Route.useLoaderData();
+  const loaderData: { taskNames: TaskName[]; sprintNames: SprintName[] } =
+    Route.useLoaderData();
 
-  const [pbTasks, setPBTasks] = useState(tasks);
-  const [sbTasks, setSBTasks] = useState<Task[]>([]);
+  const [pbTasks, setPBTasks] = useState(loaderData.taskNames);
+  const [sbTasks, setSBTasks] = useState<TaskName[]>([]);
 
   const navigate = useNavigate({ from: '/product-backlog/task/move' });
 
@@ -40,17 +32,14 @@ function ProductBacklogMove() {
     const sprintID = formData.get('sprint');
     const taskIDs = sbTasks.map((task) => task.taskID);
 
-    const res = await fetch(
-      'http://localhost:3000/api/product-backlog/task/move',
-      {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sprintID,
-          taskIDs,
-        }),
-      }
-    );
+    const res = await fetch('http://localhost:3000/api/product-backlog/move', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sprintID,
+        taskIDs,
+      }),
+    });
     if (!res.ok) throw new Error('Failed to move tasks');
 
     navigate({ to: `/sprint-backlog/${sprintID}` });
@@ -97,7 +86,11 @@ function ProductBacklogMove() {
             icon={faArrowDown}
             className="move-component__arrow"
           />
-          <MoveList id={'sprintBacklog'} sprints={sprints} tasks={sbTasks} />
+          <MoveList
+            id={'sprintBacklog'}
+            sprints={loaderData.sprintNames}
+            tasks={sbTasks}
+          />
         </DndContext>
 
         <div className="editor__buttons">

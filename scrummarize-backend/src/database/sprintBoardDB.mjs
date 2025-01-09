@@ -2,10 +2,12 @@ import pool from './database.mjs';
 import { formatSprint } from '../utils.mjs';
 
 export async function getSprints() {
-  const result = await pool.query(`
-        SELECT *
-        FROM sprint_board
-    `);
+  const result = await pool.query(
+    `
+      SELECT *
+      FROM sprint_board
+    `
+  );
 
   return result.rows.map(formatSprint);
 }
@@ -15,9 +17,9 @@ export async function addSprint(sprintInfo) {
 
   const result = await pool.query(
     `
-        INSERT INTO sprint_board (name, start_date, end_date)
-        VALUES ($1, $2, $3)
-        RETURNING *
+      INSERT INTO sprint_board (name, start_date, end_date)
+      VALUES ($1, $2, $3)
+      RETURNING *
     `,
     [name, startDate, endDate]
   );
@@ -28,9 +30,9 @@ export async function addSprint(sprintInfo) {
 export async function getSprint(sprintID) {
   const result = await pool.query(
     `
-        SELECT *
-        FROM sprint_board
-        WHERE sprint_id = $1
+      SELECT *
+      FROM sprint_board
+      WHERE sprint_id = $1
     `,
     [sprintID]
   );
@@ -43,12 +45,12 @@ export async function modifySprint(sprintID, sprintInfo) {
 
   const result = await pool.query(
     `
-        UPDATE sprint_board
-        SET name = $1,
-            start_date = $2,
-            end_date = $3
-        WHERE sprint_id = $4
-        RETURNING *
+      UPDATE sprint_board
+      SET name = $1,
+          start_date = $2,
+          end_date = $3
+      WHERE sprint_id = $4
+      RETURNING *
     `,
     [name, startDate, endDate, sprintID]
   );
@@ -59,11 +61,25 @@ export async function modifySprint(sprintID, sprintInfo) {
 export async function deleteSprint(sprintID) {
   const result = await pool.query(
     `
-        DELETE FROM sprint_board
-        WHERE sprint_id = $1
+      DELETE FROM sprint_board
+      WHERE sprint_id = $1
     `,
     [sprintID]
   );
 
   return result.rowCount;
+}
+
+export async function getSprintNames() {
+  const result = await pool.query(
+    `
+      SELECT sprint_id, name
+      FROM sprint_board
+    `
+  );
+
+  return result.rows.map((sprintName) => ({
+    sprintID: sprintName.sprint_id,
+    name: sprintName.name,
+  }));
 }

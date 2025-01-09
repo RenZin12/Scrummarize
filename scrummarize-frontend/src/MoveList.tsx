@@ -1,12 +1,12 @@
 import { useDraggable, useDroppable } from '@dnd-kit/core';
-import { Sprint, Task } from './lib/types';
+import { SprintName, TaskName } from './lib/types';
 import './MoveList.css';
 
 type MoveListProps = {
   id: string;
   title?: string;
-  sprints?: Sprint[];
-  tasks: Task[];
+  sprints?: SprintName[];
+  tasks: TaskName[];
 };
 
 function MoveList(props: MoveListProps) {
@@ -40,7 +40,7 @@ function MoveList(props: MoveListProps) {
 }
 
 type SmallTaskCardProps = {
-  task: Task;
+  task: TaskName;
 };
 
 function SmallTaskCard(props: SmallTaskCardProps) {

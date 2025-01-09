@@ -17,3 +17,13 @@ export type Sprint = {
   endDate: string;
   status: string;
 };
+
+export type TaskName = {
+  taskID: string;
+  name: string;
+};
+
+export type SprintName = {
+  sprintID: string;
+  name: string;
+};
