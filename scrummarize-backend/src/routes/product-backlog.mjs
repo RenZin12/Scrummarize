@@ -5,6 +5,7 @@ import {
   getPBTask,
   modifyPBTask,
   deletePBTask,
+  movePBTasks,
 } from "../database/productBacklogDB.mjs";
 import {
   addTaskTags,
@@ -79,6 +80,17 @@ router
     const taskID = request.params.taskID;
 
     await deletePBTask(taskID);
+
+    response.send();
+  });
+
+router
+  .route("/task/move")
+
+  .patch(async (request, response) => {
+    const { sprintID, taskIDs } = request.body;
+
+    await movePBTasks(sprintID, taskIDs);
 
     response.send();
   });

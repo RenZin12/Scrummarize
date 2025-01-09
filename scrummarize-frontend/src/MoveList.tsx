@@ -18,9 +18,11 @@ function MoveList(props: MoveListProps) {
     <section className="main__section main__section--gray">
       {props.title && <h2 className="move-list__title">{props.title}</h2>}
       {props.sprints && (
-        <select className="move-list__title">
+        <select className="move-list__title" name="sprint">
           {props.sprints.map((sprint) => (
-            <option key={sprint.sprintID}>{sprint.name}</option>
+            <option key={sprint.sprintID} value={sprint.sprintID}>
+              {sprint.name}
+            </option>
           ))}
         </select>
       )}

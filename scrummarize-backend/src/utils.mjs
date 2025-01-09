@@ -22,6 +22,32 @@ export function formatPBTask(task) {
   };
 }
 
+export function formatSBTask(task) {
+  const {
+    task_id,
+    name,
+    description,
+    story_point,
+    priority_rating,
+    assignee,
+    status,
+    stage,
+    sprint_id,
+  } = task;
+
+  return {
+    taskID: task_id,
+    name,
+    description,
+    storyPoint: story_point,
+    priorityRating: priority_rating,
+    assignee,
+    status,
+    stage,
+    sprintID: sprint_id,
+  };
+}
+
 export function formatSprint(sprint) {
   const { sprint_id, name, start_date, end_date } = sprint;
 

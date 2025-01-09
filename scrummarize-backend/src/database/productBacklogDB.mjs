@@ -1,5 +1,5 @@
 import pool from "./database.mjs";
-import { formatPBTask } from "../utils.mjs";
+import { formatPBTask, formatSBTask } from "../utils.mjs";
 
 export async function getPBTasks() {
   const result = await pool.query(`
@@ -98,4 +98,22 @@ export async function deletePBTask(taskID) {
   );
 
   return result.rowCount;
+}
+
+export async function movePBTasks(sprintID, taskIDs) {
+  const promiseTasks = taskIDs.map(async (taskID) => {
+    const result = await pool.query(
+      `
+            UPDATE tasks
+            SET sprint_id = $1
+            WHERE task_id = $2
+            RETURNING *
+        `,
+      [sprintID, taskID]
+    );
+
+    return formatSBTask(result.rows[0]);
+  });
+
+  return Promise.all(promiseTasks);
 }
