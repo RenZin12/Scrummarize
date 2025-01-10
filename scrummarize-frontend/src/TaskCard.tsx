@@ -1,9 +1,9 @@
-import { useNavigate } from '@tanstack/react-router';
 import './TaskCard.css';
 import { Task } from './lib/types';
 
 type TaskCardProps = {
   task: Task;
+  viewTask: (taskID: string) => void;
 };
 
 function TaskCard(props: TaskCardProps) {
@@ -67,17 +67,11 @@ function TaskCard(props: TaskCardProps) {
     return defaultClass + ' ' + tagClass;
   };
 
-  const navigate = useNavigate({ from: '/product-backlog' });
-
-  const viewTask = () => {
-    navigate({
-      to: '/product-backlog/task/edit/$taskID',
-      params: { taskID: props.task.taskID },
-    });
-  };
-
   return (
-    <article className="card blue-container" onClick={viewTask}>
+    <article
+      className="card blue-container"
+      onClick={() => props.viewTask(props.task.taskID)}
+    >
       <h3>{props.task.name}</h3>
       <div className="card__row task-card__row--info">
         <p className="task-card__story-point">{props.task.storyPoint}</p>

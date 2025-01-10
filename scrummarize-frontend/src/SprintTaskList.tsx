@@ -4,6 +4,7 @@ import TaskCard from './TaskCard';
 type SprintTaskListProps = {
   title: string;
   tasks: Task[];
+  viewTask: (taskID: string) => void;
 };
 
 function SprintTaskList(props: SprintTaskListProps) {
@@ -13,7 +14,11 @@ function SprintTaskList(props: SprintTaskListProps) {
 
       <div className="main__section__list">
         {props.tasks.map((task) => (
-          <TaskCard task={task} />
+          <TaskCard
+            key={task.taskID}
+            task={task}
+            viewTask={() => props.viewTask(task.taskID)}
+          />
         ))}
       </div>
     </section>

@@ -100,8 +100,16 @@
   background-color: #0009ec;
 }
 
+.editor__button--green {
+  background-color: #0dac13;
+}
+
 .editor__input--column50 {
   width: 50%;
+}
+
+.editor__input--column25 {
+  width: 25%;
 }
 
 .editor__button--span2 {
@@ -110,4 +118,8 @@
 
 .editor__button--red {
   background-color: #ff0000;
+}
+
+.text-center {
+  text-align: center;
 }

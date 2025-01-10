@@ -6,7 +6,7 @@ export async function getSBNotStartedTasks(sprintID) {
     `
       SELECT *
       FROM tasks
-      WHERE sprint_id = $1 AND status = 'Not Started'
+      WHERE status = 'Not Started' AND sprint_id = $1 AND stage != 'Planning'
     `,
     [sprintID]
   );
@@ -19,7 +19,7 @@ export async function getSBInProgressTasks(sprintID) {
     `
       SELECT *
       FROM tasks
-      WHERE sprint_id = $1 AND status = 'In Progress'
+      WHERE status = 'In Progress' AND sprint_id = $1 AND stage != 'Planning'
     `,
     [sprintID]
   );
@@ -32,10 +32,23 @@ export async function getSBCompletedTasks(sprintID) {
     `
       SELECT *
       FROM tasks
-      WHERE sprint_id = $1 AND status = 'Completed'
+      WHERE status = 'Completed' AND sprint_id = $1 AND stage != 'Planning'
     `,
     [sprintID]
   );
 
   return result.rows.map(formatSBTask);
+}
+
+export async function getSBTask(taskID, sprintID) {
+  const result = await pool.query(
+    `
+      SELECT *
+      FROM tasks
+      WHERE task_id = $1 AND sprint_id = $2 AND stage != 'Planning'
+    `,
+    [taskID, sprintID]
+  );
+
+  return formatSBTask(result.rows[0]);
 }

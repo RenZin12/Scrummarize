@@ -4,8 +4,10 @@ import {
   getSBCompletedTasks,
   getSBInProgressTasks,
   getSBNotStartedTasks,
+  getSBTask,
 } from '../database/sprintBacklogDB.mjs';
 import { getSprint } from '../database/sprintBoardDB.mjs';
+import { getTaskTags } from '../database/indexDB.mjs';
 
 const router = Router();
 
@@ -30,6 +32,23 @@ router
       notStarted,
       inProgress,
       completed,
+    });
+  });
+
+router
+  .route('/:sprintID/task/:taskID')
+
+  .get(async (request, response) => {
+    const { sprintID, taskID } = request.params;
+
+    const task = await getSBTask(taskID, sprintID);
+    const tags = await getTaskTags(taskID);
+    const totalLogTime = 0;
+
+    response.send({
+      ...task,
+      tags,
+      totalLogTime,
     });
   });
 

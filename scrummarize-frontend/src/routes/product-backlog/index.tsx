@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import '../..//ProductBacklog.css';
 import TaskCard from '../../TaskCard.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,6 +25,14 @@ const fetchTasks = async () => {
 function ProductBacklog() {
   const tasks: Task[] = Route.useLoaderData();
 
+  const navigate = useNavigate({ from: '/product-backlog' });
+  function viewTask(taskID: string) {
+    navigate({
+      to: '/product-backlog/task/edit/$taskID',
+      params: { taskID },
+    });
+  }
+
   return (
     <section className="main__section main__section--gray">
       <h2>Product Backlog</h2>
@@ -42,7 +50,7 @@ function ProductBacklog() {
 
       <div className="main__section__list">
         {tasks.map((task) => (
-          <TaskCard task={task} key={task.taskID} />
+          <TaskCard task={task} key={task.taskID} viewTask={viewTask} />
         ))}
       </div>
     </section>

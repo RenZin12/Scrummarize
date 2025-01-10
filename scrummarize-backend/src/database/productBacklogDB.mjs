@@ -116,7 +116,8 @@ export async function movePBTasks(sprintID, taskIDs) {
     const result = await pool.query(
       `
             UPDATE tasks
-            SET sprint_id = $1
+            SET sprint_id = $1,
+                stage = 'Development'
             WHERE task_id = $2 AND sprint_id IS NULL AND stage = 'Planning'
             RETURNING *
         `,
