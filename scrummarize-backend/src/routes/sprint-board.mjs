@@ -3,6 +3,7 @@ import {
   addSprint,
   deleteSprint,
   getSprint,
+  getSprintNames,
   getSprints,
   modifySprint,
 } from '../database/sprintBoardDB.mjs';
@@ -52,6 +53,15 @@ router
     await deleteSprint(sprintID);
 
     response.send();
+  });
+
+router
+  .route('/names')
+
+  .get(async (request, response) => {
+    const sprintNames = await getSprintNames();
+
+    response.send(sprintNames);
   });
 
 export default router;

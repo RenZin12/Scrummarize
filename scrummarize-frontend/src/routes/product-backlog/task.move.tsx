@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import '../../ProductBacklogMove.css';
 import { TaskName, SprintName } from '../../lib/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
 
 export const Route = createFileRoute('/product-backlog/task/move')({
@@ -25,6 +25,10 @@ function ProductBacklogMove() {
 
   const [pbTasks, setPBTasks] = useState(loaderData.taskNames);
   const [sbTasks, setSBTasks] = useState<TaskName[]>([]);
+
+  useEffect(() => {
+    setPBTasks(loaderData.taskNames);
+  }, [loaderData]);
 
   const navigate = useNavigate({ from: '/product-backlog/task/move' });
 
