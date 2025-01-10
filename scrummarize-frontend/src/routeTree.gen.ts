@@ -13,8 +13,8 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as SprintBoardIndexImport } from './routes/sprint-board/index'
-import { Route as SprintBacklogIndexImport } from './routes/sprint-backlog/index'
 import { Route as ProductBacklogIndexImport } from './routes/product-backlog/index'
+import { Route as SprintBacklogSprintIDImport } from './routes/sprint-backlog/$sprintID'
 import { Route as SprintBoardSprintNewImport } from './routes/sprint-board/sprint.new'
 import { Route as ProductBacklogTaskNewImport } from './routes/product-backlog/task.new'
 import { Route as ProductBacklogTaskMoveImport } from './routes/product-backlog/task.move'
@@ -35,15 +35,15 @@ const SprintBoardIndexRoute = SprintBoardIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const SprintBacklogIndexRoute = SprintBacklogIndexImport.update({
-  id: '/sprint-backlog/',
-  path: '/sprint-backlog/',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const ProductBacklogIndexRoute = ProductBacklogIndexImport.update({
   id: '/product-backlog/',
   path: '/product-backlog/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SprintBacklogSprintIDRoute = SprintBacklogSprintIDImport.update({
+  id: '/sprint-backlog/$sprintID',
+  path: '/sprint-backlog/$sprintID',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -90,18 +90,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/sprint-backlog/$sprintID': {
+      id: '/sprint-backlog/$sprintID'
+      path: '/sprint-backlog/$sprintID'
+      fullPath: '/sprint-backlog/$sprintID'
+      preLoaderRoute: typeof SprintBacklogSprintIDImport
+      parentRoute: typeof rootRoute
+    }
     '/product-backlog/': {
       id: '/product-backlog/'
       path: '/product-backlog'
       fullPath: '/product-backlog'
       preLoaderRoute: typeof ProductBacklogIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/sprint-backlog/': {
-      id: '/sprint-backlog/'
-      path: '/sprint-backlog'
-      fullPath: '/sprint-backlog'
-      preLoaderRoute: typeof SprintBacklogIndexImport
       parentRoute: typeof rootRoute
     }
     '/sprint-board/': {
@@ -153,8 +153,8 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/sprint-backlog/$sprintID': typeof SprintBacklogSprintIDRoute
   '/product-backlog': typeof ProductBacklogIndexRoute
-  '/sprint-backlog': typeof SprintBacklogIndexRoute
   '/sprint-board': typeof SprintBoardIndexRoute
   '/product-backlog/task/move': typeof ProductBacklogTaskMoveRoute
   '/product-backlog/task/new': typeof ProductBacklogTaskNewRoute
@@ -165,8 +165,8 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/sprint-backlog/$sprintID': typeof SprintBacklogSprintIDRoute
   '/product-backlog': typeof ProductBacklogIndexRoute
-  '/sprint-backlog': typeof SprintBacklogIndexRoute
   '/sprint-board': typeof SprintBoardIndexRoute
   '/product-backlog/task/move': typeof ProductBacklogTaskMoveRoute
   '/product-backlog/task/new': typeof ProductBacklogTaskNewRoute
@@ -178,8 +178,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/sprint-backlog/$sprintID': typeof SprintBacklogSprintIDRoute
   '/product-backlog/': typeof ProductBacklogIndexRoute
-  '/sprint-backlog/': typeof SprintBacklogIndexRoute
   '/sprint-board/': typeof SprintBoardIndexRoute
   '/product-backlog/task/move': typeof ProductBacklogTaskMoveRoute
   '/product-backlog/task/new': typeof ProductBacklogTaskNewRoute
@@ -192,8 +192,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/sprint-backlog/$sprintID'
     | '/product-backlog'
-    | '/sprint-backlog'
     | '/sprint-board'
     | '/product-backlog/task/move'
     | '/product-backlog/task/new'
@@ -203,8 +203,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/sprint-backlog/$sprintID'
     | '/product-backlog'
-    | '/sprint-backlog'
     | '/sprint-board'
     | '/product-backlog/task/move'
     | '/product-backlog/task/new'
@@ -214,8 +214,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/sprint-backlog/$sprintID'
     | '/product-backlog/'
-    | '/sprint-backlog/'
     | '/sprint-board/'
     | '/product-backlog/task/move'
     | '/product-backlog/task/new'
@@ -227,8 +227,8 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SprintBacklogSprintIDRoute: typeof SprintBacklogSprintIDRoute
   ProductBacklogIndexRoute: typeof ProductBacklogIndexRoute
-  SprintBacklogIndexRoute: typeof SprintBacklogIndexRoute
   SprintBoardIndexRoute: typeof SprintBoardIndexRoute
   ProductBacklogTaskMoveRoute: typeof ProductBacklogTaskMoveRoute
   ProductBacklogTaskNewRoute: typeof ProductBacklogTaskNewRoute
@@ -239,8 +239,8 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SprintBacklogSprintIDRoute: SprintBacklogSprintIDRoute,
   ProductBacklogIndexRoute: ProductBacklogIndexRoute,
-  SprintBacklogIndexRoute: SprintBacklogIndexRoute,
   SprintBoardIndexRoute: SprintBoardIndexRoute,
   ProductBacklogTaskMoveRoute: ProductBacklogTaskMoveRoute,
   ProductBacklogTaskNewRoute: ProductBacklogTaskNewRoute,
@@ -260,8 +260,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/sprint-backlog/$sprintID",
         "/product-backlog/",
-        "/sprint-backlog/",
         "/sprint-board/",
         "/product-backlog/task/move",
         "/product-backlog/task/new",
@@ -273,11 +273,11 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.tsx"
     },
+    "/sprint-backlog/$sprintID": {
+      "filePath": "sprint-backlog/$sprintID.tsx"
+    },
     "/product-backlog/": {
       "filePath": "product-backlog/index.tsx"
-    },
-    "/sprint-backlog/": {
-      "filePath": "sprint-backlog/index.tsx"
     },
     "/sprint-board/": {
       "filePath": "sprint-board/index.tsx"

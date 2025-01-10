@@ -1,3 +1,5 @@
+import { getTaskTags } from './database/indexDB.mjs';
+
 export function formatPBTask(task) {
   const {
     task_id,
@@ -75,4 +77,17 @@ export function getSprintStatus(startDateISO, endDateISO) {
   }
 
   return status;
+}
+
+export async function getTasksWithTags(tasks) {
+  const promiseTasks = tasks.map(async (task) => {
+    const tags = await getTaskTags(task.taskID);
+
+    return {
+      ...task,
+      tags,
+    };
+  });
+
+  return Promise.all(promiseTasks);
 }

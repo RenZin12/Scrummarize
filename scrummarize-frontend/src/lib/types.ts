@@ -10,6 +10,19 @@ export type Task = {
   tags: string[];
 };
 
+export type SBTask = {
+  taskID: string;
+  name: string;
+  description: string;
+  storyPoint: number;
+  priorityRating: string;
+  assignee: string;
+  status: string;
+  stage: string;
+  tags: string[];
+  sprintID: string;
+};
+
 export type Sprint = {
   sprintID: string;
   name: string;

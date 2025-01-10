@@ -14,6 +14,7 @@ import {
   deleteTaskTag,
 } from '../database/indexDB.mjs';
 import { getSprintNames } from '../database/sprintBoardDB.mjs';
+import { getTasksWithTags } from '../utils.mjs';
 
 const router = Router();
 
@@ -22,19 +23,9 @@ router
 
   .get(async (request, response) => {
     const tasks = await getPBTasks();
+    const tasksWithTags = await getTasksWithTags(tasks);
 
-    const promiseTasks = tasks.map(async (task) => {
-      const tags = await getTaskTags(task.taskID);
-
-      return {
-        ...task,
-        tags,
-      };
-    });
-
-    const retrievedTasks = await Promise.all(promiseTasks);
-
-    response.send(retrievedTasks);
+    response.send(tasksWithTags);
   })
 
   .post(async (request, response) => {
