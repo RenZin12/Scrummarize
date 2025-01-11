@@ -5,9 +5,16 @@ import {
   getSBInProgressTasks,
   getSBNotStartedTasks,
   getSBTask,
+  getTotalTimeSpent,
+  logTimeSpent,
+  modifySBTask,
 } from '../database/sprintBacklogDB.mjs';
 import { getSprint } from '../database/sprintBoardDB.mjs';
-import { getTaskTags } from '../database/indexDB.mjs';
+import {
+  addTaskTags,
+  deleteTaskTag,
+  getTaskTags,
+} from '../database/indexDB.mjs';
 
 const router = Router();
 
@@ -43,12 +50,30 @@ router
 
     const task = await getSBTask(taskID, sprintID);
     const tags = await getTaskTags(taskID);
-    const totalLogTime = 0;
+    const totalTimeSpent = await getTotalTimeSpent(taskID);
 
     response.send({
       ...task,
       tags,
-      totalLogTime,
+      totalTimeSpent,
+    });
+  })
+
+  .put(async (request, response) => {
+    const { sprintID, taskID } = request.params;
+    const { tags, timeSpent, ...taskInfo } = request.body;
+
+    const modifiedTask = await modifySBTask(taskID, sprintID, taskInfo);
+    await deleteTaskTag(taskID);
+    const newTags = await addTaskTags(taskID, tags);
+
+    Number(timeSpent) > 0 && (await logTimeSpent(taskID, timeSpent));
+    const totalTimeSpent = await getTotalTimeSpent(taskID);
+
+    response.send({
+      ...modifiedTask,
+      tags: newTags,
+      totalTimeSpent,
     });
   });
 

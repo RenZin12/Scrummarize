@@ -32,3 +32,9 @@ CREATE TABLE IF NOT EXISTS task_tags(
     tag_value task_tag NOT NULL,
     PRIMARY KEY (task_id, tag_value)
 );
+
+CREATE TABLE IF NOT EXISTS time_spent_log(
+    task_id bigint NOT NULL REFERENCES tasks(task_id) ON DELETE CASCADE,
+    time_spent int NOT NULL,
+    time_spent_at timestamptz NOT NULL
+);

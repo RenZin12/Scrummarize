@@ -3,7 +3,7 @@ import '../SprintBacklog.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsUpDownLeftRight } from '@fortawesome/free-solid-svg-icons';
 import SprintTaskList from '../SprintTaskList';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SBTask } from '../lib/types';
 import { formatLoaderSprint } from '../lib/utils';
 
@@ -29,9 +29,9 @@ function SprintBacklog() {
   const data = Route.useLoaderData();
   const { sprintID } = Route.useParams();
 
-  const [notStarted] = useState<SBTask[]>(data.notStarted);
-  const [inProgress] = useState<SBTask[]>(data.inProgress);
-  const [completed] = useState<SBTask[]>(data.completed);
+  const [notStarted, setNotStarted] = useState<SBTask[]>(data.notStarted);
+  const [inProgress, setInProgress] = useState<SBTask[]>(data.inProgress);
+  const [completed, setCompleted] = useState<SBTask[]>(data.completed);
 
   const navigate = useNavigate({ from: '/sprint-backlog/$sprintID' });
   function viewTask(taskID: string) {
@@ -40,6 +40,12 @@ function SprintBacklog() {
       params: { sprintID, taskID },
     });
   }
+
+  useEffect(() => {
+    setNotStarted(data.notStarted);
+    setInProgress(data.inProgress);
+    setCompleted(data.completed);
+  }, [data]);
 
   return (
     <section className="main__section sprint-backlog">

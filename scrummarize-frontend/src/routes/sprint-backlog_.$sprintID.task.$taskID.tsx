@@ -20,7 +20,7 @@ async function fetchTask(sprintID: string, taskID: string) {
 
 function SprintBacklogForm() {
   const task = Route.useLoaderData();
-  const { sprintID } = Route.useParams();
+  const { sprintID, taskID } = Route.useParams();
 
   const navigate = useNavigate({
     from: '/sprint-backlog/$sprintID/task/$taskID',
@@ -43,7 +43,26 @@ function SprintBacklogForm() {
   const statusOptions = ['Not Started', 'In Progress', 'Completed'];
   const stageOptions = ['Development', 'Integration', 'Testing'];
 
-  async function editTask() {
+  async function editTask(formData: FormData) {
+    const data = {
+      ...Object.fromEntries(formData),
+      tags: formData.getAll('tags'),
+    };
+
+    const res = await fetch(
+      `http://localhost:3000/api/sprint-backlog/${sprintID}/task/${taskID}`,
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if (!res.ok)
+      throw new Error(
+        `Failed to edit Task #${taskID} from Sprint #${sprintID}`
+      );
+
     navigateTo();
   }
 
@@ -188,13 +207,13 @@ function SprintBacklogForm() {
 
         <div className="editor__row">
           <label className="editor__label" htmlFor="logTimeSpent">
-            Log Time Spent
+            Time Spent
           </label>
           <input
             className="editor__input blue-container editor__input--column25"
             type="number"
-            id="logTimeSpent"
-            name="logTimeSpent"
+            id="timeSpent"
+            name="timeSpent"
             min="0"
             defaultValue={0}
           />
@@ -203,7 +222,7 @@ function SprintBacklogForm() {
         <div className="editor__row">
           <label className="editor__label">Total Log Time</label>
           <p className="editor__input blue-container editor__input--column25">
-            {task.totalLogTime}
+            {task.totalTimeSpent}
           </p>
         </div>
 
