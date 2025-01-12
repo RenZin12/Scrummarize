@@ -91,3 +91,26 @@ export async function getTasksWithTags(tasks) {
 
   return Promise.all(promiseTasks);
 }
+
+export function formatTimeSpentLog(timeSpentLog) {
+  const { task_id, time_spent, time_spent_at } = timeSpentLog;
+
+  return {
+    taskID: task_id,
+    timeSpent: time_spent,
+    timeSpentAt: time_spent_at,
+  };
+}
+
+export function getAccumulationOfEffortData(timeSpentLog) {
+  let totalHours = 0;
+  const data = timeSpentLog.map((row) => {
+    totalHours += row.timeSpent;
+
+    return {
+      totalHours,
+      date: row.timeSpentAt,
+    };
+  });
+  return data;
+}

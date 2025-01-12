@@ -1,4 +1,4 @@
-import { formatSBTask } from '../utils.mjs';
+import { formatSBTask, formatTimeSpentLog } from '../utils.mjs';
 import pool from './database.mjs';
 
 export async function getSBNotStartedTasks(sprintID) {
@@ -122,4 +122,17 @@ export async function getTotalTimeSpent(taskID) {
   );
 
   return result.rows[0].sum || 0;
+}
+
+export async function getTimeSpentLog(taskID) {
+  const result = await pool.query(
+    `
+      SELECT *
+      FROM time_spent_log
+      WHERE task_id = $1
+    `,
+    [taskID]
+  );
+
+  return result.rows.map(formatTimeSpentLog);
 }

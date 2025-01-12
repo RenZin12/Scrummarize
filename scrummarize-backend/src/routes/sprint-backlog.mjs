@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import { getTasksWithTags } from '../utils.mjs';
+import { getAccumulationOfEffortData, getTasksWithTags } from '../utils.mjs';
 import {
   getSBCompletedTasks,
   getSBInProgressTasks,
   getSBNotStartedTasks,
   getSBTask,
+  getTimeSpentLog,
   getTotalTimeSpent,
   logTimeSpent,
   modifySBTask,
@@ -51,11 +52,13 @@ router
     const task = await getSBTask(taskID, sprintID);
     const tags = await getTaskTags(taskID);
     const totalTimeSpent = await getTotalTimeSpent(taskID);
+    const timeSpentLog = await getTimeSpentLog(taskID);
 
     response.send({
       ...task,
       tags,
       totalTimeSpent,
+      accumulationOfEffortData: getAccumulationOfEffortData(timeSpentLog),
     });
   })
 
