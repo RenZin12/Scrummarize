@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { getAccumulationOfEffortData, getTasksWithTags } from '../utils.mjs';
 import {
+  deleteSBTask,
   getSBCompletedTasks,
   getSBInProgressTasks,
   getSBNotStartedTasks,
@@ -78,6 +79,14 @@ router
       tags: newTags,
       totalTimeSpent,
     });
+  })
+
+  .delete(async (request, response) => {
+    const { sprintID, taskID } = request.params;
+
+    await deleteSBTask(taskID, sprintID);
+
+    response.send();
   });
 
 export default router;

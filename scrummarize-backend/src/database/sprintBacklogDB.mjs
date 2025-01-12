@@ -136,3 +136,20 @@ export async function getTimeSpentLog(taskID) {
 
   return result.rows.map(formatTimeSpentLog);
 }
+
+export async function deleteSBTask(taskID, sprintID) {
+  const result = await pool.query(
+    `
+      UPDATE tasks
+      SET 
+        sprint_id = NULL,
+        status = 'Not Started',
+        stage = 'Planning'
+      WHERE task_id = $1 AND sprint_id = $2 AND stage != 'Planning'
+      RETURNING *
+    `,
+    [taskID, sprintID]
+  );
+
+  return result.rows[0];
+}

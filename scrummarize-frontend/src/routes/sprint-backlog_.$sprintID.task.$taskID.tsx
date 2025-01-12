@@ -67,7 +67,19 @@ function SprintBacklogForm() {
   }
 
   async function deleteTask() {
-    return;
+    const res = await fetch(
+      `http://localhost:3000/api/sprint-backlog/${sprintID}/task/${taskID}`,
+      {
+        method: 'DELETE',
+      }
+    );
+
+    if (!res.ok)
+      throw new Error(
+        `Failed to delete Task #${taskID} from Sprint #${sprintID}`
+      );
+
+    navigateTo();
   }
 
   return (
