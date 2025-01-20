@@ -54,12 +54,16 @@ router
     const tags = await getTaskTags(taskID);
     const totalTimeSpent = await getTotalTimeSpent(taskID);
     const timeSpentLog = await getTimeSpentLog(taskID);
+    const sprint = await getSprint(sprintID);
 
     response.send({
       ...task,
       tags,
       totalTimeSpent,
-      accumulationOfEffortData: getAccumulationOfEffortData(timeSpentLog),
+      accumulationOfEffortData: getAccumulationOfEffortData(
+        timeSpentLog,
+        sprint.startDate
+      ),
     });
   })
 

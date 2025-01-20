@@ -40,3 +40,8 @@ export type SprintName = {
   sprintID: string;
   name: string;
 };
+
+export type AccumulationOfEffortData = {
+  totalHours: number;
+  date: Date;
+};

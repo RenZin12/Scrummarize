@@ -1,4 +1,6 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useState } from 'react';
+import AccumulationOfEffort from '../AccumulationOfEffort';
 
 export const Route = createFileRoute('/sprint-backlog_/$sprintID/task/$taskID')(
   {
@@ -81,6 +83,8 @@ function SprintBacklogForm() {
 
     navigateTo();
   }
+
+  const [displayChart, setDisplayChart] = useState(false);
 
   return (
     <section className="main__section main__section--gray">
@@ -243,6 +247,7 @@ function SprintBacklogForm() {
           <button
             type="button"
             className="editor__button editor__button--green"
+            onClick={() => setDisplayChart(true)}
           >
             View Graph
           </button>
@@ -268,6 +273,11 @@ function SprintBacklogForm() {
           </button>
         </div>
       </form>
+      <AccumulationOfEffort
+        displayChart={displayChart}
+        setDisplayChart={setDisplayChart}
+        dataset={task.accumulationOfEffortData}
+      />
     </section>
   );
 }

@@ -102,7 +102,7 @@ export function formatTimeSpentLog(timeSpentLog) {
   };
 }
 
-export function getAccumulationOfEffortData(timeSpentLog) {
+export function getAccumulationOfEffortData(timeSpentLog, startDate) {
   let totalHours = 0;
   const data = timeSpentLog.map((row) => {
     totalHours += row.timeSpent;
@@ -112,5 +112,6 @@ export function getAccumulationOfEffortData(timeSpentLog) {
       date: row.timeSpentAt,
     };
   });
-  return data;
+
+  return [{ totalHours: 0, date: startDate }, ...data];
 }
