@@ -32,7 +32,6 @@ export function formatSBTask(task) {
     story_point,
     priority_rating,
     assignee,
-    status,
     stage,
     sprint_id,
   } = task;
@@ -44,7 +43,6 @@ export function formatSBTask(task) {
     storyPoint: story_point,
     priorityRating: priority_rating,
     assignee,
-    status,
     stage,
     sprintID: sprint_id,
   };

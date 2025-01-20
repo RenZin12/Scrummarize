@@ -54,15 +54,8 @@ export async function getSBTask(taskID, sprintID) {
 }
 
 export async function modifySBTask(taskID, sprintID, taskInfo) {
-  const {
-    name,
-    description,
-    storyPoint,
-    priorityRating,
-    assignee,
-    status,
-    stage,
-  } = taskInfo;
+  const { name, description, storyPoint, priorityRating, assignee, stage } =
+    taskInfo;
 
   const result = await pool.query(
     `
@@ -73,9 +66,8 @@ export async function modifySBTask(taskID, sprintID, taskInfo) {
         story_point = $3,
         priority_rating = $4,
         assignee = $5,
-        status = $6,
-        stage = $7
-      WHERE task_id = $8 AND sprint_id = $9 AND stage != 'Planning'
+        stage = $6
+      WHERE task_id = $7 AND sprint_id = $8 AND stage != 'Planning'
       RETURNING *
     `,
     [
@@ -84,7 +76,6 @@ export async function modifySBTask(taskID, sprintID, taskInfo) {
       storyPoint,
       priorityRating,
       assignee,
-      status,
       stage,
       taskID,
       sprintID,
@@ -144,12 +135,44 @@ export async function deleteSBTask(taskID, sprintID) {
       SET 
         sprint_id = NULL,
         status = 'Not Started',
-        stage = 'Planning'
+        stage = 'Planning',
+        complete_at = NULL
       WHERE task_id = $1 AND sprint_id = $2 AND stage != 'Planning'
       RETURNING *
     `,
     [taskID, sprintID]
   );
+
+  return result.rows[0];
+}
+
+export async function modifySBTaskStatus(taskID, sprintID, status) {
+  let result;
+  if (status === 'Completed') {
+    result = await pool.query(
+      `
+        UPDATE tasks
+        SET
+          status = $1,
+          complete_at = now()
+        WHERE task_id = $2 AND sprint_id = $3 AND stage != 'Planning'
+        RETURNING status
+      `,
+      [status, taskID, sprintID]
+    );
+  } else {
+    result = await pool.query(
+      `
+        UPDATE tasks
+        SET
+          status = $1,
+          complete_at = NULL
+        WHERE task_id = $2 AND sprint_id = $3 AND stage != 'Planning'
+        RETURNING status
+      `,
+      [status, taskID, sprintID]
+    );
+  }
 
   return result.rows[0];
 }

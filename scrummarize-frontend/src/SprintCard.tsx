@@ -38,6 +38,10 @@ function SprintCard(props: SprintCardProps) {
             {props.sprint.totalStoryPoints}
           </p>
         </div>
+
+        <div className="card__row">
+          <button className="sprint-card__button">View Burndown</button>
+        </div>
       </div>
     </article>
   );

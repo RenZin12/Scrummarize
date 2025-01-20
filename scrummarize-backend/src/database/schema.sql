@@ -24,7 +24,8 @@ CREATE TABLE IF NOT EXISTS tasks(
     assignee varchar(255),
     status task_status NOT NULL,
     stage task_stage NOT NULL,
-    sprint_id bigint REFERENCES sprint_board(sprint_id) ON DELETE CASCADE
+    sprint_id bigint REFERENCES sprint_board(sprint_id) ON DELETE CASCADE,
+    complete_at timestamptz
 );
 
 CREATE TABLE IF NOT EXISTS task_tags(

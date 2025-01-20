@@ -36,3 +36,11 @@
   column-gap: 5px;
   align-items: center;
 }
+
+.sprint-card__button {
+  background-color: rgb(65, 175, 65);
+  color: white;
+  padding: 10px 15px;
+  font-weight: bold;
+  border-radius: 10px;
+}
