@@ -83,3 +83,28 @@ export async function getSprintNames() {
     name: sprintName.name,
   }));
 }
+
+export async function getTotalStoryPoints(sprintID) {
+  const result = await pool.query(
+    `
+      SELECT SUM(story_point)
+      FROM tasks
+      WHERE sprint_id = $1
+    `,
+    [sprintID]
+  );
+
+  return Number(result.rows[0].sum);
+}
+
+export async function getCompletedStoryPoints(sprintID) {
+  const result = await pool.query(
+    `
+      SELECT SUM(story_point)
+      FROM tasks
+      WHERE sprint_id = $1 AND status = 'Completed'
+    `,
+    [sprintID]
+  );
+  return Number(result.rows[0].sum);
+}

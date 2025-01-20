@@ -20,14 +20,24 @@ function SprintCard(props: SprintCardProps) {
     <article className="card blue-container" onClick={viewSprint}>
       <h3>{props.sprint.name}</h3>
 
-      <div className="card__row sprint-card__row--dates">
-        <p className="sprint-card__date">{props.sprint.startDate}</p>
-        <p>-</p>
-        <p className="sprint-card__date">{props.sprint.endDate}</p>
-      </div>
+      <div className="sprint-card__info">
+        <div className="card__row sprint-card__row--dates">
+          <p className="sprint-card__date">{props.sprint.startDate}</p>
+          <p>-</p>
+          <p className="sprint-card__date">{props.sprint.endDate}</p>
+        </div>
 
-      <div className="card__row sprint-card__row--status">
-        <p className="sprint-card__status">{props.sprint.status}</p>
+        <div className="card__row">
+          <p className="sprint-card__status">{props.sprint.status}</p>
+        </div>
+
+        <div className="card__row sprint-card__row--story-point">
+          <p>Completed: </p>
+          <p className="sprint-card__story-point">
+            {props.sprint.completedStoryPoints} /{' '}
+            {props.sprint.totalStoryPoints}
+          </p>
+        </div>
       </div>
     </article>
   );

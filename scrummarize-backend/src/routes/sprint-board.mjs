@@ -2,9 +2,11 @@ import { Router } from 'express';
 import {
   addSprint,
   deleteSprint,
+  getCompletedStoryPoints,
   getSprint,
   getSprintNames,
   getSprints,
+  getTotalStoryPoints,
   modifySprint,
 } from '../database/sprintBoardDB.mjs';
 
@@ -14,9 +16,15 @@ router
   .route('/')
 
   .get(async (request, response) => {
-    const sprints = await getSprints();
+    let sprints = await getSprints();
 
-    response.send(sprints);
+    const promiseSprints = sprints.map(async (sprint) => ({
+      ...sprint,
+      completedStoryPoints: await getCompletedStoryPoints(sprint.sprintID),
+      totalStoryPoints: await getTotalStoryPoints(sprint.sprintID),
+    }));
+
+    response.send(await Promise.all(promiseSprints));
   })
 
   .post(async (request, response) => {

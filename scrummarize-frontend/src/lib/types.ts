@@ -29,6 +29,8 @@ export type Sprint = {
   startDate: string;
   endDate: string;
   status: string;
+  completedStoryPoints: number;
+  totalStoryPoints: number;
 };
 
 export type TaskName = {
