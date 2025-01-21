@@ -21,6 +21,7 @@ export type SBTask = {
   stage: string;
   tags: string[];
   sprintID: string;
+  [key: string]: string | number | string[];
 };
 
 export type Sprint = {
