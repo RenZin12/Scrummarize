@@ -1,13 +1,13 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
-import AccumulationOfEffort from '../AccumulationOfEffort';
+import AccumulationOfEffort from '../../AccumulationOfEffort';
 
-export const Route = createFileRoute('/sprint-backlog_/$sprintID/task/$taskID')(
-  {
-    component: SprintBacklogForm,
-    loader: ({ params }) => fetchTask(params.sprintID, params.taskID),
-  }
-);
+export const Route = createFileRoute(
+  '/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID'
+)({
+  component: SprintBacklogForm,
+  loader: ({ params }) => fetchTask(params.sprintID, params.taskID),
+});
 
 async function fetchTask(sprintID: string, taskID: string) {
   const res = await fetch(
@@ -28,10 +28,10 @@ function SprintBacklogForm() {
     from: '/sprint-backlog/$sprintID/task/$taskID',
   });
   function navigateTo() {
-    navigate({ to: `/sprint-backlog/$sprintID`, params: { sprintID } });
+    navigate({ to: `/sprint-backlog/$sprintID/kanban`, params: { sprintID } });
   }
 
-  const priorityRatingOptions = ['Low', 'Mediumn', 'Important', 'Urgent'];
+  const priorityRatingOptions = ['Low', 'Medium', 'Important', 'Urgent'];
   const tagOptions = [
     'Frontend',
     'Backend',

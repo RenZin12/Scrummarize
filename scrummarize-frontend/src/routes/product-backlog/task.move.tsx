@@ -46,7 +46,7 @@ function ProductBacklogMove() {
     });
     if (!res.ok) throw new Error('Failed to move tasks');
 
-    navigate({ to: `/sprint-backlog/${sprintID}` });
+    navigate({ to: `/sprint-backlog/${sprintID}/kanban` });
   }
 
   function handleDragEnd(event: DragEndEvent) {

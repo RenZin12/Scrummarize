@@ -24,7 +24,7 @@ export function formatPBTask(task) {
   };
 }
 
-export function formatSBTask(task) {
+export function formatPutSBTask(task) {
   const {
     task_id,
     name,
@@ -43,6 +43,32 @@ export function formatSBTask(task) {
     storyPoint: story_point,
     priorityRating: priority_rating,
     assignee,
+    stage,
+    sprintID: sprint_id,
+  };
+}
+
+export function formatSBTask(task) {
+  const {
+    task_id,
+    name,
+    description,
+    story_point,
+    priority_rating,
+    assignee,
+    status,
+    stage,
+    sprint_id,
+  } = task;
+
+  return {
+    taskID: task_id,
+    name,
+    description,
+    storyPoint: story_point,
+    priorityRating: priority_rating,
+    assignee,
+    status,
     stage,
     sprintID: sprint_id,
   };

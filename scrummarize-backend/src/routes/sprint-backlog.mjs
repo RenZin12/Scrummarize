@@ -6,6 +6,7 @@ import {
   getSBInProgressTasks,
   getSBNotStartedTasks,
   getSBTask,
+  getSBTasks,
   getTimeSpentLog,
   getTotalTimeSpent,
   logTimeSpent,
@@ -29,20 +30,7 @@ router
 
     const sprint = await getSprint(sprintID);
 
-    const notStartedTasks = await getSBNotStartedTasks(sprintID);
-    const inProgressTasks = await getSBInProgressTasks(sprintID);
-    const completedTasks = await getSBCompletedTasks(sprintID);
-
-    const notStarted = await getTasksWithTags(notStartedTasks);
-    const inProgress = await getTasksWithTags(inProgressTasks);
-    const completed = await getTasksWithTags(completedTasks);
-
-    response.send({
-      sprint,
-      notStarted,
-      inProgress,
-      completed,
-    });
+    response.send(sprint);
   });
 
 router
@@ -95,6 +83,38 @@ router
     await deleteSBTask(taskID, sprintID);
 
     response.send();
+  });
+
+router
+  .route('/:sprintID/kanban')
+
+  .get(async (request, response) => {
+    const sprintID = request.params.sprintID;
+    const notStartedTasks = await getSBNotStartedTasks(sprintID);
+    const inProgressTasks = await getSBInProgressTasks(sprintID);
+    const completedTasks = await getSBCompletedTasks(sprintID);
+
+    const notStarted = await getTasksWithTags(notStartedTasks);
+    const inProgress = await getTasksWithTags(inProgressTasks);
+    const completed = await getTasksWithTags(completedTasks);
+
+    response.send({
+      notStarted,
+      inProgress,
+      completed,
+    });
+  });
+
+router
+  .route('/:sprintID/table')
+
+  .get(async (request, response) => {
+    const sprintID = request.params.sprintID;
+
+    let tasks = await getSBTasks(sprintID);
+    tasks = await getTasksWithTags(tasks);
+
+    response.send(tasks);
   });
 
 export default router;

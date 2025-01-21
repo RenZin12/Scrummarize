@@ -1,4 +1,8 @@
-import { formatSBTask, formatTimeSpentLog } from '../utils.mjs';
+import {
+  formatPutSBTask,
+  formatSBTask,
+  formatTimeSpentLog,
+} from '../utils.mjs';
 import pool from './database.mjs';
 
 export async function getSBNotStartedTasks(sprintID) {
@@ -82,7 +86,7 @@ export async function modifySBTask(taskID, sprintID, taskInfo) {
     ]
   );
 
-  return formatSBTask(result.rows[0]);
+  return formatPutSBTask(result.rows[0]);
 }
 
 export async function logTimeSpent(taskID, timeSpent) {
@@ -175,4 +179,17 @@ export async function modifySBTaskStatus(taskID, sprintID, status) {
   }
 
   return result.rows[0];
+}
+
+export async function getSBTasks(sprintID) {
+  const result = await pool.query(
+    `
+      SELECT *
+      FROM tasks
+      WHERE sprint_id = $1 AND stage != 'Planning'
+    `,
+    [sprintID]
+  );
+
+  return result.rows.map(formatSBTask);
 }

@@ -38,7 +38,7 @@ function Header(props: HeaderProps) {
         {props.sprints.map((sprint) => (
           <Link
             key={sprint.sprintID}
-            to="/sprint-backlog/$sprintID"
+            to="/sprint-backlog/$sprintID/kanban"
             params={{ sprintID: sprint.sprintID }}
             className="header__nav__link header__nav__link--small"
           >
