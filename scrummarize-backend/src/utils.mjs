@@ -1,4 +1,5 @@
 import { getTaskTags } from './database/indexDB.mjs';
+import { getSprintBurndownInfo } from './database/sprintBoardDB.mjs';
 
 export function formatPBTask(task) {
   const {
@@ -138,4 +139,43 @@ export function getAccumulationOfEffortData(timeSpentLog, startDate) {
   });
 
   return [{ totalHours: 0, date: startDate }, ...data];
+}
+
+export async function getSprintBurndownData(
+  sprintID,
+  startDate,
+  totalStoryPoints
+) {
+  const info = await getSprintBurndownInfo(sprintID);
+  let remainingStoryPoints = totalStoryPoints;
+
+  const data = info.map((task) => {
+    const day =
+      Math.floor(
+        (task.completeAt.getTime() - startDate.getTime()) /
+          (1000 * 60 * 60 * 24)
+      ) + 1;
+    remainingStoryPoints -= task.storyPoint;
+
+    return {
+      day,
+      storyPoint: remainingStoryPoints,
+    };
+  });
+
+  return [{ day: 1, storyPoint: totalStoryPoints }, ...data];
+}
+
+export function formatSprintBurndownInfo(task) {
+  const { task_id, story_point, complete_at } = task;
+
+  return {
+    taskID: task_id,
+    storyPoint: story_point,
+    completeAt: complete_at,
+  };
+}
+
+export async function getISO8601(date) {
+  return date.toISOString().split('T')[0];
 }

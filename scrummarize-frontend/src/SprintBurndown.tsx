@@ -1,30 +1,25 @@
 import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import './Chart.css';
-import { AccumulationOfEffortData } from './lib/types';
+import { SprintBurndownData } from './lib/types';
 
-type AccumulationOfEffortProps = {
+type SprintBurndownProps = {
   displayChart: boolean;
   setDisplayChart: Dispatch<SetStateAction<boolean>>;
-  dataset: AccumulationOfEffortData[];
+  dataset: SprintBurndownData[];
 };
 
-function AccumulationOfEffort(props: AccumulationOfEffortProps) {
+function SprintBurndown(props: SprintBurndownProps) {
   const ref = useRef(null);
 
   const svgWidth = 640;
   const svgHeight = 400;
 
   useEffect(() => {
-    const dataset = props.dataset.map((data) => ({
-      ...data,
-      date: new Date(data.date),
-    }));
-
-    getChart(dataset);
+    getChart(props.dataset);
   }, [props.dataset]);
 
-  function getChart(dataset: AccumulationOfEffortData[]) {
+  function getChart(dataset: SprintBurndownData[]) {
     const margin = 50;
     const contentWidth = svgWidth - margin - margin;
     const contentHeight = svgHeight - margin - margin;
@@ -41,7 +36,7 @@ function AccumulationOfEffort(props: AccumulationOfEffortProps) {
       .attr('class', 'chart__text chart__text--title')
       .attr('x', svgWidth / 2)
       .attr('y', margin / 2)
-      .text('Accumulation of Effort');
+      .text('Sprint Burndown');
 
     // Add group for content
     const contentSVG = svg
@@ -54,7 +49,7 @@ function AccumulationOfEffort(props: AccumulationOfEffortProps) {
       .attr('class', 'chart__text chart__text--x')
       .attr('x', contentWidth / 2)
       .attr('y', contentHeight + margin / 2)
-      .text('Date');
+      .text('Days');
     // Display y-axis legend
     contentSVG
       .append('text')
@@ -62,17 +57,17 @@ function AccumulationOfEffort(props: AccumulationOfEffortProps) {
       .attr('transform', 'rotate(-90)')
       .attr('x', contentHeight / -2)
       .attr('y', margin / -2)
-      .text('Total Hours');
+      .text('Remaining Story Points');
 
     // Define domain and range for x
-    const extentDate = d3.extent(dataset, (data) => data.date) as [Date, Date];
-    const x = d3.scaleTime().range([0, contentWidth]).domain(extentDate);
+    const maxDay = d3.max(dataset, (data) => data.day) as number;
+    const x = d3.scaleLinear().range([0, contentWidth]).domain([1, maxDay]);
     // Define domain and range for y
-    const maxTotalHours = d3.max(dataset, (data) => data.totalHours) as number;
+    const maxStoryPoint = d3.max(dataset, (data) => data.storyPoint) as number;
     const y = d3
       .scaleLinear()
       .range([contentHeight, 0])
-      .domain([0, maxTotalHours]);
+      .domain([0, maxStoryPoint]);
 
     // Display x-axis
     contentSVG
@@ -84,9 +79,9 @@ function AccumulationOfEffort(props: AccumulationOfEffortProps) {
 
     // Create the line
     const line = d3
-      .line<AccumulationOfEffortData>()
-      .x((data) => x(data.date))
-      .y((data) => y(data.totalHours));
+      .line<SprintBurndownData>()
+      .x((data) => x(data.day))
+      .y((data) => y(data.storyPoint));
     contentSVG
       .append('path')
       .datum(dataset)
@@ -125,8 +120,8 @@ function AccumulationOfEffort(props: AccumulationOfEffortProps) {
       .data(dataset)
       .enter()
       .append('circle')
-      .attr('cx', (data) => x(data.date))
-      .attr('cy', (data) => y(data.totalHours))
+      .attr('cx', (data) => x(data.day))
+      .attr('cy', (data) => y(data.storyPoint))
       .attr('fill', '#abdcf0')
       .attr('r', 5);
   }
@@ -135,7 +130,10 @@ function AccumulationOfEffort(props: AccumulationOfEffortProps) {
     <div
       className="chart__container"
       style={{ display: props.displayChart ? 'block' : 'none' }}
-      onClick={() => props.setDisplayChart(false)}
+      onClick={(e) => {
+        props.setDisplayChart(false);
+        e.stopPropagation();
+      }}
     >
       <svg
         ref={ref}
@@ -148,4 +146,4 @@ function AccumulationOfEffort(props: AccumulationOfEffortProps) {
   );
 }
 
-export default AccumulationOfEffort;
+export default SprintBurndown;

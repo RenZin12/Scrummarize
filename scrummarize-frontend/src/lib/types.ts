@@ -32,6 +32,7 @@ export type Sprint = {
   status: string;
   completedStoryPoints: number;
   totalStoryPoints: number;
+  sprintBurndownData: SprintBurndownData[];
 };
 
 export type TaskName = {
@@ -47,4 +48,9 @@ export type SprintName = {
 export type AccumulationOfEffortData = {
   totalHours: number;
   date: Date;
+};
+
+export type SprintBurndownData = {
+  day: number;
+  storyPoint: number;
 };

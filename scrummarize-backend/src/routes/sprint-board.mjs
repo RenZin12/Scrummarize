@@ -9,6 +9,7 @@ import {
   getTotalStoryPoints,
   modifySprint,
 } from '../database/sprintBoardDB.mjs';
+import { getSprintBurndownData } from '../utils.mjs';
 
 const router = Router();
 
@@ -16,13 +17,22 @@ router
   .route('/')
 
   .get(async (request, response) => {
-    let sprints = await getSprints();
+    const sprints = await getSprints();
 
-    const promiseSprints = sprints.map(async (sprint) => ({
-      ...sprint,
-      completedStoryPoints: await getCompletedStoryPoints(sprint.sprintID),
-      totalStoryPoints: await getTotalStoryPoints(sprint.sprintID),
-    }));
+    const promiseSprints = sprints.map(async (sprint) => {
+      const totalStoryPoints = await getTotalStoryPoints(sprint.sprintID);
+
+      return {
+        ...sprint,
+        completedStoryPoints: await getCompletedStoryPoints(sprint.sprintID),
+        totalStoryPoints,
+        sprintBurndownData: await getSprintBurndownData(
+          sprint.sprintID,
+          sprint.startDate,
+          totalStoryPoints
+        ),
+      };
+    });
 
     response.send(await Promise.all(promiseSprints));
   })

@@ -1,5 +1,5 @@
 import pool from './database.mjs';
-import { formatSprint } from '../utils.mjs';
+import { formatSprint, formatSprintBurndownInfo } from '../utils.mjs';
 
 export async function getSprints() {
   const result = await pool.query(
@@ -107,4 +107,18 @@ export async function getCompletedStoryPoints(sprintID) {
     [sprintID]
   );
   return Number(result.rows[0].sum);
+}
+
+export async function getSprintBurndownInfo(sprintID) {
+  const result = await pool.query(
+    `
+      SELECT task_id, story_point, complete_at
+      FROM tasks
+      WHERE sprint_id = $1 AND status = 'Completed'
+      ORDER BY complete_at
+    `,
+    [sprintID]
+  );
+
+  return result.rows.map(formatSprintBurndownInfo);
 }

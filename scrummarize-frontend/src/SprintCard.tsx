@@ -1,6 +1,8 @@
 import { useNavigate } from '@tanstack/react-router';
 import { Sprint } from './lib/types';
 import './SprintCard.css';
+import { useState } from 'react';
+import SprintBurndown from './SprintBurndown';
 
 type SprintCardProps = {
   sprint: Sprint;
@@ -15,6 +17,8 @@ function SprintCard(props: SprintCardProps) {
       params: { sprintID: props.sprint.sprintID },
     });
   };
+
+  const [displayChart, setDisplayChart] = useState(false);
 
   return (
     <article className="card blue-container" onClick={viewSprint}>
@@ -40,9 +44,23 @@ function SprintCard(props: SprintCardProps) {
         </div>
 
         <div className="card__row">
-          <button className="sprint-card__button">View Burndown</button>
+          <button
+            className="sprint-card__button"
+            onClick={(e) => {
+              setDisplayChart(true);
+              e.stopPropagation();
+            }}
+          >
+            View Burndown
+          </button>
         </div>
       </div>
+
+      <SprintBurndown
+        displayChart={displayChart}
+        setDisplayChart={setDisplayChart}
+        dataset={props.sprint.sprintBurndownData}
+      />
     </article>
   );
 }

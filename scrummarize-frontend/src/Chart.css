@@ -1,4 +1,4 @@
-.accumulation-of-effort__container {
+.chart__container {
   background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
   top: 0;
@@ -9,7 +9,7 @@
   overflow-x: auto;
 }
 
-.accumulation-of-effort__svg {
+.chart__svg {
   background-color: white;
   position: relative;
   top: 50%;
