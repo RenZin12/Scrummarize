@@ -1,24 +1,46 @@
 .sprint-card__row--dates {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
 }
 
 .sprint-card__date {
-    background-color: orange;
-    width: 110px;
-    border-radius: 15px;
-    padding-block: 5px;
-    text-align: center;
-}
-
-.sprint-card__row--status {
-    display: flex;
-    justify-content: center;
+  background-color: orange;
+  width: 110px;
+  border-radius: 15px;
+  padding-block: 5px;
+  text-align: center;
 }
 
 .sprint-card__status {
-    background-color: rgb(110, 195, 110);
-    padding: 5px 15px;
-    border-radius: 15px;
+  background-color: rgb(110, 195, 110);
+  padding: 5px 15px;
+  border-radius: 15px;
+}
+
+.sprint-card__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sprint-card__story-point {
+  background-color: #343cff;
+  padding: 5px 15px;
+  border-radius: 15px;
+  color: white;
+}
+
+.sprint-card__row--story-point {
+  display: flex;
+  column-gap: 5px;
+  align-items: center;
+}
+
+.sprint-card__button {
+  background-color: rgb(65, 175, 65);
+  color: white;
+  padding: 10px 15px;
+  font-weight: bold;
+  border-radius: 10px;
 }

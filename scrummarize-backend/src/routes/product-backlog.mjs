@@ -1,75 +1,100 @@
-import { Router } from "express"
-import { getPBTasks, addPBTask, addPBTaskTags, getPBTaskTags, getPBTask, modifyPBTask, deletePBTaskTag, deletePBTask } from "../database/productBacklogDB.mjs"
+import { Router } from 'express';
+import {
+  getPBTasks,
+  addPBTask,
+  getPBTask,
+  modifyPBTask,
+  deletePBTask,
+  movePBTasks,
+  getPBTaskNames,
+} from '../database/productBacklogDB.mjs';
+import {
+  addTaskTags,
+  getTaskTags,
+  deleteTaskTag,
+} from '../database/indexDB.mjs';
+import { getSprintNames } from '../database/sprintBoardDB.mjs';
+import { getTasksWithTags } from '../utils.mjs';
 
-const router = Router()
-
-router
-    .route("/")
-
-    .get(async (request, response) => {
-        const tasks = await getPBTasks()
-
-        const promiseTasks = tasks.map(async task => {
-            const tags = await getPBTaskTags(task.taskID)
-
-            return {
-                ...task,
-                tags
-            }
-        })
-
-        const retrievedTasks = await Promise.all(promiseTasks)
-
-        response.send(retrievedTasks)
-    })
-    
-    .post(async (request, response) => {
-        const { tags, ...taskInfo } = request.body
-        
-        const newTask = await addPBTask(taskInfo)
-        const addedTags = await addPBTaskTags(newTask.taskID, tags)
-
-        response.send({
-            ...newTask,
-            tags: addedTags
-        })
-    })
+const router = Router();
 
 router
-    .route("/task/:taskID")
+  .route('/')
 
-    .get(async (request, response) => {
-        const taskID = request.params.taskID
+  .get(async (request, response) => {
+    const tasks = await getPBTasks();
+    const tasksWithTags = await getTasksWithTags(tasks);
 
-        const task = await getPBTask(taskID)
-        const tags = await getPBTaskTags(taskID)
+    response.send(tasksWithTags);
+  })
 
-        response.send({
-            ...task,
-            tags
-        })
-    })
+  .post(async (request, response) => {
+    const { tags, ...taskInfo } = request.body;
 
-    .put(async (request, response) => {
-        const taskID = request.params.taskID
-        const { tags, ...taskInfo } = request.body
+    const newTask = await addPBTask(taskInfo);
+    const addedTags = await addTaskTags(newTask.taskID, tags);
 
-        const modifiedTask = await modifyPBTask(taskID, taskInfo)
-        await deletePBTaskTag(taskID)
-        const newTags = await addPBTaskTags(taskID, tags)
+    response.send({
+      ...newTask,
+      tags: addedTags,
+    });
+  });
 
-        response.send({
-            ...modifiedTask,
-            tags: newTags
-        })
-    })
+router
+  .route('/task/:taskID')
 
-    .delete(async (request, response) => {
-        const taskID = request.params.taskID
+  .get(async (request, response) => {
+    const taskID = request.params.taskID;
 
-        await deletePBTask(taskID)
+    const task = await getPBTask(taskID);
+    const tags = await getTaskTags(taskID);
 
-        response.send()
-    })
+    response.send({
+      ...task,
+      tags,
+    });
+  })
 
-export default router
+  .put(async (request, response) => {
+    const taskID = request.params.taskID;
+    const { tags, ...taskInfo } = request.body;
+
+    const modifiedTask = await modifyPBTask(taskID, taskInfo);
+    await deleteTaskTag(taskID);
+    const newTags = await addTaskTags(taskID, tags);
+
+    response.send({
+      ...modifiedTask,
+      tags: newTags,
+    });
+  })
+
+  .delete(async (request, response) => {
+    const taskID = request.params.taskID;
+
+    await deletePBTask(taskID);
+
+    response.send();
+  });
+
+router
+  .route('/move')
+
+  .get(async (request, response) => {
+    const taskNames = await getPBTaskNames();
+    const sprintNames = await getSprintNames();
+
+    const data = { taskNames, sprintNames };
+
+    response.send(data);
+  })
+
+  .patch(async (request, response) => {
+    const { sprintID, taskIDs } = request.body;
+
+    await movePBTasks(sprintID, taskIDs);
+
+    response.send();
+  });
+
+export default router;

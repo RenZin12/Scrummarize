@@ -1,81 +1,81 @@
 .task-card__row--info {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .task-card__row--tags {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .task-card__story-point {
-    background-color: #343CFF;
-    color: white;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background-color: #343cff;
+  color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .task-card__priority-rating {
-    padding: 5px 10px;
-    border-radius: 15px;
+  padding: 5px 10px;
+  border-radius: 15px;
 }
 
 .task-card__priority-rating--low {
-    background-color: #51FF42;
+  background-color: #51ff42;
 }
 
 .task-card__priority-rating--medium {
-    background-color: #FFD600;
+  background-color: #ffd600;
 }
 
 .task-card__priority-rating--important {
-    background-color: #FF7B34;
+  background-color: #ff7b34;
 }
 
 .task-card__priority-rating--urgent {
-    background-color: #FF3737;
+  background-color: #ff3737;
 }
 
 .task-card__tag {
-    background-color: #4FB8F4;
-    padding: 3px 8px;
-    border-radius: 15px;
+  background-color: #4fb8f4;
+  padding: 3px 8px;
+  border-radius: 15px;
 }
 
 .task-card__tag--frontend {
-    background-color: #FFADAD;
+  background-color: #ffadad;
 }
 
 .task-card__tag--backend {
-    background-color: #FFD6A5;
+  background-color: #ffd6a5;
 }
 
 .task-card__tag--api {
-    background-color: #FDFFB6;
+  background-color: #fdffb6;
 }
 
 .task-card__tag--database {
-    background-color: #CAFFBF;
+  background-color: #caffbf;
 }
 
 .task-card__tag--framework {
-    background-color: #9BF6FF;
+  background-color: #9bf6ff;
 }
 
 .task-card__tag--testing {
-    background-color: #A0C4FF;
+  background-color: #a0c4ff;
 }
 
 .task-card__tag--ui {
-    background-color: #BDB2FF;
+  background-color: #bdb2ff;
 }
 
 .task-card__tag--ux {
-    background-color: #FFC6FF;
+  background-color: #ffc6ff;
 }

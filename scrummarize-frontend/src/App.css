@@ -3,9 +3,12 @@
 }
 
 .main__section {
-  background-color: #D9D9D9;
   padding: 20px;
   border-radius: 15px;
+}
+
+.main__section--gray {
+  background-color: #d9d9d9;
 }
 
 .main__section__list {
@@ -13,8 +16,8 @@
 }
 
 .blue-container {
-  background-color: #D3F3F8;
-  border: 3px solid #1ECCE4;
+  background-color: #d3f3f8;
+  border: 3px solid #1ecce4;
   border-radius: 5px;
 }
 
@@ -29,4 +32,94 @@
 
 .card__row {
   margin-top: 15px;
+}
+
+.main__section__buttons {
+  margin-top: 15px;
+  display: flex;
+}
+
+.main__section__button {
+  display: flex;
+  font-size: 1.5rem;
+  padding: 8px 20px;
+  align-items: center;
+  width: 140px;
+  justify-content: space-between;
+  border: 2px solid black;
+  text-decoration: none;
+  color: black;
+  border-radius: 5px;
+}
+
+.editor__row:not(:first-of-type) {
+  margin-top: 15px;
+}
+
+.editor__label {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.editor__input {
+  font-size: 1.1rem;
+  padding: 5px 10px;
+  margin-top: 5px;
+}
+
+.editor__input--row {
+  width: 100%;
+}
+
+.editor__buttons {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  row-gap: 10px;
+}
+
+.editor__button {
+  font-size: 1.3rem;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: white;
+}
+
+.editor__button--standard {
+  width: 120px;
+}
+
+.editor__buton--fit {
+  width: fit-content;
+}
+
+.editor__button--blue {
+  background-color: #0009ec;
+}
+
+.editor__button--green {
+  background-color: #0dac13;
+}
+
+.editor__input--column50 {
+  width: 50%;
+}
+
+.editor__input--column25 {
+  width: 25%;
+}
+
+.editor__button--span2 {
+  grid-column: 1 / span 2;
+}
+
+.editor__button--red {
+  background-color: #ff0000;
+}
+
+.text-center {
+  text-align: center;
 }

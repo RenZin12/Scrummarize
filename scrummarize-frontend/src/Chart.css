@@ -1,0 +1,33 @@
+.chart__container {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  padding: 0 50px;
+  overflow-x: auto;
+}
+
+.chart__svg {
+  background-color: white;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 3px solid black;
+}
+
+.chart__text {
+  font-weight: bold;
+  font-family: sans-serif;
+  text-anchor: middle;
+}
+
+.chart__text--title {
+  font-size: 1.5rem;
+  dominant-baseline: middle;
+}
+
+.chart__text--x {
+  dominant-baseline: hanging;
+}
