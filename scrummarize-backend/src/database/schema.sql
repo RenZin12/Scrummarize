@@ -39,3 +39,9 @@ CREATE TABLE IF NOT EXISTS time_spent_log(
     time_spent int NOT NULL,
     time_spent_at timestamptz NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS users(
+    user_id bigserial PRIMARY KEY,
+    username varchar(255) NOT NULL CHECK(length(username) > 0) UNIQUE,
+    password varchar(255) NOT NULL CHECK(length(password) > 0)
+);

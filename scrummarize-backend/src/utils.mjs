@@ -1,5 +1,6 @@
 import { getTaskTags } from './database/indexDB.mjs';
 import { getSprintBurndownInfo } from './database/sprintBoardDB.mjs';
+import bcrypt from 'bcrypt';
 
 export function formatPBTask(task) {
   const {
@@ -178,4 +179,20 @@ export function formatSprintBurndownInfo(task) {
 
 export async function getISO8601(date) {
   return date.toISOString().split('T')[0];
+}
+
+const saltRounds = 10;
+
+export function hashPassword(password) {
+  const salt = bcrypt.genSaltSync(saltRounds);
+  return bcrypt.hashSync(password, salt);
+}
+
+export function formatUser(user) {
+  const { user_id, username, password } = user;
+  return {
+    userID: user_id,
+    username,
+    password,
+  };
 }
