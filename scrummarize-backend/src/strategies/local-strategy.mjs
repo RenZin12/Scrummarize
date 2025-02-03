@@ -10,23 +10,29 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (userID, done) => {
   try {
     const user = await findUserByUserID(userID);
-    if (!user) throw new Error('User Not Found');
-    done(null, user);
+    if (user) {
+      done(null, { userID: user.userID, username: user.username });
+    } else {
+      done(null, false, { message: 'User not found' });
+    }
   } catch (error) {
-    done(error, null);
+    done(error);
   }
 });
 
-export default passport.use(
+passport.use(
   new Strategy(async (username, password, done) => {
     try {
       const user = await findUserByUsername(username);
-      if (!user) throw new Error('User not found');
-      if (!bcrypt.compareSync(password, user.password))
-        throw new Error('Invalid Password');
-      done(null, user);
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username' });
+      }
+      if (!(await bcrypt.compare(password, user.password))) {
+        return done(null, false, { message: 'Incorrect password' });
+      }
+      return done(null, { userID: user.userID, username: user.username });
     } catch (error) {
-      done(error, null);
+      return done(error);
     }
   })
 );

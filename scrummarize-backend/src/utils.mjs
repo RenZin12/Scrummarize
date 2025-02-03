@@ -196,3 +196,23 @@ export function formatUser(user) {
     password,
   };
 }
+
+export function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+
+  return res.status(401).send({ message: 'Unauthorized access' });
+}
+
+export function checkNotAuthenticated(req, res, next) {
+  if (req.isUnauthenticated()) {
+    return next();
+  }
+
+  return res.send({
+    isAuthenticated: true,
+    user: req.user,
+    message: 'Already logged in',
+  });
+}

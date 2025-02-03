@@ -1,6 +1,10 @@
 import { Router } from 'express';
 import passport from 'passport';
-import { hashPassword } from '../utils.mjs';
+import {
+  checkAuthenticated,
+  checkNotAuthenticated,
+  hashPassword,
+} from '../utils.mjs';
 import { addUser } from '../database/usersDB.mjs';
 
 const router = Router();
@@ -8,25 +12,64 @@ const router = Router();
 router
   .route('/login')
 
-  .post(passport.authenticate('local'), (request, response) => {
-    response.send();
+  .post(checkNotAuthenticated, (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.status(401).send({
+          isAuthenticated: false,
+          user: null,
+          message: info.message,
+        });
+      }
+
+      req.login(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        return res.send({
+          isAuthenticated: true,
+          user: req.user,
+          message: 'Login successful',
+        });
+      });
+    })(req, res, next);
   });
 
 router
   .route('/status')
 
-  .get((request, response) => {
-    return request.user ? response.send() : response.sendStatus(401);
+  .get((req, res) => {
+    if (!req.user) {
+      return res.send({
+        isAuthenticated: false,
+        user: null,
+        message: 'Not authenticated',
+      });
+    }
+
+    res.send({
+      isAuthenticated: true,
+      user: req.user,
+      message: 'Authenticated',
+    });
   });
 
 router
   .route('/logout')
 
-  .post((request, response) => {
-    if (!request.user) return response.sendStatus(401);
-    request.logout((error) => {
-      if (error) return response.sendStatus(400);
-      response.send();
+  .delete(checkAuthenticated, (req, res, next) => {
+    req.logout((err) => {
+      if (err) {
+        return next(err);
+      }
+      res.send({
+        isAuthenticated: false,
+        user: null,
+        message: 'Logout successful',
+      });
     });
   });
 
