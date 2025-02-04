@@ -54,3 +54,8 @@ export type SprintBurndownData = {
   day: number;
   storyPoint: number;
 };
+
+export type User = {
+  userID: string;
+  username: string;
+};

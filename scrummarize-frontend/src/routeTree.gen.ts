@@ -11,9 +11,11 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LoginImport } from './routes/login'
+import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as SprintBoardIndexImport } from './routes/sprint-board/index'
-import { Route as ProductBacklogIndexImport } from './routes/product-backlog/index'
+import { Route as AuthProductBacklogIndexImport } from './routes/_auth/product-backlog/index'
 import { Route as SprintBoardSprintNewImport } from './routes/sprint-board/sprint.new'
 import { Route as ProductBacklogTaskNewImport } from './routes/product-backlog/task.new'
 import { Route as ProductBacklogTaskMoveImport } from './routes/product-backlog/task.move'
@@ -25,6 +27,17 @@ import { Route as sprintBacklogSprintBacklogSprintIDKanbanImport } from './route
 import { Route as sprintBacklogSprintBacklogSprintIDTaskTaskIDImport } from './routes/(sprint-backlog)/sprint-backlog_.$sprintID.task.$taskID'
 
 // Create/Update Routes
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -38,10 +51,10 @@ const SprintBoardIndexRoute = SprintBoardIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ProductBacklogIndexRoute = ProductBacklogIndexImport.update({
+const AuthProductBacklogIndexRoute = AuthProductBacklogIndexImport.update({
   id: '/product-backlog/',
   path: '/product-backlog/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => AuthRoute,
 } as any)
 
 const SprintBoardSprintNewRoute = SprintBoardSprintNewImport.update({
@@ -115,11 +128,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/product-backlog/': {
-      id: '/product-backlog/'
-      path: '/product-backlog'
-      fullPath: '/product-backlog'
-      preLoaderRoute: typeof ProductBacklogIndexImport
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
     '/sprint-board/': {
@@ -156,6 +176,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/sprint-board/sprint/new'
       preLoaderRoute: typeof SprintBoardSprintNewImport
       parentRoute: typeof rootRoute
+    }
+    '/_auth/product-backlog/': {
+      id: '/_auth/product-backlog/'
+      path: '/product-backlog'
+      fullPath: '/product-backlog'
+      preLoaderRoute: typeof AuthProductBacklogIndexImport
+      parentRoute: typeof AuthImport
     }
     '/(sprint-backlog)/sprint-backlog/$sprintID/kanban': {
       id: '/(sprint-backlog)/sprint-backlog/$sprintID/kanban'
@@ -197,6 +224,16 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface AuthRouteChildren {
+  AuthProductBacklogIndexRoute: typeof AuthProductBacklogIndexRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthProductBacklogIndexRoute: AuthProductBacklogIndexRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 interface sprintBacklogSprintBacklogSprintIDRouteChildren {
   sprintBacklogSprintBacklogSprintIDKanbanRoute: typeof sprintBacklogSprintBacklogSprintIDKanbanRoute
   sprintBacklogSprintBacklogSprintIDTableRoute: typeof sprintBacklogSprintBacklogSprintIDTableRoute
@@ -217,12 +254,14 @@ const sprintBacklogSprintBacklogSprintIDRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/product-backlog': typeof ProductBacklogIndexRoute
+  '': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
   '/sprint-board': typeof SprintBoardIndexRoute
   '/sprint-backlog/$sprintID': typeof sprintBacklogSprintBacklogSprintIDRouteWithChildren
   '/product-backlog/task/move': typeof ProductBacklogTaskMoveRoute
   '/product-backlog/task/new': typeof ProductBacklogTaskNewRoute
   '/sprint-board/sprint/new': typeof SprintBoardSprintNewRoute
+  '/product-backlog': typeof AuthProductBacklogIndexRoute
   '/sprint-backlog/$sprintID/kanban': typeof sprintBacklogSprintBacklogSprintIDKanbanRoute
   '/sprint-backlog/$sprintID/table': typeof sprintBacklogSprintBacklogSprintIDTableRoute
   '/product-backlog/task/edit/$taskID': typeof ProductBacklogTaskEditTaskIDRoute
@@ -232,12 +271,14 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/product-backlog': typeof ProductBacklogIndexRoute
+  '': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
   '/sprint-board': typeof SprintBoardIndexRoute
   '/sprint-backlog/$sprintID': typeof sprintBacklogSprintBacklogSprintIDRouteWithChildren
   '/product-backlog/task/move': typeof ProductBacklogTaskMoveRoute
   '/product-backlog/task/new': typeof ProductBacklogTaskNewRoute
   '/sprint-board/sprint/new': typeof SprintBoardSprintNewRoute
+  '/product-backlog': typeof AuthProductBacklogIndexRoute
   '/sprint-backlog/$sprintID/kanban': typeof sprintBacklogSprintBacklogSprintIDKanbanRoute
   '/sprint-backlog/$sprintID/table': typeof sprintBacklogSprintBacklogSprintIDTableRoute
   '/product-backlog/task/edit/$taskID': typeof ProductBacklogTaskEditTaskIDRoute
@@ -248,12 +289,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/product-backlog/': typeof ProductBacklogIndexRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
   '/sprint-board/': typeof SprintBoardIndexRoute
   '/(sprint-backlog)/sprint-backlog/$sprintID': typeof sprintBacklogSprintBacklogSprintIDRouteWithChildren
   '/product-backlog/task/move': typeof ProductBacklogTaskMoveRoute
   '/product-backlog/task/new': typeof ProductBacklogTaskNewRoute
   '/sprint-board/sprint/new': typeof SprintBoardSprintNewRoute
+  '/_auth/product-backlog/': typeof AuthProductBacklogIndexRoute
   '/(sprint-backlog)/sprint-backlog/$sprintID/kanban': typeof sprintBacklogSprintBacklogSprintIDKanbanRoute
   '/(sprint-backlog)/sprint-backlog/$sprintID/table': typeof sprintBacklogSprintBacklogSprintIDTableRoute
   '/product-backlog/task/edit/$taskID': typeof ProductBacklogTaskEditTaskIDRoute
@@ -265,12 +308,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/product-backlog'
+    | ''
+    | '/login'
     | '/sprint-board'
     | '/sprint-backlog/$sprintID'
     | '/product-backlog/task/move'
     | '/product-backlog/task/new'
     | '/sprint-board/sprint/new'
+    | '/product-backlog'
     | '/sprint-backlog/$sprintID/kanban'
     | '/sprint-backlog/$sprintID/table'
     | '/product-backlog/task/edit/$taskID'
@@ -279,12 +324,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/product-backlog'
+    | ''
+    | '/login'
     | '/sprint-board'
     | '/sprint-backlog/$sprintID'
     | '/product-backlog/task/move'
     | '/product-backlog/task/new'
     | '/sprint-board/sprint/new'
+    | '/product-backlog'
     | '/sprint-backlog/$sprintID/kanban'
     | '/sprint-backlog/$sprintID/table'
     | '/product-backlog/task/edit/$taskID'
@@ -293,12 +340,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/product-backlog/'
+    | '/_auth'
+    | '/login'
     | '/sprint-board/'
     | '/(sprint-backlog)/sprint-backlog/$sprintID'
     | '/product-backlog/task/move'
     | '/product-backlog/task/new'
     | '/sprint-board/sprint/new'
+    | '/_auth/product-backlog/'
     | '/(sprint-backlog)/sprint-backlog/$sprintID/kanban'
     | '/(sprint-backlog)/sprint-backlog/$sprintID/table'
     | '/product-backlog/task/edit/$taskID'
@@ -309,7 +358,8 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ProductBacklogIndexRoute: typeof ProductBacklogIndexRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  LoginRoute: typeof LoginRoute
   SprintBoardIndexRoute: typeof SprintBoardIndexRoute
   sprintBacklogSprintBacklogSprintIDRoute: typeof sprintBacklogSprintBacklogSprintIDRouteWithChildren
   ProductBacklogTaskMoveRoute: typeof ProductBacklogTaskMoveRoute
@@ -322,7 +372,8 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ProductBacklogIndexRoute: ProductBacklogIndexRoute,
+  AuthRoute: AuthRouteWithChildren,
+  LoginRoute: LoginRoute,
   SprintBoardIndexRoute: SprintBoardIndexRoute,
   sprintBacklogSprintBacklogSprintIDRoute:
     sprintBacklogSprintBacklogSprintIDRouteWithChildren,
@@ -346,7 +397,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/product-backlog/",
+        "/_auth",
+        "/login",
         "/sprint-board/",
         "/(sprint-backlog)/sprint-backlog/$sprintID",
         "/product-backlog/task/move",
@@ -360,8 +412,14 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.tsx"
     },
-    "/product-backlog/": {
-      "filePath": "product-backlog/index.tsx"
+    "/_auth": {
+      "filePath": "_auth.tsx",
+      "children": [
+        "/_auth/product-backlog/"
+      ]
+    },
+    "/login": {
+      "filePath": "login.tsx"
     },
     "/sprint-board/": {
       "filePath": "sprint-board/index.tsx"
@@ -381,6 +439,10 @@ export const routeTree = rootRoute
     },
     "/sprint-board/sprint/new": {
       "filePath": "sprint-board/sprint.new.tsx"
+    },
+    "/_auth/product-backlog/": {
+      "filePath": "_auth/product-backlog/index.tsx",
+      "parent": "/_auth"
     },
     "/(sprint-backlog)/sprint-backlog/$sprintID/kanban": {
       "filePath": "(sprint-backlog)/sprint-backlog.$sprintID.kanban.tsx",
