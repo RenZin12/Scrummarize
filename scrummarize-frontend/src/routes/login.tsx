@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { z } from 'zod';
-import { useAuth } from '../auth';
+import { useAuth } from '../context';
 
 export const Route = createFileRoute('/login')({
   validateSearch: z.object({
