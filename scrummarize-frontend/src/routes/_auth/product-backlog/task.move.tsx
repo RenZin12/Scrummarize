@@ -1,13 +1,13 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import MoveList from '../../MoveList';
+import MoveList from '../../../MoveList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
-import '../../ProductBacklogMove.css';
-import { TaskName, SprintName } from '../../lib/types';
+import '../../../ProductBacklogMove.css';
+import { TaskName, SprintName } from '../../../lib/types';
 import { useEffect, useState } from 'react';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
 
-export const Route = createFileRoute('/product-backlog/task/move')({
+export const Route = createFileRoute('/_auth/product-backlog/task/move')({
   component: ProductBacklogMove,
   loader: fetchData,
 });

@@ -1,11 +1,11 @@
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
-import '../../SprintBacklog.css';
+import '../../../SprintBacklog.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsUpDownLeftRight } from '@fortawesome/free-solid-svg-icons';
-import { formatLoaderSprint } from '../../lib/utils';
+import { formatLoaderSprint } from '../../../lib/utils';
 
 export const Route = createFileRoute(
-  '/(sprint-backlog)/sprint-backlog/$sprintID'
+  '/_auth/(sprint-backlog)/sprint-backlog/$sprintID'
 )({
   component: SprintBacklog,
   loader: ({ params }) => fetchSprint(params.sprintID),

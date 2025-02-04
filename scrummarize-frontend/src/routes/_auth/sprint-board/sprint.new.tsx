@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import SprintEditor from '../../SprintEditor';
-import { localeDateStringToDate } from '../../lib/utils';
+import SprintEditor from '../../../SprintEditor';
+import { localeDateStringToDate } from '../../../lib/utils';
 
-export const Route = createFileRoute('/sprint-board/sprint/new')({
+export const Route = createFileRoute('/_auth/sprint-board/sprint/new')({
   component: NewSprint,
 });
 

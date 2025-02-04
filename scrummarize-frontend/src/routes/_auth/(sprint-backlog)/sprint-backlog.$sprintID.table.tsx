@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { SBTask } from '../../lib/types';
-import '../../SprintBacklogTable.css';
+import { SBTask } from '../../../lib/types';
+import '../../../SprintBacklogTable.css';
 
 export const Route = createFileRoute(
-  '/(sprint-backlog)/sprint-backlog/$sprintID/table'
+  '/_auth/(sprint-backlog)/sprint-backlog/$sprintID/table'
 )({
   component: SprintBacklogTable,
   loader: ({ params }) => fetchTasks(params.sprintID),

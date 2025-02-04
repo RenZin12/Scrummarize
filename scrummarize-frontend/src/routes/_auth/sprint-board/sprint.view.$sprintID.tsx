@@ -1,9 +1,11 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import SprintEditor from '../../SprintEditor';
-import { formatLoaderSprint } from '../../lib/utils';
-import { Sprint } from '../../lib/types';
+import SprintEditor from '../../../SprintEditor';
+import { formatLoaderSprint } from '../../../lib/utils';
+import { Sprint } from '../../../lib/types';
 
-export const Route = createFileRoute('/sprint-board/sprint/view/$sprintID')({
+export const Route = createFileRoute(
+  '/_auth/sprint-board/sprint/view/$sprintID'
+)({
   component: ViewSprint,
   loader: ({ params }) => fetchSprint(params.sprintID),
 });

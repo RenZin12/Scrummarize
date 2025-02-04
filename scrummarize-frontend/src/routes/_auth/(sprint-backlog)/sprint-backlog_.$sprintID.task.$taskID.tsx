@@ -1,9 +1,9 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
-import AccumulationOfEffort from '../../AccumulationOfEffort';
+import AccumulationOfEffort from '../../../AccumulationOfEffort';
 
 export const Route = createFileRoute(
-  '/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID'
+  '/_auth/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID'
 )({
   component: SprintBacklogForm,
   loader: ({ params }) => fetchTask(params.sprintID, params.taskID),

@@ -1,7 +1,9 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import TaskEditor from '../../TaskEditor';
+import TaskEditor from '../../../TaskEditor';
 
-export const Route = createFileRoute('/product-backlog/task/edit/$taskID')({
+export const Route = createFileRoute(
+  '/_auth/product-backlog/task/edit/$taskID'
+)({
   component: EditTask,
   loader: ({ params }) => {
     return fetchTask(params.taskID);
