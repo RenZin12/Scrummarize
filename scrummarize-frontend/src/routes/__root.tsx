@@ -8,6 +8,16 @@ type MyRouterContext = {
 };
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
+  beforeLoad: async ({ context }) => {
+    const { isAuthenticated, user } = await context.auth.getAuthStatus();
+    return {
+      auth: {
+        ...context.auth,
+        isAuthenticated,
+        user,
+      },
+    };
+  },
   component: Root,
 });
 

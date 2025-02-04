@@ -1,16 +1,11 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { createContext, ReactNode, useContext } from 'react';
 import { User } from './lib/types';
 
 export type AuthContext = {
-  isAuthenticated: boolean;
+  getAuthStatus: () => Promise<{ isAuthenticated: boolean; user: User }>;
   login: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  isAuthenticated: boolean;
   user: User | null;
 };
 
@@ -24,9 +19,6 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-
   async function getAuthStatus() {
     const res = await fetch('http://localhost:3000/api/auth/status', {
       credentials: 'include',
@@ -34,10 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!res.ok) {
       throw new Error('Failed to get auth status');
     }
-    const result = await res.json();
-
-    setIsAuthenticated(result.isAuthenticated);
-    setUser(result.user);
+    return await res.json();
   }
 
   async function login(username: string, password: string) {
@@ -53,10 +42,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!res.ok) {
       throw new Error('Failed to log in');
     }
-    const result = await res.json();
-
-    setIsAuthenticated(result.isAuthenticated);
-    setUser(result.user);
   }
 
   async function logout() {
@@ -67,18 +52,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!res.ok) {
       throw new Error('Failed to log out');
     }
-    const result = await res.json();
-
-    setIsAuthenticated(result.isAuthenticated);
-    setUser(result.user);
   }
 
-  useEffect(() => {
-    getAuthStatus();
-  }, []);
-
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        getAuthStatus,
+        login,
+        logout,
+        isAuthenticated: false,
+        user: null,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

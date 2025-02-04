@@ -1,9 +1,12 @@
-import { createFileRoute, Navigate } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
+  beforeLoad: () => {
+    throw redirect({ to: '/product-backlog' });
+  },
   component: Index,
 });
 
 function Index() {
-  return <Navigate to="/product-backlog" />;
+  return <></>;
 }

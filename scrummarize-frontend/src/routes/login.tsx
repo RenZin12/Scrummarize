@@ -1,10 +1,4 @@
-import {
-  createFileRoute,
-  redirect,
-  useNavigate,
-  useRouter,
-  useSearch,
-} from '@tanstack/react-router';
+import { createFileRoute, redirect, useRouter } from '@tanstack/react-router';
 import '../login.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -27,8 +21,6 @@ export const Route = createFileRoute('/login')({
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const auth = useAuth();
-  const navigate = useNavigate();
-  const search = useSearch({ from: '/login' });
   const router = useRouter();
 
   async function onFormSubmit(formData: FormData) {
@@ -41,11 +33,6 @@ function Login() {
 
     await auth.login(data.username, data.password);
     await router.invalidate();
-    await new Promise((resolve) => setTimeout(resolve, 1));
-
-    if (auth.isAuthenticated) {
-      navigate({ to: search.redirect || '/product-backlog' });
-    }
   }
 
   return (
