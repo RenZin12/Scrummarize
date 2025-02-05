@@ -16,6 +16,8 @@ import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthSprintBoardIndexImport } from './routes/_auth/sprint-board/index'
 import { Route as AuthProductBacklogIndexImport } from './routes/_auth/product-backlog/index'
+import { Route as AuthTeamMemberImport } from './routes/_auth/team/member'
+import { Route as AuthTeamAdminImport } from './routes/_auth/team/admin'
 import { Route as AuthSprintBoardSprintNewImport } from './routes/_auth/sprint-board/sprint.new'
 import { Route as AuthProductBacklogTaskNewImport } from './routes/_auth/product-backlog/task.new'
 import { Route as AuthProductBacklogTaskMoveImport } from './routes/_auth/product-backlog/task.move'
@@ -54,6 +56,18 @@ const AuthSprintBoardIndexRoute = AuthSprintBoardIndexImport.update({
 const AuthProductBacklogIndexRoute = AuthProductBacklogIndexImport.update({
   id: '/product-backlog/',
   path: '/product-backlog/',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthTeamMemberRoute = AuthTeamMemberImport.update({
+  id: '/team/member',
+  path: '/team/member',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthTeamAdminRoute = AuthTeamAdminImport.update({
+  id: '/team/admin',
+  path: '/team/admin',
   getParentRoute: () => AuthRoute,
 } as any)
 
@@ -143,6 +157,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
+    }
+    '/_auth/team/admin': {
+      id: '/_auth/team/admin'
+      path: '/team/admin'
+      fullPath: '/team/admin'
+      preLoaderRoute: typeof AuthTeamAdminImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/team/member': {
+      id: '/_auth/team/member'
+      path: '/team/member'
+      fullPath: '/team/member'
+      preLoaderRoute: typeof AuthTeamMemberImport
+      parentRoute: typeof AuthImport
     }
     '/_auth/product-backlog/': {
       id: '/_auth/product-backlog/'
@@ -245,6 +273,8 @@ const AuthsprintBacklogSprintBacklogSprintIDRouteWithChildren =
   )
 
 interface AuthRouteChildren {
+  AuthTeamAdminRoute: typeof AuthTeamAdminRoute
+  AuthTeamMemberRoute: typeof AuthTeamMemberRoute
   AuthProductBacklogIndexRoute: typeof AuthProductBacklogIndexRoute
   AuthSprintBoardIndexRoute: typeof AuthSprintBoardIndexRoute
   AuthsprintBacklogSprintBacklogSprintIDRoute: typeof AuthsprintBacklogSprintBacklogSprintIDRouteWithChildren
@@ -257,6 +287,8 @@ interface AuthRouteChildren {
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthTeamAdminRoute: AuthTeamAdminRoute,
+  AuthTeamMemberRoute: AuthTeamMemberRoute,
   AuthProductBacklogIndexRoute: AuthProductBacklogIndexRoute,
   AuthSprintBoardIndexRoute: AuthSprintBoardIndexRoute,
   AuthsprintBacklogSprintBacklogSprintIDRoute:
@@ -277,6 +309,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
+  '/team/admin': typeof AuthTeamAdminRoute
+  '/team/member': typeof AuthTeamMemberRoute
   '/product-backlog': typeof AuthProductBacklogIndexRoute
   '/sprint-board': typeof AuthSprintBoardIndexRoute
   '/sprint-backlog/$sprintID': typeof AuthsprintBacklogSprintBacklogSprintIDRouteWithChildren
@@ -294,6 +328,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
+  '/team/admin': typeof AuthTeamAdminRoute
+  '/team/member': typeof AuthTeamMemberRoute
   '/product-backlog': typeof AuthProductBacklogIndexRoute
   '/sprint-board': typeof AuthSprintBoardIndexRoute
   '/sprint-backlog/$sprintID': typeof AuthsprintBacklogSprintBacklogSprintIDRouteWithChildren
@@ -312,6 +348,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
+  '/_auth/team/admin': typeof AuthTeamAdminRoute
+  '/_auth/team/member': typeof AuthTeamMemberRoute
   '/_auth/product-backlog/': typeof AuthProductBacklogIndexRoute
   '/_auth/sprint-board/': typeof AuthSprintBoardIndexRoute
   '/_auth/(sprint-backlog)/sprint-backlog/$sprintID': typeof AuthsprintBacklogSprintBacklogSprintIDRouteWithChildren
@@ -331,6 +369,8 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/login'
+    | '/team/admin'
+    | '/team/member'
     | '/product-backlog'
     | '/sprint-board'
     | '/sprint-backlog/$sprintID'
@@ -347,6 +387,8 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/login'
+    | '/team/admin'
+    | '/team/member'
     | '/product-backlog'
     | '/sprint-board'
     | '/sprint-backlog/$sprintID'
@@ -363,6 +405,8 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/login'
+    | '/_auth/team/admin'
+    | '/_auth/team/member'
     | '/_auth/product-backlog/'
     | '/_auth/sprint-board/'
     | '/_auth/(sprint-backlog)/sprint-backlog/$sprintID'
@@ -410,6 +454,8 @@ export const routeTree = rootRoute
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
+        "/_auth/team/admin",
+        "/_auth/team/member",
         "/_auth/product-backlog/",
         "/_auth/sprint-board/",
         "/_auth/(sprint-backlog)/sprint-backlog/$sprintID",
@@ -423,6 +469,14 @@ export const routeTree = rootRoute
     },
     "/login": {
       "filePath": "login.tsx"
+    },
+    "/_auth/team/admin": {
+      "filePath": "_auth/team/admin.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/team/member": {
+      "filePath": "_auth/team/member.tsx",
+      "parent": "/_auth"
     },
     "/_auth/product-backlog/": {
       "filePath": "_auth/product-backlog/index.tsx",

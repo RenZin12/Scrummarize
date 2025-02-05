@@ -59,3 +59,8 @@ export type User = {
   userID: string;
   username: string;
 };
+
+export type TotalHoursData = {
+  day: string;
+  hoursSpent: number;
+};

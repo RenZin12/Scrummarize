@@ -39,11 +39,11 @@ function SprintBacklogTable() {
   ];
 
   return (
-    <table className="table">
+    <table className="table table--gray">
       <caption className="table__caption">Sprint Backlog Tasks Table</caption>
 
       <thead>
-        <tr className="table__row">
+        <tr>
           {headerCells.map((headerCell) => (
             <th key={headerCell} className="table__header">
               {headerCell}
@@ -54,7 +54,7 @@ function SprintBacklogTable() {
 
       <tbody>
         {tasks.map((task) => (
-          <tr key={task.taskID}>
+          <tr key={task.taskID} className="table__row--gray">
             {dataCells.map((dataCell, i) => (
               <td
                 data-cell={headerCells[i]}
