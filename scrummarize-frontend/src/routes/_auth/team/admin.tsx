@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import TotalHours from '../../../TotalHours';
 import { TotalHoursData } from '../../../lib/types';
+import { useAuth } from '../../../context';
 
 export const Route = createFileRoute('/_auth/team/admin')({
   component: Admin,
@@ -9,6 +10,7 @@ export const Route = createFileRoute('/_auth/team/admin')({
 
 function Admin() {
   const [dataset, setDataset] = useState<TotalHoursData[] | null>(null);
+  const auth = useAuth();
 
   const mockMembers = [
     { userID: '1', username: 'Mr Bob' },
@@ -48,6 +50,7 @@ function Admin() {
 
   return (
     <section className="main__section main__section--gray">
+      <h2>Welcome, Admin {auth.user?.username}!</h2>
       <table className="table table--blue">
         <caption className="table__caption">Admin Table</caption>
 

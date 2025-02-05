@@ -1,7 +1,11 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { AuthContext } from './context';
+import { User } from './lib/types';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
   async function getAuthStatus() {
     const res = await fetch('http://localhost:3000/api/auth/status', {
       credentials: 'include',
@@ -9,7 +13,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!res.ok) {
       throw new Error('Failed to get auth status');
     }
-    return await res.json();
+    const result = await res.json();
+
+    setIsAuthenticated(result.isAuthenticated);
+    setUser(result.user);
+
+    return result;
   }
 
   async function login(username: string, password: string) {
@@ -43,8 +52,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         getAuthStatus,
         login,
         logout,
-        isAuthenticated: false,
-        user: null,
+        isAuthenticated,
+        user,
       }}
     >
       {children}

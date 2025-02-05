@@ -45,6 +45,18 @@ function Header(props: HeaderProps) {
             {sprint.name}
           </Link>
         ))}
+        <Link
+          to="/team/admin"
+          className="header__nav__link header__nav__link--big"
+        >
+          Team (admin)
+        </Link>
+        <Link
+          to="/team/member"
+          className="header__nav__link header__nav__link--big"
+        >
+          Team (member)
+        </Link>
       </nav>
     </header>
   );
