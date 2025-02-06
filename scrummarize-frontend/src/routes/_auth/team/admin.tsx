@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import TotalHours from '../../../TotalHours';
 import { TotalHoursData } from '../../../lib/types';
-import { useAuth } from '../../../context';
+import { useAuth } from '../../../lib/context';
 
 export const Route = createFileRoute('/_auth/team/admin')({
   component: Admin,

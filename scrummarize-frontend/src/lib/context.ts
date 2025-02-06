@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { User } from './lib/types';
+import { User } from './types';
 
 export type AuthContextType = {
   getAuthStatus: () => Promise<{ isAuthenticated: boolean; user: User }>;
