@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import AccumulationOfEffort from '../../../AccumulationOfEffort';
+import { useAuth } from '../../../lib/context';
 
 export const Route = createFileRoute(
   '/_auth/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID'
@@ -23,6 +24,7 @@ async function fetchTask(sprintID: string, taskID: string) {
 function SprintBacklogForm() {
   const task = Route.useLoaderData();
   const { sprintID, taskID } = Route.useParams();
+  const auth = useAuth();
 
   const navigate = useNavigate({
     from: '/sprint-backlog/$sprintID/task/$taskID',
@@ -49,6 +51,7 @@ function SprintBacklogForm() {
     const data = {
       ...Object.fromEntries(formData),
       tags: formData.getAll('tags'),
+      userID: auth.user?.userID,
     };
 
     const res = await fetch(
