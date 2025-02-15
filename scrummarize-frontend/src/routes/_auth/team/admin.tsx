@@ -3,6 +3,7 @@ import { useState } from 'react';
 import TotalHours from '../../../TotalHours';
 import { TotalHoursData } from '../../../lib/types';
 import { useAuth } from '../../../lib/context';
+import '../../../team.css';
 
 export const Route = createFileRoute('/_auth/team/admin')({
   component: Admin,
@@ -51,6 +52,19 @@ function Admin() {
   return (
     <section className="main__section main__section--gray">
       <h2>Welcome, Admin {auth.user?.username}!</h2>
+      <form className="admin__form">
+        <div className="admin__form__field">
+          <label className="admin__form__label">Start:</label>
+          <input type="date" className="admin__form__input" />
+        </div>
+
+        <div className="admin__form__field">
+          <label className="admin__form__label">End:</label>
+          <input type="date" className="admin__form__input" />
+        </div>
+
+        <button className="admin__form__button">Save</button>
+      </form>
       <table className="table table--blue">
         <caption className="table__caption">Admin Table</caption>
 
@@ -84,6 +98,23 @@ function Admin() {
         </tbody>
       </table>
       <TotalHours dataset={dataset} setDataset={setDataset} />
+
+      <form className="user__form">
+        <div className="user__field">
+          <label htmlFor="username">Username</label>
+          <input id="username" name="username" className="user__input" />
+        </div>
+        <div className="user__field">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className="user__input"
+          />
+        </div>
+        <button className="user__button">Add new user</button>
+      </form>
     </section>
   );
 }
