@@ -189,11 +189,10 @@ export function hashPassword(password) {
 }
 
 export function formatUser(user) {
-  const { user_id, username, password } = user;
+  const { user_id } = user;
   return {
     userID: user_id,
-    username,
-    password,
+    ...user,
   };
 }
 
