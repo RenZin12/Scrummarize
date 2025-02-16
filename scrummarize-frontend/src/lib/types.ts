@@ -60,7 +60,13 @@ export type User = {
   username: string;
 };
 
-export type TotalHoursData = {
+export type TimeSpentDataset = {
   day: string;
-  hoursSpent: number;
+  hours: number;
+};
+
+export type TimeSpentData = {
+  userID: string;
+  avgTimeSpent: number;
+  timeSpentDataset: TimeSpentDataset[];
 };

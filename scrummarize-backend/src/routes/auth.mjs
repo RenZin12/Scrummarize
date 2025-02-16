@@ -1,11 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
-import {
-  checkAuthenticated,
-  checkNotAuthenticated,
-  hashPassword,
-} from '../utils.mjs';
-import { addUser } from '../database/usersDB.mjs';
+import { checkAuthenticated, checkNotAuthenticated } from '../utils.mjs';
 
 const router = Router();
 
@@ -71,16 +66,6 @@ router
         message: 'Logout successful',
       });
     });
-  });
-
-router
-  .route('/signup')
-
-  .post(async (request, response) => {
-    const { username, password } = request.body;
-    const hashedPassword = hashPassword(password);
-    const newUser = await addUser(username, hashedPassword);
-    response.send(newUser);
   });
 
 export default router;

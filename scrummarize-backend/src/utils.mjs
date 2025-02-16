@@ -142,6 +142,26 @@ export function getAccumulationOfEffortData(timeSpentLog, startDate) {
   return [{ totalHours: 0, date: startDate }, ...data];
 }
 
+const dayInMilli = 1000 * 60 * 60 * 24;
+
+export function getDays(startDate, endDate) {
+  return Math.floor((endDate.getTime() - startDate.getTime()) / dayInMilli) + 1;
+}
+
+export function getLocaleDays(startDate, endDate, timeZoneOffset) {
+  const localeStartDate = new Date(
+    startDate.getTime() - timeZoneOffset * 60 * 1000
+  );
+  const localeEndDate = new Date(
+    endDate.getTime() - timeZoneOffset * 60 * 1000
+  );
+
+  localeStartDate.setUTCHours(0, 0, 0, 0);
+  localeEndDate.setUTCHours(0, 0, 0, 0);
+
+  return (localeEndDate.getTime() - localeStartDate.getTime()) / dayInMilli + 1;
+}
+
 export async function getSprintBurndownData(
   sprintID,
   startDate,
@@ -151,11 +171,7 @@ export async function getSprintBurndownData(
   let remainingStoryPoints = totalStoryPoints;
 
   const data = info.map((task) => {
-    const day =
-      Math.floor(
-        (task.completeAt.getTime() - startDate.getTime()) /
-          (1000 * 60 * 60 * 24)
-      ) + 1;
+    const day = getDays(startDate, task.completeAt);
     remainingStoryPoints -= task.storyPoint;
 
     return {

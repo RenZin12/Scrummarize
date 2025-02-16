@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
-import { TotalHoursData } from './lib/types';
+import { TimeSpentDataset } from './lib/types';
 import * as d3 from 'd3';
 
 type TotalHoursProps = {
-  dataset: TotalHoursData[] | null;
-  setDataset: Dispatch<SetStateAction<TotalHoursData[] | null>>;
+  dataset: TimeSpentDataset[] | null;
+  setDataset: Dispatch<SetStateAction<TimeSpentDataset[] | null>>;
 };
 
 function TotalHours(props: TotalHoursProps) {
@@ -19,7 +19,8 @@ function TotalHours(props: TotalHoursProps) {
     }
   }, [props.dataset]);
 
-  function getChart(dataset: TotalHoursData[]) {
+  function getChart(dataset: TimeSpentDataset[]) {
+    console.log(dataset);
     const margin = 50;
     const contentWidth = svgWidth - margin - margin;
     const contentHeight = svgHeight - margin - margin;
@@ -67,7 +68,7 @@ function TotalHours(props: TotalHoursProps) {
       .padding(0.1);
 
     // Define domain and range for y
-    const maxHoursSpent = d3.max(dataset, (data) => data.hoursSpent) as number;
+    const maxHoursSpent = d3.max(dataset, (data) => data.hours) as number;
     const y = d3
       .scaleLinear()
       .domain([0, maxHoursSpent])
@@ -89,9 +90,9 @@ function TotalHours(props: TotalHoursProps) {
       .data(dataset)
       .join('rect')
       .attr('x', (d) => x(d.day) as number)
-      .attr('y', (d) => y(d.hoursSpent))
+      .attr('y', (d) => y(d.hours))
       .attr('width', x.bandwidth())
-      .attr('height', (d) => y(0) - y(d.hoursSpent));
+      .attr('height', (d) => y(0) - y(d.hours));
   }
 
   return (

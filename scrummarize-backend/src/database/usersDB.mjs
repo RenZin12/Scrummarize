@@ -41,13 +41,24 @@ export async function addUser(username, password) {
   return result.rowCount;
 }
 
-export async function getUsers() {
+export async function getUserIDs() {
   const result = await pool.query(
     `
-      SELECT user_id, username
-      FROM users
+    SELECT user_id
+    FROM users
     `
   );
+  return result.rows.map(({ user_id }) => ({
+    userID: user_id,
+  }));
+}
 
+export async function getUsernames() {
+  const result = await pool.query(
+    `
+    SELECT user_id, username
+    FROM users
+    `
+  );
   return result.rows.map(formatUser);
 }

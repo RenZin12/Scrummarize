@@ -1,66 +1,113 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import TotalHours from '../../../TotalHours';
-import { TotalHoursData } from '../../../lib/types';
+import { TimeSpentData, TimeSpentDataset, User } from '../../../lib/types';
 import { useAuth } from '../../../lib/context';
 import '../../../team.css';
+import { localeDateStringToDate } from '../../../lib/utils';
 
 export const Route = createFileRoute('/_auth/team/admin')({
   component: Admin,
+  loader: fetchUsernames,
 });
 
+async function fetchUsernames(): Promise<User[]> {
+  const res = await fetch('http://localhost:3000/api/users');
+  if (!res.ok) {
+    throw new Error('Failed to fetch users');
+  }
+  return res.json();
+}
+
 function Admin() {
-  const [dataset, setDataset] = useState<TotalHoursData[] | null>(null);
+  const usernames = Route.useLoaderData();
+  const [timeSpentData, setTimeSpentData] = useState<TimeSpentData[] | null>(
+    null
+  );
   const auth = useAuth();
+  const [dataset, setDataset] = useState<TimeSpentDataset[] | null>(null);
 
-  const mockMembers = [
-    { userID: '1', username: 'Mr Bob' },
-    { userID: '2', username: 'Mr Cat' },
-    { userID: '3', username: 'Mr gat' },
-  ];
+  const [date, setDate] = useState<{ startDate: string; endDate: string }>({
+    startDate: '',
+    endDate: '',
+  });
 
-  const mockData = [
-    {
-      userID: '1',
-      avgTimeSpent: 1,
-      totalHoursDataSet: [
-        { day: '1', hoursSpent: 2 },
-        { day: '2', hoursSpent: 5 },
-        { day: '3', hoursSpent: 1 },
-      ],
-    },
-    {
-      userID: '2',
-      avgTimeSpent: 2,
-      totalHoursDataSet: [
-        { day: '1', hoursSpent: 1 },
-        { day: '2', hoursSpent: 2 },
-        { day: '3', hoursSpent: 3 },
-      ],
-    },
-    {
-      userID: '3',
-      avgTimeSpent: 3,
-      totalHoursDataSet: [
-        { day: '1', hoursSpent: 3 },
-        { day: '2', hoursSpent: 2 },
-        { day: '3', hoursSpent: 1 },
-      ],
-    },
-  ];
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setDate((prevDate) => ({
+      ...prevDate,
+      [name]: value,
+    }));
+  };
+
+  async function getTimeSpent(formData: FormData) {
+    const startDate = formData.get('startDate') as string;
+    const endDate = formData.get('endDate') as string;
+
+    const params = new URLSearchParams({
+      startDateISO: localeDateStringToDate(startDate).toISOString(),
+      endDateISO: localeDateStringToDate(endDate).toISOString(),
+      timeZoneOffset: String(new Date().getTimezoneOffset()),
+    });
+
+    const res = await fetch(
+      `http://localhost:3000/api/admin/users/time-spent?${params.toString()}`
+    );
+    if (!res.ok) {
+      throw new Error('Failed to get time spent data');
+    }
+    const result = await res.json();
+
+    setTimeSpentData(result);
+  }
+
+  function getAvgTimeSpent(timeSpentData: TimeSpentData[], userID: string) {
+    const data = timeSpentData.find((data) => data.userID === userID);
+    if (data) {
+      return data.avgTimeSpent;
+    }
+  }
+
+  function getDataset(timeSpentData: TimeSpentData[], userID: string) {
+    const data = timeSpentData.find((data) => data.userID === userID);
+    if (data) {
+      return data.timeSpentDataset;
+    }
+    return null;
+  }
 
   return (
     <section className="main__section main__section--gray">
       <h2>Welcome, Admin {auth.user?.username}!</h2>
-      <form className="admin__form">
+      <form className="admin__form" action={getTimeSpent}>
         <div className="admin__form__field">
-          <label className="admin__form__label">Start:</label>
-          <input type="date" className="admin__form__input" />
+          <label className="admin__form__label" htmlFor="startDate">
+            Start:
+          </label>
+          <input
+            type="date"
+            className="admin__form__input"
+            value={date.startDate}
+            onChange={handleChange}
+            name="startDate"
+            required
+            max={date.endDate}
+          />
         </div>
 
         <div className="admin__form__field">
-          <label className="admin__form__label">End:</label>
-          <input type="date" className="admin__form__input" />
+          <label className="admin__form__label" htmlFor="endDate">
+            End:
+          </label>
+          <input
+            type="date"
+            className="admin__form__input"
+            value={date.endDate}
+            onChange={handleChange}
+            name="endDate"
+            required
+            min={date.startDate}
+          />
         </div>
 
         <button className="admin__form__button">Save</button>
@@ -77,18 +124,24 @@ function Admin() {
         </thead>
 
         <tbody>
-          {mockMembers.map((member, i) => (
-            <tr key={member.userID} className="table__row--blue">
+          {usernames.map((username) => (
+            <tr key={username.userID} className="table__row--blue">
               <td data-cell={'Username'} className="table__data">
-                {member.username}
+                {username.username}
               </td>
               <td data-cell={'Avg Time Spent Per Day'} className="table__data">
-                {mockData[i].avgTimeSpent}
+                {timeSpentData &&
+                  getAvgTimeSpent(timeSpentData, username.userID)}
               </td>
               <td data-cell={'Total Hours'} className="table__data">
                 <button
                   className="table__button"
-                  onClick={() => setDataset(mockData[i].totalHoursDataSet)}
+                  onClick={() =>
+                    setDataset(
+                      timeSpentData &&
+                        getDataset(timeSpentData, username.userID)
+                    )
+                  }
                 >
                   View Graph
                 </button>
