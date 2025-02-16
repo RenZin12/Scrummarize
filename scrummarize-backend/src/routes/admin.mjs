@@ -15,7 +15,7 @@ adminRouter
     const { username, password } = req.body;
     const hashedPassword = hashPassword(password);
     const newUser = await addUser(username, hashedPassword);
-    res.send(newUser);
+    res.send();
   });
 
 adminRouter

@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { ChangeEvent, useState } from 'react';
 import TotalHours from '../../../TotalHours';
 import { TimeSpentData, TimeSpentDataset, User } from '../../../lib/types';
@@ -74,6 +74,25 @@ function Admin() {
       return data.timeSpentDataset;
     }
     return null;
+  }
+
+  const router = useRouter();
+
+  async function addUser(formData: FormData) {
+    const data = {
+      username: formData.get('username') as string,
+      password: formData.get('password') as string,
+    };
+
+    const res = await fetch('http://localhost:3000/api/admin/user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) {
+      throw new Error('Failed to add user');
+    }
+    router.invalidate();
   }
 
   return (
@@ -152,7 +171,7 @@ function Admin() {
       </table>
       <TotalHours dataset={dataset} setDataset={setDataset} />
 
-      <form className="user__form">
+      <form className="user__form" action={addUser}>
         <div className="user__field">
           <label htmlFor="username">Username</label>
           <input id="username" name="username" className="user__input" />
