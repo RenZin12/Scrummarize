@@ -12,7 +12,10 @@ export const Route = createFileRoute(
 
 const fetchSprint = async (sprintID: string) => {
   const res = await fetch(
-    `http://localhost:3000/api/sprint-board/sprint/${sprintID}`
+    `http://localhost:3000/api/sprint-board/sprint/${sprintID}`,
+    {
+      credentials: 'include',
+    }
   );
   if (!res.ok) {
     throw new Error(`Failed to fetch sprint #${sprintID}`);
@@ -40,6 +43,7 @@ function ViewSprint() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
+        credentials: 'include',
       }
     );
     if (!res.ok) {
@@ -54,6 +58,7 @@ function ViewSprint() {
       `http://localhost:3000/api/sprint-board/sprint/${sprintID}`,
       {
         method: 'DELETE',
+        credentials: 'include',
       }
     );
     if (!res.ok) {

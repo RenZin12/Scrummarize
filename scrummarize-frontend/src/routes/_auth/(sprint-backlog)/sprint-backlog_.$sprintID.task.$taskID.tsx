@@ -12,7 +12,10 @@ export const Route = createFileRoute(
 
 async function fetchTask(sprintID: string, taskID: string) {
   const res = await fetch(
-    `http://localhost:3000/api/sprint-backlog/${sprintID}/task/${taskID}`
+    `http://localhost:3000/api/sprint-backlog/${sprintID}/task/${taskID}`,
+    {
+      credentials: 'include',
+    }
   );
   if (!res.ok)
     throw new Error(
@@ -60,6 +63,7 @@ function SprintBacklogForm() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
+        credentials: 'include',
       }
     );
 
@@ -76,6 +80,7 @@ function SprintBacklogForm() {
       `http://localhost:3000/api/sprint-backlog/${sprintID}/task/${taskID}`,
       {
         method: 'DELETE',
+        credentials: 'include',
       }
     );
 

@@ -12,7 +12,9 @@ export const Route = createFileRoute('/_auth/team/admin')({
 });
 
 async function fetchUsernames(): Promise<User[]> {
-  const res = await fetch('http://localhost:3000/api/users');
+  const res = await fetch('http://localhost:3000/api/users', {
+    credentials: 'include',
+  });
   if (!res.ok) {
     throw new Error('Failed to fetch users');
   }
@@ -51,7 +53,10 @@ function Admin() {
     });
 
     const res = await fetch(
-      `http://localhost:3000/api/admin/users/time-spent?${params.toString()}`
+      `http://localhost:3000/api/admin/users/time-spent?${params.toString()}`,
+      {
+        credentials: 'include',
+      }
     );
     if (!res.ok) {
       throw new Error('Failed to get time spent data');
@@ -88,6 +93,7 @@ function Admin() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
+      credentials: 'include',
     });
     if (!res.ok) {
       throw new Error('Failed to add user');

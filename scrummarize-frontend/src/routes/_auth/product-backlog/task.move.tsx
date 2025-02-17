@@ -13,7 +13,9 @@ export const Route = createFileRoute('/_auth/product-backlog/task/move')({
 });
 
 async function fetchData() {
-  const res = await fetch('http://localhost:3000/api/product-backlog/move');
+  const res = await fetch('http://localhost:3000/api/product-backlog/move', {
+    credentials: 'include',
+  });
   if (!res.ok)
     throw new Error('Failed to fetch task names and sprint names for moving');
   return res.json();
@@ -43,6 +45,7 @@ function ProductBacklogMove() {
         sprintID,
         taskIDs,
       }),
+      credentials: 'include',
     });
     if (!res.ok) throw new Error('Failed to move tasks');
 

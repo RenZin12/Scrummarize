@@ -11,7 +11,10 @@ export const Route = createFileRoute(
 
 async function fetchTasks(sprintID: string) {
   const res = await fetch(
-    `http://localhost:3000/api/sprint-backlog/${sprintID}/table`
+    `http://localhost:3000/api/sprint-backlog/${sprintID}/table`,
+    {
+      credentials: 'include',
+    }
   );
   if (!res.ok)
     throw new Error('Failed to fetch tasks from Sprint Backlog for table');

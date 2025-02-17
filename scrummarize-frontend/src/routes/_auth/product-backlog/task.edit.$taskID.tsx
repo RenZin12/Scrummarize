@@ -12,7 +12,10 @@ export const Route = createFileRoute(
 
 const fetchTask = async (taskID: string) => {
   const res = await fetch(
-    `http://localhost:3000/api/product-backlog/task/${taskID}`
+    `http://localhost:3000/api/product-backlog/task/${taskID}`,
+    {
+      credentials: 'include',
+    }
   );
 
   if (!res.ok) {
@@ -43,6 +46,7 @@ function EditTask() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
+        credentials: 'include',
       }
     );
 
@@ -58,6 +62,7 @@ function EditTask() {
       `http://localhost:3000/api/product-backlog/task/${taskID}`,
       {
         method: 'DELETE',
+        credentials: 'include',
       }
     );
 

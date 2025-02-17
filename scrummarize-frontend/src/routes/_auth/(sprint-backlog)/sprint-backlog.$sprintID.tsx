@@ -13,7 +13,10 @@ export const Route = createFileRoute(
 
 async function fetchSprint(sprintID: string) {
   const res = await fetch(
-    `http://localhost:3000/api/sprint-backlog/${sprintID}`
+    `http://localhost:3000/api/sprint-backlog/${sprintID}`,
+    {
+      credentials: 'include',
+    }
   );
   if (!res.ok)
     throw new Error(`Failed to fetch Sprint#${sprintID} from Sprint Backlog'`);

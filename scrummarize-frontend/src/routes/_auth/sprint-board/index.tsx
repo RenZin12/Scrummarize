@@ -12,7 +12,9 @@ export const Route = createFileRoute('/_auth/sprint-board/')({
 });
 
 const fetchSprints = async () => {
-  const res = await fetch('http://localhost:3000/api/sprint-board/');
+  const res = await fetch('http://localhost:3000/api/sprint-board/', {
+    credentials: 'include',
+  });
   if (!res.ok) {
     throw new Error('Failed to fetch tasks');
   }
