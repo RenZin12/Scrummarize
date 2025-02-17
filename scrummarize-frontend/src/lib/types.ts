@@ -58,6 +58,7 @@ export type SprintBurndownData = {
 export type User = {
   userID: string;
   username: string;
+  role: 'Admin' | 'Member';
 };
 
 export type TimeSpentDataset = {

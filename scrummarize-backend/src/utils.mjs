@@ -231,3 +231,11 @@ export function checkNotAuthenticated(req, res, next) {
     message: 'Already logged in',
   });
 }
+
+export function checkAdmin(req, res, next) {
+  if (req.user.role === 'Admin') {
+    return next();
+  }
+
+  return res.status(401).send({ message: 'Unauthorized access' });
+}

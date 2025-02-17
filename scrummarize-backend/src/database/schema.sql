@@ -34,10 +34,13 @@ CREATE TABLE task_tags(
     PRIMARY KEY (task_id, tag_value)
 );
 
+CREATE TYPE user_role AS ENUM ('Admin', 'Member');
+
 CREATE TABLE users(
     user_id bigserial PRIMARY KEY,
     username varchar(255) NOT NULL CHECK(length(username) > 0) UNIQUE,
-    password varchar(255) NOT NULL CHECK(length(password) > 0)
+    password varchar(255) NOT NULL CHECK(length(password) > 0),
+    role user_role NOT NULL
 );
 
 CREATE TABLE time_spent_log(

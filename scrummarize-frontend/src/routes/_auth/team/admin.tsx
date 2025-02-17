@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { createFileRoute, redirect, useRouter } from '@tanstack/react-router';
 import { ChangeEvent, useState } from 'react';
 import TotalHours from '../../../TotalHours';
 import { TimeSpentData, TimeSpentDataset, User } from '../../../lib/types';
@@ -7,6 +7,13 @@ import '../../../team.css';
 import { localeDateStringToDate } from '../../../lib/utils';
 
 export const Route = createFileRoute('/_auth/team/admin')({
+  beforeLoad: ({ context }) => {
+    if (context.auth.user.role !== 'Admin') {
+      throw redirect({
+        to: '/team/member',
+      });
+    }
+  },
   component: Admin,
   loader: fetchUsernames,
 });

@@ -11,7 +11,11 @@ passport.deserializeUser(async (userID, done) => {
   try {
     const user = await findUserByUserID(userID);
     if (user) {
-      done(null, { userID: user.userID, username: user.username });
+      done(null, {
+        userID: user.userID,
+        username: user.username,
+        role: user.role,
+      });
     } else {
       done(null, false, { message: 'User not found' });
     }
@@ -30,7 +34,11 @@ passport.use(
       if (!(await bcrypt.compare(password, user.password))) {
         return done(null, false, { message: 'Incorrect password' });
       }
-      return done(null, { userID: user.userID, username: user.username });
+      return done(null, {
+        userID: user.userID,
+        username: user.username,
+        role: user.role,
+      });
     } catch (error) {
       return done(error);
     }
