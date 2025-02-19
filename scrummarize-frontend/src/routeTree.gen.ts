@@ -11,20 +11,35 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LoginImport } from './routes/login'
+import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
-import { Route as SprintBoardIndexImport } from './routes/sprint-board/index'
-import { Route as ProductBacklogIndexImport } from './routes/product-backlog/index'
-import { Route as SprintBoardSprintNewImport } from './routes/sprint-board/sprint.new'
-import { Route as ProductBacklogTaskNewImport } from './routes/product-backlog/task.new'
-import { Route as ProductBacklogTaskMoveImport } from './routes/product-backlog/task.move'
-import { Route as sprintBacklogSprintBacklogSprintIDImport } from './routes/(sprint-backlog)/sprint-backlog.$sprintID'
-import { Route as SprintBoardSprintViewSprintIDImport } from './routes/sprint-board/sprint.view.$sprintID'
-import { Route as ProductBacklogTaskEditTaskIDImport } from './routes/product-backlog/task.edit.$taskID'
-import { Route as sprintBacklogSprintBacklogSprintIDTableImport } from './routes/(sprint-backlog)/sprint-backlog.$sprintID.table'
-import { Route as sprintBacklogSprintBacklogSprintIDKanbanImport } from './routes/(sprint-backlog)/sprint-backlog.$sprintID.kanban'
-import { Route as sprintBacklogSprintBacklogSprintIDTaskTaskIDImport } from './routes/(sprint-backlog)/sprint-backlog_.$sprintID.task.$taskID'
+import { Route as AuthSprintBoardIndexImport } from './routes/_auth/sprint-board/index'
+import { Route as AuthProductBacklogIndexImport } from './routes/_auth/product-backlog/index'
+import { Route as AuthTeamMemberImport } from './routes/_auth/team/member'
+import { Route as AuthTeamAdminImport } from './routes/_auth/team/admin'
+import { Route as AuthSprintBoardSprintNewImport } from './routes/_auth/sprint-board/sprint.new'
+import { Route as AuthProductBacklogTaskNewImport } from './routes/_auth/product-backlog/task.new'
+import { Route as AuthProductBacklogTaskMoveImport } from './routes/_auth/product-backlog/task.move'
+import { Route as AuthsprintBacklogSprintBacklogSprintIDImport } from './routes/_auth/(sprint-backlog)/sprint-backlog.$sprintID'
+import { Route as AuthSprintBoardSprintViewSprintIDImport } from './routes/_auth/sprint-board/sprint.view.$sprintID'
+import { Route as AuthProductBacklogTaskEditTaskIDImport } from './routes/_auth/product-backlog/task.edit.$taskID'
+import { Route as AuthsprintBacklogSprintBacklogSprintIDTableImport } from './routes/_auth/(sprint-backlog)/sprint-backlog.$sprintID.table'
+import { Route as AuthsprintBacklogSprintBacklogSprintIDKanbanImport } from './routes/_auth/(sprint-backlog)/sprint-backlog.$sprintID.kanban'
+import { Route as AuthsprintBacklogSprintBacklogSprintIDTaskTaskIDImport } from './routes/_auth/(sprint-backlog)/sprint-backlog_.$sprintID.task.$taskID'
 
 // Create/Update Routes
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -32,76 +47,90 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const SprintBoardIndexRoute = SprintBoardIndexImport.update({
+const AuthSprintBoardIndexRoute = AuthSprintBoardIndexImport.update({
   id: '/sprint-board/',
   path: '/sprint-board/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => AuthRoute,
 } as any)
 
-const ProductBacklogIndexRoute = ProductBacklogIndexImport.update({
+const AuthProductBacklogIndexRoute = AuthProductBacklogIndexImport.update({
   id: '/product-backlog/',
   path: '/product-backlog/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => AuthRoute,
 } as any)
 
-const SprintBoardSprintNewRoute = SprintBoardSprintNewImport.update({
+const AuthTeamMemberRoute = AuthTeamMemberImport.update({
+  id: '/team/member',
+  path: '/team/member',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthTeamAdminRoute = AuthTeamAdminImport.update({
+  id: '/team/admin',
+  path: '/team/admin',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthSprintBoardSprintNewRoute = AuthSprintBoardSprintNewImport.update({
   id: '/sprint-board/sprint/new',
   path: '/sprint-board/sprint/new',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => AuthRoute,
 } as any)
 
-const ProductBacklogTaskNewRoute = ProductBacklogTaskNewImport.update({
+const AuthProductBacklogTaskNewRoute = AuthProductBacklogTaskNewImport.update({
   id: '/product-backlog/task/new',
   path: '/product-backlog/task/new',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => AuthRoute,
 } as any)
 
-const ProductBacklogTaskMoveRoute = ProductBacklogTaskMoveImport.update({
-  id: '/product-backlog/task/move',
-  path: '/product-backlog/task/move',
-  getParentRoute: () => rootRoute,
-} as any)
+const AuthProductBacklogTaskMoveRoute = AuthProductBacklogTaskMoveImport.update(
+  {
+    id: '/product-backlog/task/move',
+    path: '/product-backlog/task/move',
+    getParentRoute: () => AuthRoute,
+  } as any,
+)
 
-const sprintBacklogSprintBacklogSprintIDRoute =
-  sprintBacklogSprintBacklogSprintIDImport.update({
+const AuthsprintBacklogSprintBacklogSprintIDRoute =
+  AuthsprintBacklogSprintBacklogSprintIDImport.update({
     id: '/(sprint-backlog)/sprint-backlog/$sprintID',
     path: '/sprint-backlog/$sprintID',
-    getParentRoute: () => rootRoute,
+    getParentRoute: () => AuthRoute,
   } as any)
 
-const SprintBoardSprintViewSprintIDRoute =
-  SprintBoardSprintViewSprintIDImport.update({
+const AuthSprintBoardSprintViewSprintIDRoute =
+  AuthSprintBoardSprintViewSprintIDImport.update({
     id: '/sprint-board/sprint/view/$sprintID',
     path: '/sprint-board/sprint/view/$sprintID',
-    getParentRoute: () => rootRoute,
+    getParentRoute: () => AuthRoute,
   } as any)
 
-const ProductBacklogTaskEditTaskIDRoute =
-  ProductBacklogTaskEditTaskIDImport.update({
+const AuthProductBacklogTaskEditTaskIDRoute =
+  AuthProductBacklogTaskEditTaskIDImport.update({
     id: '/product-backlog/task/edit/$taskID',
     path: '/product-backlog/task/edit/$taskID',
-    getParentRoute: () => rootRoute,
+    getParentRoute: () => AuthRoute,
   } as any)
 
-const sprintBacklogSprintBacklogSprintIDTableRoute =
-  sprintBacklogSprintBacklogSprintIDTableImport.update({
+const AuthsprintBacklogSprintBacklogSprintIDTableRoute =
+  AuthsprintBacklogSprintBacklogSprintIDTableImport.update({
     id: '/table',
     path: '/table',
-    getParentRoute: () => sprintBacklogSprintBacklogSprintIDRoute,
+    getParentRoute: () => AuthsprintBacklogSprintBacklogSprintIDRoute,
   } as any)
 
-const sprintBacklogSprintBacklogSprintIDKanbanRoute =
-  sprintBacklogSprintBacklogSprintIDKanbanImport.update({
+const AuthsprintBacklogSprintBacklogSprintIDKanbanRoute =
+  AuthsprintBacklogSprintBacklogSprintIDKanbanImport.update({
     id: '/kanban',
     path: '/kanban',
-    getParentRoute: () => sprintBacklogSprintBacklogSprintIDRoute,
+    getParentRoute: () => AuthsprintBacklogSprintBacklogSprintIDRoute,
   } as any)
 
-const sprintBacklogSprintBacklogSprintIDTaskTaskIDRoute =
-  sprintBacklogSprintBacklogSprintIDTaskTaskIDImport.update({
+const AuthsprintBacklogSprintBacklogSprintIDTaskTaskIDRoute =
+  AuthsprintBacklogSprintBacklogSprintIDTaskTaskIDImport.update({
     id: '/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID',
     path: '/sprint-backlog/$sprintID/task/$taskID',
-    getParentRoute: () => rootRoute,
+    getParentRoute: () => AuthRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -115,156 +144,233 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/product-backlog/': {
-      id: '/product-backlog/'
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/_auth/team/admin': {
+      id: '/_auth/team/admin'
+      path: '/team/admin'
+      fullPath: '/team/admin'
+      preLoaderRoute: typeof AuthTeamAdminImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/team/member': {
+      id: '/_auth/team/member'
+      path: '/team/member'
+      fullPath: '/team/member'
+      preLoaderRoute: typeof AuthTeamMemberImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/product-backlog/': {
+      id: '/_auth/product-backlog/'
       path: '/product-backlog'
       fullPath: '/product-backlog'
-      preLoaderRoute: typeof ProductBacklogIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthProductBacklogIndexImport
+      parentRoute: typeof AuthImport
     }
-    '/sprint-board/': {
-      id: '/sprint-board/'
+    '/_auth/sprint-board/': {
+      id: '/_auth/sprint-board/'
       path: '/sprint-board'
       fullPath: '/sprint-board'
-      preLoaderRoute: typeof SprintBoardIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthSprintBoardIndexImport
+      parentRoute: typeof AuthImport
     }
-    '/(sprint-backlog)/sprint-backlog/$sprintID': {
-      id: '/(sprint-backlog)/sprint-backlog/$sprintID'
+    '/_auth/(sprint-backlog)/sprint-backlog/$sprintID': {
+      id: '/_auth/(sprint-backlog)/sprint-backlog/$sprintID'
       path: '/sprint-backlog/$sprintID'
       fullPath: '/sprint-backlog/$sprintID'
-      preLoaderRoute: typeof sprintBacklogSprintBacklogSprintIDImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthsprintBacklogSprintBacklogSprintIDImport
+      parentRoute: typeof AuthImport
     }
-    '/product-backlog/task/move': {
-      id: '/product-backlog/task/move'
+    '/_auth/product-backlog/task/move': {
+      id: '/_auth/product-backlog/task/move'
       path: '/product-backlog/task/move'
       fullPath: '/product-backlog/task/move'
-      preLoaderRoute: typeof ProductBacklogTaskMoveImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthProductBacklogTaskMoveImport
+      parentRoute: typeof AuthImport
     }
-    '/product-backlog/task/new': {
-      id: '/product-backlog/task/new'
+    '/_auth/product-backlog/task/new': {
+      id: '/_auth/product-backlog/task/new'
       path: '/product-backlog/task/new'
       fullPath: '/product-backlog/task/new'
-      preLoaderRoute: typeof ProductBacklogTaskNewImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthProductBacklogTaskNewImport
+      parentRoute: typeof AuthImport
     }
-    '/sprint-board/sprint/new': {
-      id: '/sprint-board/sprint/new'
+    '/_auth/sprint-board/sprint/new': {
+      id: '/_auth/sprint-board/sprint/new'
       path: '/sprint-board/sprint/new'
       fullPath: '/sprint-board/sprint/new'
-      preLoaderRoute: typeof SprintBoardSprintNewImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthSprintBoardSprintNewImport
+      parentRoute: typeof AuthImport
     }
-    '/(sprint-backlog)/sprint-backlog/$sprintID/kanban': {
-      id: '/(sprint-backlog)/sprint-backlog/$sprintID/kanban'
+    '/_auth/(sprint-backlog)/sprint-backlog/$sprintID/kanban': {
+      id: '/_auth/(sprint-backlog)/sprint-backlog/$sprintID/kanban'
       path: '/kanban'
       fullPath: '/sprint-backlog/$sprintID/kanban'
-      preLoaderRoute: typeof sprintBacklogSprintBacklogSprintIDKanbanImport
-      parentRoute: typeof sprintBacklogSprintBacklogSprintIDImport
+      preLoaderRoute: typeof AuthsprintBacklogSprintBacklogSprintIDKanbanImport
+      parentRoute: typeof AuthsprintBacklogSprintBacklogSprintIDImport
     }
-    '/(sprint-backlog)/sprint-backlog/$sprintID/table': {
-      id: '/(sprint-backlog)/sprint-backlog/$sprintID/table'
+    '/_auth/(sprint-backlog)/sprint-backlog/$sprintID/table': {
+      id: '/_auth/(sprint-backlog)/sprint-backlog/$sprintID/table'
       path: '/table'
       fullPath: '/sprint-backlog/$sprintID/table'
-      preLoaderRoute: typeof sprintBacklogSprintBacklogSprintIDTableImport
-      parentRoute: typeof sprintBacklogSprintBacklogSprintIDImport
+      preLoaderRoute: typeof AuthsprintBacklogSprintBacklogSprintIDTableImport
+      parentRoute: typeof AuthsprintBacklogSprintBacklogSprintIDImport
     }
-    '/product-backlog/task/edit/$taskID': {
-      id: '/product-backlog/task/edit/$taskID'
+    '/_auth/product-backlog/task/edit/$taskID': {
+      id: '/_auth/product-backlog/task/edit/$taskID'
       path: '/product-backlog/task/edit/$taskID'
       fullPath: '/product-backlog/task/edit/$taskID'
-      preLoaderRoute: typeof ProductBacklogTaskEditTaskIDImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthProductBacklogTaskEditTaskIDImport
+      parentRoute: typeof AuthImport
     }
-    '/sprint-board/sprint/view/$sprintID': {
-      id: '/sprint-board/sprint/view/$sprintID'
+    '/_auth/sprint-board/sprint/view/$sprintID': {
+      id: '/_auth/sprint-board/sprint/view/$sprintID'
       path: '/sprint-board/sprint/view/$sprintID'
       fullPath: '/sprint-board/sprint/view/$sprintID'
-      preLoaderRoute: typeof SprintBoardSprintViewSprintIDImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthSprintBoardSprintViewSprintIDImport
+      parentRoute: typeof AuthImport
     }
-    '/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID': {
-      id: '/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID'
+    '/_auth/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID': {
+      id: '/_auth/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID'
       path: '/sprint-backlog/$sprintID/task/$taskID'
       fullPath: '/sprint-backlog/$sprintID/task/$taskID'
-      preLoaderRoute: typeof sprintBacklogSprintBacklogSprintIDTaskTaskIDImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthsprintBacklogSprintBacklogSprintIDTaskTaskIDImport
+      parentRoute: typeof AuthImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface sprintBacklogSprintBacklogSprintIDRouteChildren {
-  sprintBacklogSprintBacklogSprintIDKanbanRoute: typeof sprintBacklogSprintBacklogSprintIDKanbanRoute
-  sprintBacklogSprintBacklogSprintIDTableRoute: typeof sprintBacklogSprintBacklogSprintIDTableRoute
+interface AuthsprintBacklogSprintBacklogSprintIDRouteChildren {
+  AuthsprintBacklogSprintBacklogSprintIDKanbanRoute: typeof AuthsprintBacklogSprintBacklogSprintIDKanbanRoute
+  AuthsprintBacklogSprintBacklogSprintIDTableRoute: typeof AuthsprintBacklogSprintBacklogSprintIDTableRoute
 }
 
-const sprintBacklogSprintBacklogSprintIDRouteChildren: sprintBacklogSprintBacklogSprintIDRouteChildren =
+const AuthsprintBacklogSprintBacklogSprintIDRouteChildren: AuthsprintBacklogSprintBacklogSprintIDRouteChildren =
   {
-    sprintBacklogSprintBacklogSprintIDKanbanRoute:
-      sprintBacklogSprintBacklogSprintIDKanbanRoute,
-    sprintBacklogSprintBacklogSprintIDTableRoute:
-      sprintBacklogSprintBacklogSprintIDTableRoute,
+    AuthsprintBacklogSprintBacklogSprintIDKanbanRoute:
+      AuthsprintBacklogSprintBacklogSprintIDKanbanRoute,
+    AuthsprintBacklogSprintBacklogSprintIDTableRoute:
+      AuthsprintBacklogSprintBacklogSprintIDTableRoute,
   }
 
-const sprintBacklogSprintBacklogSprintIDRouteWithChildren =
-  sprintBacklogSprintBacklogSprintIDRoute._addFileChildren(
-    sprintBacklogSprintBacklogSprintIDRouteChildren,
+const AuthsprintBacklogSprintBacklogSprintIDRouteWithChildren =
+  AuthsprintBacklogSprintBacklogSprintIDRoute._addFileChildren(
+    AuthsprintBacklogSprintBacklogSprintIDRouteChildren,
   )
+
+interface AuthRouteChildren {
+  AuthTeamAdminRoute: typeof AuthTeamAdminRoute
+  AuthTeamMemberRoute: typeof AuthTeamMemberRoute
+  AuthProductBacklogIndexRoute: typeof AuthProductBacklogIndexRoute
+  AuthSprintBoardIndexRoute: typeof AuthSprintBoardIndexRoute
+  AuthsprintBacklogSprintBacklogSprintIDRoute: typeof AuthsprintBacklogSprintBacklogSprintIDRouteWithChildren
+  AuthProductBacklogTaskMoveRoute: typeof AuthProductBacklogTaskMoveRoute
+  AuthProductBacklogTaskNewRoute: typeof AuthProductBacklogTaskNewRoute
+  AuthSprintBoardSprintNewRoute: typeof AuthSprintBoardSprintNewRoute
+  AuthProductBacklogTaskEditTaskIDRoute: typeof AuthProductBacklogTaskEditTaskIDRoute
+  AuthSprintBoardSprintViewSprintIDRoute: typeof AuthSprintBoardSprintViewSprintIDRoute
+  AuthsprintBacklogSprintBacklogSprintIDTaskTaskIDRoute: typeof AuthsprintBacklogSprintBacklogSprintIDTaskTaskIDRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthTeamAdminRoute: AuthTeamAdminRoute,
+  AuthTeamMemberRoute: AuthTeamMemberRoute,
+  AuthProductBacklogIndexRoute: AuthProductBacklogIndexRoute,
+  AuthSprintBoardIndexRoute: AuthSprintBoardIndexRoute,
+  AuthsprintBacklogSprintBacklogSprintIDRoute:
+    AuthsprintBacklogSprintBacklogSprintIDRouteWithChildren,
+  AuthProductBacklogTaskMoveRoute: AuthProductBacklogTaskMoveRoute,
+  AuthProductBacklogTaskNewRoute: AuthProductBacklogTaskNewRoute,
+  AuthSprintBoardSprintNewRoute: AuthSprintBoardSprintNewRoute,
+  AuthProductBacklogTaskEditTaskIDRoute: AuthProductBacklogTaskEditTaskIDRoute,
+  AuthSprintBoardSprintViewSprintIDRoute:
+    AuthSprintBoardSprintViewSprintIDRoute,
+  AuthsprintBacklogSprintBacklogSprintIDTaskTaskIDRoute:
+    AuthsprintBacklogSprintBacklogSprintIDTaskTaskIDRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/product-backlog': typeof ProductBacklogIndexRoute
-  '/sprint-board': typeof SprintBoardIndexRoute
-  '/sprint-backlog/$sprintID': typeof sprintBacklogSprintBacklogSprintIDRouteWithChildren
-  '/product-backlog/task/move': typeof ProductBacklogTaskMoveRoute
-  '/product-backlog/task/new': typeof ProductBacklogTaskNewRoute
-  '/sprint-board/sprint/new': typeof SprintBoardSprintNewRoute
-  '/sprint-backlog/$sprintID/kanban': typeof sprintBacklogSprintBacklogSprintIDKanbanRoute
-  '/sprint-backlog/$sprintID/table': typeof sprintBacklogSprintBacklogSprintIDTableRoute
-  '/product-backlog/task/edit/$taskID': typeof ProductBacklogTaskEditTaskIDRoute
-  '/sprint-board/sprint/view/$sprintID': typeof SprintBoardSprintViewSprintIDRoute
-  '/sprint-backlog/$sprintID/task/$taskID': typeof sprintBacklogSprintBacklogSprintIDTaskTaskIDRoute
+  '': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/team/admin': typeof AuthTeamAdminRoute
+  '/team/member': typeof AuthTeamMemberRoute
+  '/product-backlog': typeof AuthProductBacklogIndexRoute
+  '/sprint-board': typeof AuthSprintBoardIndexRoute
+  '/sprint-backlog/$sprintID': typeof AuthsprintBacklogSprintBacklogSprintIDRouteWithChildren
+  '/product-backlog/task/move': typeof AuthProductBacklogTaskMoveRoute
+  '/product-backlog/task/new': typeof AuthProductBacklogTaskNewRoute
+  '/sprint-board/sprint/new': typeof AuthSprintBoardSprintNewRoute
+  '/sprint-backlog/$sprintID/kanban': typeof AuthsprintBacklogSprintBacklogSprintIDKanbanRoute
+  '/sprint-backlog/$sprintID/table': typeof AuthsprintBacklogSprintBacklogSprintIDTableRoute
+  '/product-backlog/task/edit/$taskID': typeof AuthProductBacklogTaskEditTaskIDRoute
+  '/sprint-board/sprint/view/$sprintID': typeof AuthSprintBoardSprintViewSprintIDRoute
+  '/sprint-backlog/$sprintID/task/$taskID': typeof AuthsprintBacklogSprintBacklogSprintIDTaskTaskIDRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/product-backlog': typeof ProductBacklogIndexRoute
-  '/sprint-board': typeof SprintBoardIndexRoute
-  '/sprint-backlog/$sprintID': typeof sprintBacklogSprintBacklogSprintIDRouteWithChildren
-  '/product-backlog/task/move': typeof ProductBacklogTaskMoveRoute
-  '/product-backlog/task/new': typeof ProductBacklogTaskNewRoute
-  '/sprint-board/sprint/new': typeof SprintBoardSprintNewRoute
-  '/sprint-backlog/$sprintID/kanban': typeof sprintBacklogSprintBacklogSprintIDKanbanRoute
-  '/sprint-backlog/$sprintID/table': typeof sprintBacklogSprintBacklogSprintIDTableRoute
-  '/product-backlog/task/edit/$taskID': typeof ProductBacklogTaskEditTaskIDRoute
-  '/sprint-board/sprint/view/$sprintID': typeof SprintBoardSprintViewSprintIDRoute
-  '/sprint-backlog/$sprintID/task/$taskID': typeof sprintBacklogSprintBacklogSprintIDTaskTaskIDRoute
+  '': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/team/admin': typeof AuthTeamAdminRoute
+  '/team/member': typeof AuthTeamMemberRoute
+  '/product-backlog': typeof AuthProductBacklogIndexRoute
+  '/sprint-board': typeof AuthSprintBoardIndexRoute
+  '/sprint-backlog/$sprintID': typeof AuthsprintBacklogSprintBacklogSprintIDRouteWithChildren
+  '/product-backlog/task/move': typeof AuthProductBacklogTaskMoveRoute
+  '/product-backlog/task/new': typeof AuthProductBacklogTaskNewRoute
+  '/sprint-board/sprint/new': typeof AuthSprintBoardSprintNewRoute
+  '/sprint-backlog/$sprintID/kanban': typeof AuthsprintBacklogSprintBacklogSprintIDKanbanRoute
+  '/sprint-backlog/$sprintID/table': typeof AuthsprintBacklogSprintBacklogSprintIDTableRoute
+  '/product-backlog/task/edit/$taskID': typeof AuthProductBacklogTaskEditTaskIDRoute
+  '/sprint-board/sprint/view/$sprintID': typeof AuthSprintBoardSprintViewSprintIDRoute
+  '/sprint-backlog/$sprintID/task/$taskID': typeof AuthsprintBacklogSprintBacklogSprintIDTaskTaskIDRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/product-backlog/': typeof ProductBacklogIndexRoute
-  '/sprint-board/': typeof SprintBoardIndexRoute
-  '/(sprint-backlog)/sprint-backlog/$sprintID': typeof sprintBacklogSprintBacklogSprintIDRouteWithChildren
-  '/product-backlog/task/move': typeof ProductBacklogTaskMoveRoute
-  '/product-backlog/task/new': typeof ProductBacklogTaskNewRoute
-  '/sprint-board/sprint/new': typeof SprintBoardSprintNewRoute
-  '/(sprint-backlog)/sprint-backlog/$sprintID/kanban': typeof sprintBacklogSprintBacklogSprintIDKanbanRoute
-  '/(sprint-backlog)/sprint-backlog/$sprintID/table': typeof sprintBacklogSprintBacklogSprintIDTableRoute
-  '/product-backlog/task/edit/$taskID': typeof ProductBacklogTaskEditTaskIDRoute
-  '/sprint-board/sprint/view/$sprintID': typeof SprintBoardSprintViewSprintIDRoute
-  '/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID': typeof sprintBacklogSprintBacklogSprintIDTaskTaskIDRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_auth/team/admin': typeof AuthTeamAdminRoute
+  '/_auth/team/member': typeof AuthTeamMemberRoute
+  '/_auth/product-backlog/': typeof AuthProductBacklogIndexRoute
+  '/_auth/sprint-board/': typeof AuthSprintBoardIndexRoute
+  '/_auth/(sprint-backlog)/sprint-backlog/$sprintID': typeof AuthsprintBacklogSprintBacklogSprintIDRouteWithChildren
+  '/_auth/product-backlog/task/move': typeof AuthProductBacklogTaskMoveRoute
+  '/_auth/product-backlog/task/new': typeof AuthProductBacklogTaskNewRoute
+  '/_auth/sprint-board/sprint/new': typeof AuthSprintBoardSprintNewRoute
+  '/_auth/(sprint-backlog)/sprint-backlog/$sprintID/kanban': typeof AuthsprintBacklogSprintBacklogSprintIDKanbanRoute
+  '/_auth/(sprint-backlog)/sprint-backlog/$sprintID/table': typeof AuthsprintBacklogSprintBacklogSprintIDTableRoute
+  '/_auth/product-backlog/task/edit/$taskID': typeof AuthProductBacklogTaskEditTaskIDRoute
+  '/_auth/sprint-board/sprint/view/$sprintID': typeof AuthSprintBoardSprintViewSprintIDRoute
+  '/_auth/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID': typeof AuthsprintBacklogSprintBacklogSprintIDTaskTaskIDRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | ''
+    | '/login'
+    | '/team/admin'
+    | '/team/member'
     | '/product-backlog'
     | '/sprint-board'
     | '/sprint-backlog/$sprintID'
@@ -279,6 +385,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | ''
+    | '/login'
+    | '/team/admin'
+    | '/team/member'
     | '/product-backlog'
     | '/sprint-board'
     | '/sprint-backlog/$sprintID'
@@ -293,46 +403,34 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/product-backlog/'
-    | '/sprint-board/'
-    | '/(sprint-backlog)/sprint-backlog/$sprintID'
-    | '/product-backlog/task/move'
-    | '/product-backlog/task/new'
-    | '/sprint-board/sprint/new'
-    | '/(sprint-backlog)/sprint-backlog/$sprintID/kanban'
-    | '/(sprint-backlog)/sprint-backlog/$sprintID/table'
-    | '/product-backlog/task/edit/$taskID'
-    | '/sprint-board/sprint/view/$sprintID'
-    | '/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID'
+    | '/_auth'
+    | '/login'
+    | '/_auth/team/admin'
+    | '/_auth/team/member'
+    | '/_auth/product-backlog/'
+    | '/_auth/sprint-board/'
+    | '/_auth/(sprint-backlog)/sprint-backlog/$sprintID'
+    | '/_auth/product-backlog/task/move'
+    | '/_auth/product-backlog/task/new'
+    | '/_auth/sprint-board/sprint/new'
+    | '/_auth/(sprint-backlog)/sprint-backlog/$sprintID/kanban'
+    | '/_auth/(sprint-backlog)/sprint-backlog/$sprintID/table'
+    | '/_auth/product-backlog/task/edit/$taskID'
+    | '/_auth/sprint-board/sprint/view/$sprintID'
+    | '/_auth/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ProductBacklogIndexRoute: typeof ProductBacklogIndexRoute
-  SprintBoardIndexRoute: typeof SprintBoardIndexRoute
-  sprintBacklogSprintBacklogSprintIDRoute: typeof sprintBacklogSprintBacklogSprintIDRouteWithChildren
-  ProductBacklogTaskMoveRoute: typeof ProductBacklogTaskMoveRoute
-  ProductBacklogTaskNewRoute: typeof ProductBacklogTaskNewRoute
-  SprintBoardSprintNewRoute: typeof SprintBoardSprintNewRoute
-  ProductBacklogTaskEditTaskIDRoute: typeof ProductBacklogTaskEditTaskIDRoute
-  SprintBoardSprintViewSprintIDRoute: typeof SprintBoardSprintViewSprintIDRoute
-  sprintBacklogSprintBacklogSprintIDTaskTaskIDRoute: typeof sprintBacklogSprintBacklogSprintIDTaskTaskIDRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ProductBacklogIndexRoute: ProductBacklogIndexRoute,
-  SprintBoardIndexRoute: SprintBoardIndexRoute,
-  sprintBacklogSprintBacklogSprintIDRoute:
-    sprintBacklogSprintBacklogSprintIDRouteWithChildren,
-  ProductBacklogTaskMoveRoute: ProductBacklogTaskMoveRoute,
-  ProductBacklogTaskNewRoute: ProductBacklogTaskNewRoute,
-  SprintBoardSprintNewRoute: SprintBoardSprintNewRoute,
-  ProductBacklogTaskEditTaskIDRoute: ProductBacklogTaskEditTaskIDRoute,
-  SprintBoardSprintViewSprintIDRoute: SprintBoardSprintViewSprintIDRoute,
-  sprintBacklogSprintBacklogSprintIDTaskTaskIDRoute:
-    sprintBacklogSprintBacklogSprintIDTaskTaskIDRoute,
+  AuthRoute: AuthRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 
 export const routeTree = rootRoute
@@ -346,58 +444,87 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/product-backlog/",
-        "/sprint-board/",
-        "/(sprint-backlog)/sprint-backlog/$sprintID",
-        "/product-backlog/task/move",
-        "/product-backlog/task/new",
-        "/sprint-board/sprint/new",
-        "/product-backlog/task/edit/$taskID",
-        "/sprint-board/sprint/view/$sprintID",
-        "/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID"
+        "/_auth",
+        "/login"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/product-backlog/": {
-      "filePath": "product-backlog/index.tsx"
-    },
-    "/sprint-board/": {
-      "filePath": "sprint-board/index.tsx"
-    },
-    "/(sprint-backlog)/sprint-backlog/$sprintID": {
-      "filePath": "(sprint-backlog)/sprint-backlog.$sprintID.tsx",
+    "/_auth": {
+      "filePath": "_auth.tsx",
       "children": [
-        "/(sprint-backlog)/sprint-backlog/$sprintID/kanban",
-        "/(sprint-backlog)/sprint-backlog/$sprintID/table"
+        "/_auth/team/admin",
+        "/_auth/team/member",
+        "/_auth/product-backlog/",
+        "/_auth/sprint-board/",
+        "/_auth/(sprint-backlog)/sprint-backlog/$sprintID",
+        "/_auth/product-backlog/task/move",
+        "/_auth/product-backlog/task/new",
+        "/_auth/sprint-board/sprint/new",
+        "/_auth/product-backlog/task/edit/$taskID",
+        "/_auth/sprint-board/sprint/view/$sprintID",
+        "/_auth/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID"
       ]
     },
-    "/product-backlog/task/move": {
-      "filePath": "product-backlog/task.move.tsx"
+    "/login": {
+      "filePath": "login.tsx"
     },
-    "/product-backlog/task/new": {
-      "filePath": "product-backlog/task.new.tsx"
+    "/_auth/team/admin": {
+      "filePath": "_auth/team/admin.tsx",
+      "parent": "/_auth"
     },
-    "/sprint-board/sprint/new": {
-      "filePath": "sprint-board/sprint.new.tsx"
+    "/_auth/team/member": {
+      "filePath": "_auth/team/member.tsx",
+      "parent": "/_auth"
     },
-    "/(sprint-backlog)/sprint-backlog/$sprintID/kanban": {
-      "filePath": "(sprint-backlog)/sprint-backlog.$sprintID.kanban.tsx",
-      "parent": "/(sprint-backlog)/sprint-backlog/$sprintID"
+    "/_auth/product-backlog/": {
+      "filePath": "_auth/product-backlog/index.tsx",
+      "parent": "/_auth"
     },
-    "/(sprint-backlog)/sprint-backlog/$sprintID/table": {
-      "filePath": "(sprint-backlog)/sprint-backlog.$sprintID.table.tsx",
-      "parent": "/(sprint-backlog)/sprint-backlog/$sprintID"
+    "/_auth/sprint-board/": {
+      "filePath": "_auth/sprint-board/index.tsx",
+      "parent": "/_auth"
     },
-    "/product-backlog/task/edit/$taskID": {
-      "filePath": "product-backlog/task.edit.$taskID.tsx"
+    "/_auth/(sprint-backlog)/sprint-backlog/$sprintID": {
+      "filePath": "_auth/(sprint-backlog)/sprint-backlog.$sprintID.tsx",
+      "parent": "/_auth",
+      "children": [
+        "/_auth/(sprint-backlog)/sprint-backlog/$sprintID/kanban",
+        "/_auth/(sprint-backlog)/sprint-backlog/$sprintID/table"
+      ]
     },
-    "/sprint-board/sprint/view/$sprintID": {
-      "filePath": "sprint-board/sprint.view.$sprintID.tsx"
+    "/_auth/product-backlog/task/move": {
+      "filePath": "_auth/product-backlog/task.move.tsx",
+      "parent": "/_auth"
     },
-    "/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID": {
-      "filePath": "(sprint-backlog)/sprint-backlog_.$sprintID.task.$taskID.tsx"
+    "/_auth/product-backlog/task/new": {
+      "filePath": "_auth/product-backlog/task.new.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/sprint-board/sprint/new": {
+      "filePath": "_auth/sprint-board/sprint.new.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/(sprint-backlog)/sprint-backlog/$sprintID/kanban": {
+      "filePath": "_auth/(sprint-backlog)/sprint-backlog.$sprintID.kanban.tsx",
+      "parent": "/_auth/(sprint-backlog)/sprint-backlog/$sprintID"
+    },
+    "/_auth/(sprint-backlog)/sprint-backlog/$sprintID/table": {
+      "filePath": "_auth/(sprint-backlog)/sprint-backlog.$sprintID.table.tsx",
+      "parent": "/_auth/(sprint-backlog)/sprint-backlog/$sprintID"
+    },
+    "/_auth/product-backlog/task/edit/$taskID": {
+      "filePath": "_auth/product-backlog/task.edit.$taskID.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/sprint-board/sprint/view/$sprintID": {
+      "filePath": "_auth/sprint-board/sprint.view.$sprintID.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID": {
+      "filePath": "_auth/(sprint-backlog)/sprint-backlog_.$sprintID.task.$taskID.tsx",
+      "parent": "/_auth"
     }
   }
 }

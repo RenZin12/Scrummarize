@@ -89,18 +89,19 @@ export async function modifySBTask(taskID, sprintID, taskInfo) {
   return formatPutSBTask(result.rows[0]);
 }
 
-export async function logTimeSpent(taskID, timeSpent) {
+export async function logTimeSpent(taskID, timeSpent, userID) {
   const result = await pool.query(
     `
       INSERT INTO time_spent_log(
         task_id,
         time_spent,
-        time_spent_at
+        time_spent_at,
+        user_id
       )
-      VALUES ($1, $2, $3)
+      VALUES ($1, $2, $3, $4)
       RETURNING *
     `,
-    [taskID, timeSpent, new Date()]
+    [taskID, timeSpent, new Date(), userID]
   );
 
   return result.rows[0];

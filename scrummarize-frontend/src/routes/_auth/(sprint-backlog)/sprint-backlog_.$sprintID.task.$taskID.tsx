@@ -1,9 +1,11 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
-import AccumulationOfEffort from '../../AccumulationOfEffort';
+import AccumulationOfEffort from '../../../AccumulationOfEffort';
+import { useAuth } from '../../../lib/context';
+import HistoryLog from '../../../HistoryLog';
 
 export const Route = createFileRoute(
-  '/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID'
+  '/_auth/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID'
 )({
   component: SprintBacklogForm,
   loader: ({ params }) => fetchTask(params.sprintID, params.taskID),
@@ -11,7 +13,10 @@ export const Route = createFileRoute(
 
 async function fetchTask(sprintID: string, taskID: string) {
   const res = await fetch(
-    `http://localhost:3000/api/sprint-backlog/${sprintID}/task/${taskID}`
+    `http://localhost:3000/api/sprint-backlog/${sprintID}/task/${taskID}`,
+    {
+      credentials: 'include',
+    }
   );
   if (!res.ok)
     throw new Error(
@@ -23,6 +28,7 @@ async function fetchTask(sprintID: string, taskID: string) {
 function SprintBacklogForm() {
   const task = Route.useLoaderData();
   const { sprintID, taskID } = Route.useParams();
+  const auth = useAuth();
 
   const navigate = useNavigate({
     from: '/sprint-backlog/$sprintID/task/$taskID',
@@ -49,6 +55,7 @@ function SprintBacklogForm() {
     const data = {
       ...Object.fromEntries(formData),
       tags: formData.getAll('tags'),
+      userID: auth.user?.userID,
     };
 
     const res = await fetch(
@@ -57,6 +64,7 @@ function SprintBacklogForm() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
+        credentials: 'include',
       }
     );
 
@@ -73,6 +81,7 @@ function SprintBacklogForm() {
       `http://localhost:3000/api/sprint-backlog/${sprintID}/task/${taskID}`,
       {
         method: 'DELETE',
+        credentials: 'include',
       }
     );
 
@@ -278,6 +287,7 @@ function SprintBacklogForm() {
         setDisplayChart={setDisplayChart}
         dataset={task.accumulationOfEffortData}
       />
+      {task.historyLog && <HistoryLog historyLog={task.historyLog} />}
     </section>
   );
 }

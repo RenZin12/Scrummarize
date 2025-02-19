@@ -1,18 +1,20 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import '../../SprintBoard.css';
-import SprintCard from '../../SprintCard';
+import '../../../SprintBoard.css';
+import SprintCard from '../../../SprintCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Sprint } from '../../lib/types';
-import { formatLoaderSprint } from '../../lib/utils';
+import { Sprint } from '../../../lib/types';
+import { formatLoaderSprint } from '../../../lib/utils';
 
-export const Route = createFileRoute('/sprint-board/')({
+export const Route = createFileRoute('/_auth/sprint-board/')({
   component: SprintBoard,
   loader: () => fetchSprints(),
 });
 
 const fetchSprints = async () => {
-  const res = await fetch('http://localhost:3000/api/sprint-board/');
+  const res = await fetch('http://localhost:3000/api/sprint-board/', {
+    credentials: 'include',
+  });
   if (!res.ok) {
     throw new Error('Failed to fetch tasks');
   }

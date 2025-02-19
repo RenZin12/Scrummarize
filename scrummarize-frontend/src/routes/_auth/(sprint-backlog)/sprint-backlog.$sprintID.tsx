@@ -1,11 +1,11 @@
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
-import '../../SprintBacklog.css';
+import '../../../SprintBacklog.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsUpDownLeftRight } from '@fortawesome/free-solid-svg-icons';
-import { formatLoaderSprint } from '../../lib/utils';
+import { formatLoaderSprint } from '../../../lib/utils';
 
 export const Route = createFileRoute(
-  '/(sprint-backlog)/sprint-backlog/$sprintID'
+  '/_auth/(sprint-backlog)/sprint-backlog/$sprintID'
 )({
   component: SprintBacklog,
   loader: ({ params }) => fetchSprint(params.sprintID),
@@ -13,7 +13,10 @@ export const Route = createFileRoute(
 
 async function fetchSprint(sprintID: string) {
   const res = await fetch(
-    `http://localhost:3000/api/sprint-backlog/${sprintID}`
+    `http://localhost:3000/api/sprint-backlog/${sprintID}`,
+    {
+      credentials: 'include',
+    }
   );
   if (!res.ok)
     throw new Error(`Failed to fetch Sprint#${sprintID} from Sprint Backlog'`);

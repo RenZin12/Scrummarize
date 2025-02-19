@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { SBTask } from '../../lib/types';
-import '../../SprintBacklogTable.css';
+import { SBTask } from '../../../lib/types';
+import '../../../SprintBacklogTable.css';
 
 export const Route = createFileRoute(
-  '/(sprint-backlog)/sprint-backlog/$sprintID/table'
+  '/_auth/(sprint-backlog)/sprint-backlog/$sprintID/table'
 )({
   component: SprintBacklogTable,
   loader: ({ params }) => fetchTasks(params.sprintID),
@@ -11,7 +11,10 @@ export const Route = createFileRoute(
 
 async function fetchTasks(sprintID: string) {
   const res = await fetch(
-    `http://localhost:3000/api/sprint-backlog/${sprintID}/table`
+    `http://localhost:3000/api/sprint-backlog/${sprintID}/table`,
+    {
+      credentials: 'include',
+    }
   );
   if (!res.ok)
     throw new Error('Failed to fetch tasks from Sprint Backlog for table');
@@ -39,11 +42,11 @@ function SprintBacklogTable() {
   ];
 
   return (
-    <table className="table">
+    <table className="table table--gray">
       <caption className="table__caption">Sprint Backlog Tasks Table</caption>
 
       <thead>
-        <tr className="table__row">
+        <tr>
           {headerCells.map((headerCell) => (
             <th key={headerCell} className="table__header">
               {headerCell}
@@ -54,7 +57,7 @@ function SprintBacklogTable() {
 
       <tbody>
         {tasks.map((task) => (
-          <tr key={task.taskID}>
+          <tr key={task.taskID} className="table__row--gray">
             {dataCells.map((dataCell, i) => (
               <td
                 data-cell={headerCells[i]}

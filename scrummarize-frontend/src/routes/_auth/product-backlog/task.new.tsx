@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import TaskEditor from '../../TaskEditor';
+import TaskEditor from '../../../TaskEditor';
 
-export const Route = createFileRoute('/product-backlog/task/new')({
+export const Route = createFileRoute('/_auth/product-backlog/task/new')({
   component: NewTask,
 });
 
@@ -21,6 +21,7 @@ function NewTask() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
+      credentials: 'include',
     });
 
     if (!res.ok) {

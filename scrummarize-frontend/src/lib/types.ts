@@ -8,6 +8,7 @@ export type Task = {
   status: string;
   stage: string;
   tags: string[];
+  historyLog?: HistoryLogType[];
 };
 
 export type SBTask = {
@@ -53,4 +54,28 @@ export type AccumulationOfEffortData = {
 export type SprintBurndownData = {
   day: number;
   storyPoint: number;
+};
+
+export type User = {
+  userID: string;
+  username: string;
+  role: 'Admin' | 'Member';
+};
+
+export type TimeSpentDataset = {
+  day: string;
+  hours: number;
+};
+
+export type TimeSpentData = {
+  userID: string;
+  avgTimeSpent: number;
+  timeSpentDataset: TimeSpentDataset[];
+};
+
+export type HistoryLogType = {
+  id: string;
+  changedAt: string;
+  changedType: 'Create' | 'Update' | 'Move';
+  username: string;
 };

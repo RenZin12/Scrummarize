@@ -4,6 +4,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { SprintName } from './lib/types';
+import { useAuth } from './lib/context';
 
 type HeaderProps = {
   sprints: SprintName[];
@@ -11,6 +12,7 @@ type HeaderProps = {
 
 function Header(props: HeaderProps) {
   const [showNav, setShowNav] = useState(false);
+  const auth = useAuth();
 
   return (
     <header className="header">
@@ -45,6 +47,22 @@ function Header(props: HeaderProps) {
             {sprint.name}
           </Link>
         ))}
+        {auth.user?.role === 'Admin' && (
+          <Link
+            to="/team/admin"
+            className="header__nav__link header__nav__link--big"
+          >
+            Team
+          </Link>
+        )}
+        {auth.user?.role === 'Member' && (
+          <Link
+            to="/team/member"
+            className="header__nav__link header__nav__link--big"
+          >
+            Team
+          </Link>
+        )}
       </nav>
     </header>
   );

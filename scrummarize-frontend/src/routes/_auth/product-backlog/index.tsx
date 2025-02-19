@@ -1,26 +1,28 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import '../..//ProductBacklog.css';
-import TaskCard from '../../TaskCard.tsx';
+import '../../../ProductBacklog.css';
+import TaskCard from '../../../TaskCard.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlus,
   faArrowsUpDownLeftRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from '@tanstack/react-router';
-import { Task } from '../../lib/types.ts';
+import { Task } from '../../../lib/types.ts';
 
-export const Route = createFileRoute('/product-backlog/')({
+export const Route = createFileRoute('/_auth/product-backlog/')({
   component: ProductBacklog,
-  loader: () => fetchTasks(),
+  loader: fetchTasks,
 });
 
-const fetchTasks = async () => {
-  const res = await fetch('http://localhost:3000/api/product-backlog/');
+async function fetchTasks() {
+  const res = await fetch('http://localhost:3000/api/product-backlog/', {
+    credentials: 'include',
+  });
   if (!res.ok) {
-    throw new Error('Failed to fetch tasks');
+    throw new Error('Failed to fetch tasks for Product Backlog');
   }
   return res.json();
-};
+}
 
 function ProductBacklog() {
   const tasks: Task[] = Route.useLoaderData();

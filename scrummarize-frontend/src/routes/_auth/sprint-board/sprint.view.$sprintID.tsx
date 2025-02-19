@@ -1,16 +1,21 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import SprintEditor from '../../SprintEditor';
-import { formatLoaderSprint } from '../../lib/utils';
-import { Sprint } from '../../lib/types';
+import SprintEditor from '../../../SprintEditor';
+import { formatLoaderSprint } from '../../../lib/utils';
+import { Sprint } from '../../../lib/types';
 
-export const Route = createFileRoute('/sprint-board/sprint/view/$sprintID')({
+export const Route = createFileRoute(
+  '/_auth/sprint-board/sprint/view/$sprintID'
+)({
   component: ViewSprint,
   loader: ({ params }) => fetchSprint(params.sprintID),
 });
 
 const fetchSprint = async (sprintID: string) => {
   const res = await fetch(
-    `http://localhost:3000/api/sprint-board/sprint/${sprintID}`
+    `http://localhost:3000/api/sprint-board/sprint/${sprintID}`,
+    {
+      credentials: 'include',
+    }
   );
   if (!res.ok) {
     throw new Error(`Failed to fetch sprint #${sprintID}`);
@@ -38,6 +43,7 @@ function ViewSprint() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
+        credentials: 'include',
       }
     );
     if (!res.ok) {
@@ -52,6 +58,7 @@ function ViewSprint() {
       `http://localhost:3000/api/sprint-board/sprint/${sprintID}`,
       {
         method: 'DELETE',
+        credentials: 'include',
       }
     );
     if (!res.ok) {

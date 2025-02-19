@@ -1,5 +1,6 @@
 import { getTaskTags } from './database/indexDB.mjs';
 import { getSprintBurndownInfo } from './database/sprintBoardDB.mjs';
+import bcrypt from 'bcrypt';
 
 export function formatPBTask(task) {
   const {
@@ -141,6 +142,26 @@ export function getAccumulationOfEffortData(timeSpentLog, startDate) {
   return [{ totalHours: 0, date: startDate }, ...data];
 }
 
+const dayInMilli = 1000 * 60 * 60 * 24;
+
+export function getDays(startDate, endDate) {
+  return Math.floor((endDate.getTime() - startDate.getTime()) / dayInMilli) + 1;
+}
+
+export function getLocaleDays(startDate, endDate, timeZoneOffset) {
+  const localeStartDate = new Date(
+    startDate.getTime() - timeZoneOffset * 60 * 1000
+  );
+  const localeEndDate = new Date(
+    endDate.getTime() - timeZoneOffset * 60 * 1000
+  );
+
+  localeStartDate.setUTCHours(0, 0, 0, 0);
+  localeEndDate.setUTCHours(0, 0, 0, 0);
+
+  return (localeEndDate.getTime() - localeStartDate.getTime()) / dayInMilli + 1;
+}
+
 export async function getSprintBurndownData(
   sprintID,
   startDate,
@@ -150,11 +171,7 @@ export async function getSprintBurndownData(
   let remainingStoryPoints = totalStoryPoints;
 
   const data = info.map((task) => {
-    const day =
-      Math.floor(
-        (task.completeAt.getTime() - startDate.getTime()) /
-          (1000 * 60 * 60 * 24)
-      ) + 1;
+    const day = getDays(startDate, task.completeAt);
     remainingStoryPoints -= task.storyPoint;
 
     return {
@@ -178,4 +195,47 @@ export function formatSprintBurndownInfo(task) {
 
 export async function getISO8601(date) {
   return date.toISOString().split('T')[0];
+}
+
+const saltRounds = 10;
+
+export function hashPassword(password) {
+  const salt = bcrypt.genSaltSync(saltRounds);
+  return bcrypt.hashSync(password, salt);
+}
+
+export function formatUser(user) {
+  const { user_id } = user;
+  return {
+    userID: user_id,
+    ...user,
+  };
+}
+
+export function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+
+  return res.status(401).send({ message: 'Unauthorized access' });
+}
+
+export function checkNotAuthenticated(req, res, next) {
+  if (req.isUnauthenticated()) {
+    return next();
+  }
+
+  return res.send({
+    isAuthenticated: true,
+    user: req.user,
+    message: 'Already logged in',
+  });
+}
+
+export function checkAdmin(req, res, next) {
+  if (req.user.role === 'Admin') {
+    return next();
+  }
+
+  return res.status(401).send({ message: 'Unauthorized access' });
 }
