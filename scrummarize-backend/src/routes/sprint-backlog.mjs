@@ -19,6 +19,7 @@ import {
   deleteTaskTag,
   getTaskTags,
 } from '../database/indexDB.mjs';
+import { getLogEntries, logEntry } from '../database/historyLog.mjs';
 
 const router = Router();
 
@@ -45,6 +46,8 @@ router
     const timeSpentLog = await getTimeSpentLog(taskID);
     const sprint = await getSprint(sprintID);
 
+    const historyLog = await getLogEntries(taskID);
+
     response.send({
       ...task,
       tags,
@@ -53,6 +56,7 @@ router
         timeSpentLog,
         sprint.startDate
       ),
+      historyLog,
     });
   })
 
@@ -68,6 +72,8 @@ router
 
     Number(timeSpent) > 0 && (await logTimeSpent(taskID, timeSpent, userID));
     const totalTimeSpent = await getTotalTimeSpent(taskID);
+
+    await logEntry(taskID, request.user.userID, 'Update');
 
     response.send({
       ...modifiedTask,

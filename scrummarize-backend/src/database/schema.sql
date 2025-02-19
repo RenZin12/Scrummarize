@@ -44,8 +44,19 @@ CREATE TABLE users(
 );
 
 CREATE TABLE time_spent_log(
+    id bigserial PRIMARY KEY,
     task_id bigint NOT NULL REFERENCES tasks(task_id) ON DELETE CASCADE,
     time_spent int NOT NULL,
     time_spent_at timestamptz NOT NULL,
     user_id bigint NOT NULL REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE TYPE change_type AS ENUM ('Create', 'Update', 'Move');
+
+CREATE TABLE history_log(
+    id bigserial PRIMARY KEY,
+    task_id bigint NOT NULL REFERENCES tasks(task_id) ON DELETE CASCADE,
+    user_id bigint NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    changed_at timestamptz NOT NULL,
+    changed_type change_type NOT NULL
 );

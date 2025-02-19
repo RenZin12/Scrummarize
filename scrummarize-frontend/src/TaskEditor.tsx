@@ -1,3 +1,4 @@
+import HistoryLog from './HistoryLog';
 import './TaskEditor.css';
 import { Task } from './lib/types';
 
@@ -177,6 +178,9 @@ function TaskEditor(props: TaskEditorProps) {
           )}
         </div>
       </form>
+      {props.task?.historyLog && (
+        <HistoryLog historyLog={props.task?.historyLog} />
+      )}
     </section>
   );
 }

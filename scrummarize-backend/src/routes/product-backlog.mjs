@@ -15,6 +15,7 @@ import {
 } from '../database/indexDB.mjs';
 import { getSprintNames } from '../database/sprintBoardDB.mjs';
 import { getTasksWithTags } from '../utils.mjs';
+import { getLogEntries, logEntry } from '../database/historyLog.mjs';
 
 const router = Router();
 
@@ -34,6 +35,8 @@ router
     const newTask = await addPBTask(taskInfo);
     const addedTags = await addTaskTags(newTask.taskID, tags);
 
+    await logEntry(newTask.taskID, request.user.userID, 'Create');
+
     response.send({
       ...newTask,
       tags: addedTags,
@@ -49,9 +52,12 @@ router
     const task = await getPBTask(taskID);
     const tags = await getTaskTags(taskID);
 
+    const historyLog = await getLogEntries(taskID);
+
     response.send({
       ...task,
       tags,
+      historyLog,
     });
   })
 
@@ -62,6 +68,8 @@ router
     const modifiedTask = await modifyPBTask(taskID, taskInfo);
     await deleteTaskTag(taskID);
     const newTags = await addTaskTags(taskID, tags);
+
+    await logEntry(taskID, request.user.userID, 'Update');
 
     response.send({
       ...modifiedTask,
@@ -93,6 +101,10 @@ router
     const { sprintID, taskIDs } = request.body;
 
     await movePBTasks(sprintID, taskIDs);
+
+    const promises = taskIDs.map(async (taskID) => {
+      await logEntry(taskID, request.user.userID, 'Move');
+    });
 
     response.send();
   });

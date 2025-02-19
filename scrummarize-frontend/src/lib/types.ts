@@ -8,6 +8,7 @@ export type Task = {
   status: string;
   stage: string;
   tags: string[];
+  historyLog?: HistoryLogType[];
 };
 
 export type SBTask = {
@@ -70,4 +71,11 @@ export type TimeSpentData = {
   userID: string;
   avgTimeSpent: number;
   timeSpentDataset: TimeSpentDataset[];
+};
+
+export type HistoryLogType = {
+  id: string;
+  changedAt: string;
+  changedType: 'Create' | 'Update' | 'Move';
+  username: string;
 };

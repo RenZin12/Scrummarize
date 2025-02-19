@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import AccumulationOfEffort from '../../../AccumulationOfEffort';
 import { useAuth } from '../../../lib/context';
+import HistoryLog from '../../../HistoryLog';
 
 export const Route = createFileRoute(
   '/_auth/(sprint-backlog)/sprint-backlog_/$sprintID/task/$taskID'
@@ -286,6 +287,7 @@ function SprintBacklogForm() {
         setDisplayChart={setDisplayChart}
         dataset={task.accumulationOfEffortData}
       />
+      {task.historyLog && <HistoryLog historyLog={task.historyLog} />}
     </section>
   );
 }
