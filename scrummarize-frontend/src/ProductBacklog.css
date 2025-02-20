@@ -1,3 +1,14 @@
 .product-backlog__buttons {
   justify-content: space-between;
 }
+
+.product-backlog__first-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-backlog__icons {
+  display: flex;
+  gap: 20px;
+}
