@@ -1,12 +1,12 @@
 {
   "name": "scrummarize-backend",
   "version": "1.0.0",
-  "main": "index.mjs",
+  "main": "app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --build",
-    "start": "node --env-file=.env ./dist/index.js",
-    "start:dev": "tsx watch --env-file=.env ./src/index.ts"
+    "start": "node --env-file=.env ./dist/app.js",
+    "start:dev": "tsx watch --env-file=.env ./src/app.ts"
   },
   "keywords": [],
   "author": "",
@@ -21,11 +21,13 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "pg": "^8.13.1",
-    "tsx": "^4.19.3"
+    "tsx": "^4.19.3",
+    "zod": "^3.24.2"
   },
   "type": "module",
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@types/pg": "^8.11.11",
     "prettier": "3.4.2",
     "typescript": "^5.7.3"
   }

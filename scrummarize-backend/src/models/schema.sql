@@ -33,7 +33,7 @@ CREATE TABLE tasks (
   stage task_stage NOT NULL,
   created_at timestamptz NOT NULL DEFAULT NOW(),
   completed_at timestamptz,
-  sprint_id bigint references sprints(id) ON DELETE CASCADE,
+  sprint_id bigint references sprints(id) ON DELETE CASCADE
 );
 
 CREATE TABLE tags (
@@ -52,7 +52,7 @@ CREATE TABLE task_time_logs (
   task_id bigint NOT NULL references tasks(id) ON DELETE CASCADE,
   user_id bigint NOT NULL references users(id) ON DELETE CASCADE,
   duration integer NOT NULL CHECK (duration > 0),
-  time timestamptz NOT NULL DEFAULT NOW(),
+  time timestamptz NOT NULL DEFAULT NOW()
 );
 
 CREATE TYPE change_action AS ENUM ('Created', 'Updated', 'Moved');
