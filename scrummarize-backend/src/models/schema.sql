@@ -29,8 +29,8 @@ CREATE TABLE tasks (
   priority_rating integer NOT NULL CHECK(priority_rating >= 1 AND priority_rating <= 4),
   story_points integer NOT NULL CHECK(story_points >= 0),
   assignee bigint references users(id) ON DELETE SET NULL,
-  status task_status NOT NULL,
-  stage task_stage NOT NULL,
+  status task_status NOT NULL DEFAULT 'Not Started',
+  stage task_stage NOT NULL DEFAULT 'Planning',
   created_at timestamptz NOT NULL DEFAULT NOW(),
   completed_at timestamptz,
   sprint_id bigint references sprints(id) ON DELETE CASCADE
@@ -40,6 +40,16 @@ CREATE TABLE tags (
   id bigint PRIMARY KEY,
   name varchar(255) UNIQUE NOT NULL
 );
+
+INSERT INTO tags (id, name) VALUES
+  (1, 'Frontend'),
+  (2, 'Backend'),
+  (3, 'API'),
+  (4, 'Database'),
+  (5, 'Framework'),
+  (6, 'Testing'),
+  (7, 'UI'),
+  (8, 'UX');
 
 CREATE TABLE task_tags (
   task_id bigint NOT NULL references tasks(id) ON DELETE CASCADE,

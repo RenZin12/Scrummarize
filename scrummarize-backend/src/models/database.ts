@@ -1,8 +1,7 @@
 import pg from 'pg';
 import env from '../env';
 
-const { Pool } = pg;
-const pool = new Pool({
+const pool = new pg.Pool({
   host: env.POSTGRESQL_HOST,
   database: env.POSTGRESQL_DATABASE,
   port: env.POSTGRESQL_PORT,
